@@ -1,0 +1,69 @@
+\documentclass{subfiles}
+
+%% Portada exterior
+\begin{document}
+
+\newgeometry{top=1.5cm, bottom=1.5cm, inner=2cm, outer=2cm}
+
+\begin{titlepage}
+
+    \centering
+    \fontfamily{phv}
+    \includegraphics[width=0.4\textwidth]{logo_uva}\par\vspace{1cm}
+    
+    {\Huge \school \par}
+    \vspace{0.5cm}
+    
+    {\scshape\Large \subject\par}
+    \vspace{1.25cm}
+    
+    {\Large \grade\par}
+    \vspace{3cm}
+    
+    {\Huge\textbf{\titlename}\par}
+    \vspace{4cm}
+    
+    {\Large\hfill Autor: \par}
+    {\Large\hfill\bfseries \authorname\par}
+    \vfill
+
+\end{titlepage}
+
+\clearpage\mbox{}\thispagestyle{empty}\clearpage
+
+%% Portada interior
+\begin{titlepage}
+
+    \centering
+    \fontfamily{phv}
+    \includegraphics[width=0.4\textwidth]{logo_uva}\par\vspace{1cm}
+    
+    {\Huge \school \par}
+    \vspace{0.5cm}
+    
+    {\scshape\Large \subject\par}
+    \vspace{1.25cm}
+    
+    {\Large \grade\par}
+    \vspace{3cm}
+    
+    {\Huge\textbf{\titlename}\par}
+    \vspace{4cm}
+    
+    
+    {\Large\hfill Autor: \par}
+    {\Large\hfill\bfseries \authorname\par}
+    \vspace{0.5cm}
+    
+    {\Large\hfill Tutor: \par}
+    {\Large\hfill\bfseries \supervisorname\par}
+    \vfill
+
+\end{titlepage}
+
+\clearpage\mbox{}\thispagestyle{empty}\clearpage
+
+\restoregeometry
+\setcounter{page}{1}
+
+\end{document}

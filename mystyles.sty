@@ -1,0 +1,53 @@
+\ProvidesPackage{mystyles}
+
+\usepackage[utf8]{inputenc} %% language codification
+
+\usepackage{lipsum} %% generates dummy text
+
+\usepackage[
+  english,
+  spanish,
+  es-tabla,
+  es-nodecimaldot
+]{babel}
+
+\usepackage{subfiles} %% allows file separation
+
+\usepackage{geometry} %% allows page measure specifications
+\geometry{top=1.5cm, bottom=1.5cm, inner=2cm, outer=1.5cm}
+
+\usepackage{setspace} %% allows space specifications between lines
+\renewcommand{\baselinestretch}{1.2}
+\setlength{\parindent}{0.5cm}
+\setcounter{tocdepth}{1}
+\setcounter{secnumdepth}{3}
+
+\usepackage{fancyhdr} %% provides control over headers and footers
+\fancyhf{}
+
+\usepackage{tabu} %% modifies tabulation lengths
+\tabulinesep=1.2mm
+
+\usepackage{float} %% used for tables
+\renewcommand{\headrulewidth}{0pt}
+\fancyfoot[LE,RO]{\thepage}
+\pagestyle{fancy}
+\fancypagestyle{plain}{
+  \fancyhf{}
+  \fancyhf[lef,rof]{\thepage}
+}
+
+% \usepackage[linesnumbered,ruled]{algorithm2e} %% allows to write pseudocode
+% \SetKwRepeat{Do}{do}{while}
+
+\usepackage{graphicx} %% allows image insertion
+\graphicspath{{./img/}}
+
+\usepackage[hidelinks]{hyperref} %% handles hypertext links
+
+% \usepackage[inline]{enumitem} %% customizes enumeration items
+
+% \usepackage{minted} %% allows formatting source code
+% \setminted[js]{tabsize=1,fontsize=\footnotesize} %%
+
+\usepackage[section]{placeins} %% controls floating objects not to appear in random places
