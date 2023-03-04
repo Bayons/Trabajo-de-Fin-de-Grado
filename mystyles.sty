@@ -51,3 +51,16 @@
 % \setminted[js]{tabsize=1,fontsize=\footnotesize} %%
 
 \usepackage[section]{placeins} %% controls floating objects not to appear in random places
+
+\usepackage{xspace} %% decides whether to insert a space or not
+
+%% Resumen
+\newenvironment{abstractpage}
+    {\cleardoublepage\vspace*{\fill}\thispagestyle{empty}}
+    {\vfill\cleardoublepage}
+
+\newenvironment{abstract-lang}
+    [1]
+    {\bigskip\selectlanguage{#1}%
+        \begin{center}\bfseries\abstractname\end{center}}
+    {\par\bigskip}
