@@ -54,6 +54,15 @@
 
 \usepackage{xspace} %% decides whether to insert a space or not
 
+\usepackage{csquotes} %% needed for biblatex
+\usepackage[
+    backend=biber,
+    style=numeric,
+    sorting=ynt
+]{biblatex}
+\addbibresource{bib/articles.bib}
+\addbibresource{bib/webs.bib}
+
 %% Resumen
 \newenvironment{abstractpage}
     {\cleardoublepage\vspace*{\fill}\thispagestyle{empty}}

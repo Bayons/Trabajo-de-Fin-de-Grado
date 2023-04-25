@@ -2,21 +2,65 @@
 
 \begin{document}
 
-  \chapter{Introducción}
-  \label{chap:1}
+    \chapter{Introducción}
+    \label{chap:1}
 
-    \section{Motivación}
-    \label{sec:1.1}
+        \section{Motivación}
+        \label{sec:1.1}
 
-      {El \TFG supone el último paso para obtener la titulación cursada, y se muestra de manera muy intimidante al alumno. Por mucho que otros compañeros de años anteriores intenten suavizar su dificultad o la necesidad de hacer algo grande, uno no deja de verlo como la culminación de varios años de aprendizaje en un estudio superior. Por eso, fue difícil elegir algo que realizar.}
+        {El \TFG supone el último paso para obtener la titulación cursada, y se muestra de manera muy intimidante al alumno. Por mucho que otros compañeros de años anteriores intenten suavizar su dificultad o la necesidad de hacer algo grande, uno no deja de verlo como la culminación de varios años de aprendizaje en un estudio superior. Por eso, fue difícil elegir algo que realizar.}
       
-      \paragraph{}
-      {Durante varios años, estuve dispuesto a llevar mi propio proyecto con varias ideas que fui reservando para más adelante, e incluso fueron varias las revisiones que hice a las ideas preparadas para distintos trabajos por distintos profesores. Sin embargo, a medida que se iba acercando la fecha de comenzar este proyecto, iba creciendo la necesidad de comenzar a trabajar y tener mis propios ingresos. Así, y teniendo el \TFG en mente, comencé a buscar empleo planteando a las empresas que me concedían entrevista dos condiciones: media jornada para poder terminar mis estudios y que me ofrecieran un proyecto válido para un \tfg para poder terminar mi carrera.}
+        \paragraph{}
+        {Durante varios años, estuve dispuesto a llevar mi propio proyecto con varias ideas que fui reservando para más adelante, e incluso fueron varias las revisiones que hice a las ideas preparadas para distintos trabajos por distintos profesores. Sin embargo, a medida que se iba acercando la fecha de comenzar este proyecto, iba creciendo la necesidad de comenzar a trabajar y tener mis propios ingresos. Así, y teniendo el \TFG en mente, comencé a buscar empleo planteando a las empresas que me concedían entrevista dos condiciones: media jornada para poder terminar mis estudios y que me ofrecieran un proyecto válido para un \tfg para poder terminar mi carrera.}
       
-      \paragraph{}
-      {Fue así como entré en \silverstorm, ahora \thirdera después de su adquisición por parte de esta última. Ellos me concedieron la flexibilidad necesaria para compaginar empleo y estudios, así como facilidades a la hora de realizar los exámenes de la Universidad. Además, al entrar en el equipo de innovación, sabía que me podrían ofrecer un proyecto que se distinguiese de los que ofrecían al resto de estudiantes que trabajaban en la empresa.}
+        \paragraph{}
+        {Fue así como entré en \silverstorm, ahora \thirdera después de su adquisición por parte de esta última. Ellos me concedieron la flexibilidad necesaria para compaginar empleo y estudios, así como facilidades a la hora de realizar los exámenes de la Universidad. Además, al entrar en el equipo de innovación, sabía que me podrían ofrecer un proyecto que se distinguiese de los que ofrecían al resto de estudiantes que trabajaban en la empresa.}
+        
+        \paragraph{}
+        {Tras un tiempo, y después de comentarles que quería comenzar a desarrollar mi \TFG, me ofrecieron el proyecto que se explicará en esta memoria. Por aquel entonces, la página web de \silverstorm desarrollada en \wordpress contaba con un estilo sencillo y familiar para que los usuarios que entrasen conociesen la empresa y pudieran obtener la información que desearan de ella: a qué nos dedicamos, cómo y con qué trabajamos, qué clientes tenemos o hemos tenido, de qué ofertas de trabajo disponemos, etc. No obstante, esta no lograba destacar de otras webs corporativas: sus animaciones eran aquellas que ofrecía \wordpress, los dibujos utilizados eran de una colección de imágenes de stock retocadas y su sencillez implicaba una cierta monotonía.}
+        
+        \paragraph{}
+        {La idea del proyecto era añadir un pequeño detalle a esta página que hiciera que esta destacara un poco más. La propuesta consistía en generar un pequeño avatar que pudiese contar, en cada una de las secciones, lo que el usuario podía encontrar. Este avatar aparecería en el plano real mediante Realidad Aumentada, una tecnología en pleno auge \cite{Xiong2021} que reforzaría la idea de que la empresa se mantiene en contacto con las últimas tendencias tecnológicas. Además, para facilitar el uso de la cámara para ofrecer imágenes del mundo real, era imprescindible que el usuario accediese a esta experiencia a través del móvil.}
 
-      \paragraph{}
-      {Tras un tiempo, y después de comentarles que quería comenzar a desarrollar mi \TFG, me ofrecieron el proyecto que se explicará en esta memoria. Por aquel entonces, la página web de \silverstorm desarrollada en \wordpress contaba con un estilo sencillo y familiar para que los usuarios que entrasen conociesen la empresa y pudieran obtener la información que desearan de ella: a qué nos dedicamos, cómo y con qué trabajamos, qué clientes tenemos o hemos tenido, de qué ofertas de trabajo disponemos, etc. No obstante, esta no lograba destacar de otras webs corporativas: sus animaciones eran aquellas que ofrecía \wordpress, los dibujos utilizados eran de una colección de imágenes de stock retocadas y su sencillez implicaba una cierta monotonía.}
+        \section{Objetivos}
+        \label{sec:1.2}
+
+        {Debido a que el trabajo con estas tecnologías era nuevo para nuestro equipo y carecíamos de experiencia al respecto, el primer punto a abordar fue la investigación sobre estas tecnologías. En primer lugar, se tomaron como referencia algunas aplicaciones publicitarias que utilizaban unas versiones algo más rudimentarias de Realidad Aumentada donde, escaneando un código QR, aparecía en pantalla una persona comentando promociones sobre la imagen grabada por la cámara del móvil. Nuestra intención era investigar qué tecnología se usó en ese caso o en otros casos donde el resultado fuese mejor que el de partida.}
+        
+        \paragraph{}
+        {Por supuesto, y dado que el proyecto mayoritariamente trabajaría sobre la tecnología utilizada, el siguiente objetivo sería aprender a utilizarla y \textbf{generar una estructura eficaz} y escalable que permitiese futuras mejoras.}
+
+        \paragraph{}
+        {Para complementar la experiencia inmersiva de la aplicación, se añadiría \textbf{sonido espacial} al mismo sistema. Esto permitiría que un usuario con auriculares pudiera reconocer, sin mirar a la pantalla, la dirección de la que procedía el sonido y la distancia que le separaba del origen de este.}
+        
+        \paragraph{}
+        {También tendríamos que \textbf{desarrollar un modelo en 3D} que funcionase como nuestro avatar. Para ello, habría que buscar herramientas de creación, diseño y modelado en 3D, además de aprender a utilizarlos para obtener un resultado satisfactorio.}
+        
+        \paragraph{}
+        {Para que diese la impresión de que el modelo fuese el que dijera todo lo mencionado en la grabación, sería necesario \textbf{sincronizar la voz con los gestos faciales} y los labios del modelo. Para esta <<sincronización labial>>, sería más eficiente buscar una aplicación o herramienta que fuese fácil de configurar e hiciese gran parte del trabajo. Por lo tanto, este objetivo se podría dividir en buscar una herramienta de sincronización labial, aprender a utilizarla y desplegar su funcionalidad sobre el proyecto.}
+        
+        \paragraph{}
+        {Sería necesario también \textbf{generar una animación} para el resto del cuerpo del modelo 3D, de manera que este no resultara demasiado estático al hablar y diese una impresión algo más realista.}
+        
+        \paragraph{}
+        {El sistema web tiene que ser accesible a través de la web, por lo que sería necesario también alojarlo en un servidor que almacenase toda la funcionalidad, así como los protocolos necesarios para que la conexión fuese fiable y segura.}
+
+        \paragraph{}
+        {A mayores, otro punto a analizar en el proyecto era la accesibilidad del usuario a esta aplicación. Debido a la finalidad de la web, con obvias intenciones comerciales y laborales, el equipo encargado de desarrollar originalmente esta consideró que la mayor parte de los usuarios que visitaban la página accedían desde ordenadores, siendo una menor proporción los usuarios que accedían desde móviles o tablets. Por esta razón, se consideró que la mejor forma de hacer que un usuario pasara de un ordenador a un móvil era introduciendo un código QR que enlazase directamente a este sistema. En caso de que el usuario navegase desde el móvil, el mismo código funcionaría a la vez como un botón con la capacidad de redirigir.}
+
+
+        \section{Metodología}
+        \label{sec:1.3}
+        
+        {Debido a la capacidad de adaptación ante nuevos requisitos y a la posibilidad de generar nuevas entregas en un tiempo relativamente corto utilizando metodologías ágiles, se ha optado por esta preferiblemente sobre otras \cite{agilewebsite}. De esta manera, las partes interesadas serían capaces de ver en periodos cortos de tiempo avances en el proyecto que supongan un cambio importante. Es importante mencionar que, debido a que el equipo de desarrollo contaba solamente con una persona, no se ha aplicado el marco de trabajo \textit{Scrum}, puesto que este está planteado para equipos más grandes.}
+        
+        \paragraph{}
+        {Para centrar el trabajo en el menor número de tareas posibles al mismo tiempo, y favorecer la visibilidad del estado de las tareas y del proyecto, se ha decidido utilizar una adaptación de la metodología \Kanban\cite{web:kanban}, una subcategoría de gestión ágil de proyectos centrada en el uso de los tableros homónimos. La idea de usar esta metodología surgió después de atender a una charla de Pablo Santos en la Escuela de Ingeniería Informática en la Universidad de Valladolid, donde nos explicó los diferentes proyectos que dirigió, así como las metodologías que aplicó para liderarlos. En el momento de la charla, explicó como la metodología \Kanban le permitía dar más visibilidad a las tareas en proceso, así como ver el flujo de trabajo.}
+
+        \paragraph{}
+        {TODO: explicar metodología kanban}
+        
+        \paragraph{}
+        {Al ser un proyecto de innovación dentro de la empresa, los requisitos iban surgiendo según íbamos encontrando nueva información al respecto. De esta manera, durante reuniones semanales se comentaba el avance del proyecto, así como las nuevas tareas a incorporar junto con su prioridad, procurando siempre no solapar unas tareas con otras.}
 
 \end{document}
