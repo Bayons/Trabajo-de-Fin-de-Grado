@@ -88,10 +88,10 @@
         \label{sec:1.4.1}
         El concepto más importante y a la vez básico a dejar claro es el concepto de \realidad. Para nuestro sistema, se considera \realidad al conjunto de objetos, información y estímulos, principalmente visuales, que componen nuestro entorno y que percibimos a través de nuestros sentidos. Así, si nos encontrásemos en nuestra casa, podríamos percibir varios elementos a través de la \realidad: una televisión, un sofá, una temperatura cálida, una iluminación baja, el ruido de un ventilador...
 
-        \subsection[Realidad Aumentada, Realidad Virtual y Realidad Mixta]{Realidad Aumentada, Realidad Virtual y Realidad \\Mixta}
+        \subsection[Realidad Aumentada y Realidad Virtual]{Realidad Aumentada y Realidad Virtual}
         \label{sec:1.4.2}
 
-        La \ra y la \rv son dos conceptos que a menudo se confunden por ser relativamente nuevos y por sus puntos en común. Sin embargo, los resultados pueden llegar a ser muy distintos o incluso opuestos en algunos casos. En ambos existe información generada a través de sistemas informáticos, pero las diferencias son ampliamente notables.
+        La \ra y la \rv son dos conceptos que a menudo se confunden por ser relativamente nuevos y por sus puntos en común. Sin embargo, los resultados pueden llegar a ser muy distintos o incluso opuestos en algunos casos. En ambos existe información generada a través de sistemas informáticos, pero las diferencias son ampliamente notables \cite{web:diferencias_ra_rv}.
 
         \begin{figure}[H]
         \centering
@@ -118,5 +118,42 @@
 
         \paragraph{}
         Por último, y aunque ya se ha adelantado algo, se podría mencionar también como distinción que, por lo menos hasta el día de hoy, la \rv se está especializando más en el área lúdica, al ser los desarrolladores de videojuegos los principales interesados en esta tecnología, aunque no se descarta que en el futuro pueda aplicarse para motivos más profesionales. La \ra, aunque también se utiliza para este fin, ha conseguido entrar en el área profesional como herramienta para varios sectores, como es el del marketing, donde aplicaciones como la de Ikea permiten al usuario colocar muebles de la tienda en su propia casa para probarlos y, así, impulsar las ventas.
+
+        \subsection{Sonido espacial}
+        \label{sec:1.4.3}
+        Para ampliar la sensación de que los elementos que añadamos mediante nuestra aplicación forman parte de nuestro entorno, las voces de los asistentes virtuales dispondrán de una propiedad denominada sonido espacial, que es la propiedad por la cual somos capaces de identificar la posición, orientación y distancia del origen de un sonido \cite{web:wikipedia_localizacion_sonido}.
+
+        \paragraph{}
+        Utilizando como ejemplo el sonido emitido por nuestra televisión. Si cerráramos los ojos, seríamos capaces de interpretar varios datos únicamente por el sonido: no solo de dónde procede o a cuánta distancia está, sino que también podríamos percibir información de nuestro entorno según el eco que produce, como por ejemplo si estamos en una habitación o al aire libre o el tamaño de la habitación en el primer caso.
+
+        \paragraph{}
+        Toda esta información se percibe gracias a cómo el cerebro interpreta los fenómenos físicos a través de los cuáles se transmite el sonido \cite{web:resonance_audio_localizacion_sonido, web:wikipedia_localizacion_sonido}. Por ejemplo, somos capaces de interpretar si un sonido viene desde nuestra derecha o desde nuestra izquierda a través de la \textit{diferencia de tiempo interaural}: si un sonido tarda más en llegar a nuestro oído derecho que a nuestro oído izquierdo, quiere decir que el sonido procede de nuestra izquierda. Además, la diferencia de tiempo entre ambos oídos nos indicará también si el sonido está totalmente a nuestra izquierda o, en cambio, está situado en un ángulo distinto.
+
+        \begin{figure}
+        \centering
+        \includegraphics[width=0.8\textwidth]{img/ITD_ILD.png}
+        \caption{A la izquierda, una representación de la diferencia de tiempo interaural. A la derecha, una representación de la diferencia de nivel interaural}
+        \label{fig:ITD_ILD}
+        \end{figure}
+
+        \paragraph{}
+        Otra forma que tiene nuestro cerebro de detectar la posición de un sonido es utilizando los cambios sutiles que se generan en las altas frecuencias cuando las ondas son interceptadas por la forma de nuestra oreja o de nuestra cabeza, conocidos como \textit{diferencia de nivel interaural}. Por ejemplo, un ruido no nos llegará de la misma manera si se origina delante de nosotros o detrás de nosotros. En el primer caso, el sonido será parcialmente tapado por el trago de la oreja. Pero en el segundo caso, el sonido será interceptado por gran parte del pabellón auricular. En el segundo caso, las frecuencias más altas pueden llegar a perderse, por lo que nuestro cerebro interpretaría que el origen del ruido se ha producido detrás de nosotros, mientras que en el primer caso, al mantenerse más altas frecuencias, interpretaríamos que la posición se genera delante de nosotros. Esto, en combinación con la inferencia anteriormente comentada, nos permitiría ubicar un sonido en el plano horizontal.
+
+        \paragraph{}
+        Por último, cabe mencionar que estas técnicas usadas por nuestro cerebro para ubicar sonidos en el plano horizontal son muy similares a las que utiliza para ubicarlos en el vertical o incluso para determinar la distancia a la que está dicho sonido, ya esté estático o en movimiento.
+        
+        \section{Tecnologías utilizadas}
+        \label{sec:1.5}
+
+        Para elaborar nuestra aplicación de \ra, nos hemos apoyado principalmente en tres herramientas ya existentes, cuyo uso se explicará con detalle más adelante.
+
+        \paragraph{}
+        El primero y más importante es \webxr \cite{web:webxr}. Esta es una interfaz para generar entornos tanto de \ra como de \rv y que facilita al desarrollador la interacción con el hardware. Aunque su uso se preparó para generar estos entornos en dispositivos de \rv exclusivamente, más tarde se actualizó para poder ser utilizado en el navegador \googlechrome (versión 79) para móviles \android. Gracias a \webxr, podremos acceder a aspectos básicos para esta tecnología, como el acceso a la cámara del dispositivo, la ubicación y orientación del mismo, la creación de una sesión interactiva...
+
+        \paragraph{}
+        Para poder modificar y manipular los modelos en 3D que comentaremos en el desarrollo de esta memoria, hemos recurrido a la librería \threejs \cite{web:threejs}, una librería centrada en la generación de modelos y gráficos 3D para navegadores web para \js. Esta puede utilizar varios formatos de modelos 3D como FBX, Collada o OBJ, pero la documentación recomienda encarecidamente utilizar el formato \gltf por estar más centrado en su uso en tiempo de ejecución: es un formato muy compacto y rápido de cargar. \webxr se apoya en esta librería para mostrar estos modelos en imágenes del mundo real (\ra) o en entornos totalmente generados (\rv).
+
+        \paragraph{}
+        La última librería utilizada es \resonanceaudio \cite{web:resonance_audio}, la cual permite ampliar las funcionalidades básicas de sonidos que contiene HTML en conjunto con \js. En concreto, \resonanceaudio permite simular sonidos espaciales recreando las características que permiten a nuestro cerebro posicionar un sonido a nuestro alrededor. Además, dispone de personalizaciones para el sonido emitido, como la simulación de eco en interiores dependiendo de los materiales de las paredes, techo y suelo que rodeen al foco del sonido.
         
 \end{document}
