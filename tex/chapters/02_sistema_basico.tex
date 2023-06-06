@@ -19,7 +19,7 @@
         Por último, la sección restante sería el Controlador. En este, se procesan todos los eventos generados por el usuario, además de tratar toda la información que se recibirá de los sensores del dispositivo para poder generar las imágenes de manera verosímil. En este se ubicará un bucle que se ocupará de obtener la imagen a mostrar, mezclarla con el modelo en 3D, renderizar la imagen y situarla en la vista, todo esto de la manera más fluida posible para que el espectador no tenga impresiones que entorpezcan la experiencia de usuario.
 
         \paragraph{}
-        Además, esta almacenará también información de la sesión necesaria para el correcto procesamiento del sistema, tales como los modelos en 3D cargados, la referencia al objeto de \js con el \textit{<<canvas>>} antes mencionado, la posición del usuario y otros datos necesarios para el funcionamiento del sistema que serán mencionados a lo largo de esta memoria.
+        Además, esta almacenará también información de la Sesión necesaria para el correcto procesamiento del sistema, tales como los modelos en 3D cargados, la referencia al objeto de \js con el \textit{<<canvas>>} antes mencionado, la posición del usuario y otros datos necesarios para el funcionamiento del sistema que serán mencionados a lo largo de esta memoria.
 
         \paragraph{}
         Es importante mencionar que, a pesar de que se ha tratado a este sistema como un Modelo-Vista-Controlador y se le ha presentado como tal, sería más justo tratar a la aplicación como si utilizara el patrón Modelo-Vista-Presentador \cite{web:mvp} por varias razones.
@@ -56,10 +56,37 @@
             \item {El cliente debe utilizar un navegador compatible con WebXR. A fecha de este documento, solo existen tres navegadores para dispositivos móviles que cumplan este requisito \cite{web:webxrcompatibility}: \googlechrome para \android a partir de la versión 79, \textit{Opera} para \android a partir de la versión 57 y \textit{Samsung Internet} a partir de la versión 11.2. Además, el dispositivo que lo lance debe soportar la aplicación \arcore.}
         \end{itemize}
 
-        Además de esto, la sesión se debe iniciar a través de lo que el sistema debe interpretar que es un evento de usuario. Esto quiere decir que la sesión no se puede generar automáticamente o nada más cargarse la página, sino que debe ser el usuario pulsando un botón o realizando una acción consciente el que lance la solicitud de inicio de sesión de \ra.
+        Además de esto, la Sesión se debe iniciar a través de lo que el sistema debe interpretar que es un evento de usuario. Esto quiere decir que la Sesión no se puede generar automáticamente o nada más cargarse la página, sino que debe ser el usuario pulsando un botón o realizando una acción consciente el que lance la solicitud de inicio de Sesión de \ra. Todo esto se comprueba a través de la función \textit{isSessionSupported}:
+
+\begin{lstlisting}[language=JavaScript]
+if (!navigator.xr) window.polyfill = new WebXRPolyfill();
+
+navigator.xr.isSessionSupported("immersive-ar").then(
+    this.#checkSessionSupported
+);
+\end{lstlisting}
+
+        Esta función (línea 3) está integrada en el parámetro \textit{xr}, que está a su vez contenido en \textit{Navigator}, objeto que contiene información acerca del navegador utilizado por el usuario. Este último contendrá el parámetro mencionado únicamente si cumple con el segundo requisito de la librería \webxr. En caso contrario, al no existir, podría generarse un error. Para estos casos, se utiliza \textit{WebXRPolyfill} \cite{web:webxrpolyfill}, una librería utilizada para la retrocompatibilidad en los navegadores compatibles, pero que también añade el mencionado parámetro y, con este, la funcionalidad que comprueba si se soporta la Sesión.
 
         \paragraph{}
-        Teniendo en mente estas condiciones, se planteó que la Vista debía ser una interfaz sencilla que contuviese un botón que debiera accionar el usuario para iniciar la sesión, siendo en las versiones más prematuras un botón simple sin ningún tipo de customización. En las versiones más avanzadas, se generó un fichero \textit{CSS} que personalizara la \textit{landing page} de manera que, además de tener los colores de la empresa, tuviese un aspecto más amigable para el usuario.
+        La línea 3 del código anterior termina en una llamada asíncrona mediante el uso de \textit{.then()} a la función privada \textit{checkSessionSupported}. Esta función es la que se encarga de avisar al usuario en caso de que la Sesión no se pueda levantar. Sin embargo, en el caso afirmativo, se ocupa de preparar el entorno para el momento en que el usuario comience la sesión de \ra, cuyos detalles se explicarán más adelante.
+
+\begin{lstlisting}[language=JavaScript]
+#checkSessionSupported = (isSupported) => {
+    if (isSupported) {
+    
+        // Prepara el entorno
+    
+    } else {
+    
+        document.getElementById("arButton").disabled = true;
+        alert("Tu navegador no permite una sesi\xF3n de Realidad Aumentada.");
+        
+    }
+};
+\end{lstlisting}
+
+        Esta estructura de funciones, tan común en \js, es la que se utilizará en este proyecto para las funciones \textit{callback} \cite{web:callbackfunction}, funciones pasadas a otras funciones en forma de argumento de forma que puedan ser llamadas una dentro de la otra. Así, en este caso, la función de la librería calculará si el sistema soporta o no la Sesión y, una vez lo sepa, llamará a nuestra función (\textit{checkSessionSupported}) pasándole como argumento el resultado de sus cálculos.
 
         \begin{figure}
         \centering
@@ -68,7 +95,63 @@
         \label{fig:landing_page}
         \end{figure}
 
-        %% comentar llamada del botón, lanzamiento de la aplicacion para cumplir condiciones, server https,
+        \paragraph{}
+        Teniendo en mente estas condiciones, se planteó que la Vista debía ser una interfaz sencilla que contuviese un botón que debiera accionar el usuario para iniciar la Sesión, siendo en las versiones más prematuras un botón simple sin ningún tipo de customización. En las versiones más avanzadas, se generó un fichero \textit{CSS} que personalizara la \textit{landing page} de manera que, además de tener los colores de la empresa, tuviese un aspecto más amigable para el usuario. Antes de que este botón pudiera ser pulsado, el sistema debería haber calculado previamente si el sistema puede soportar la sesión, así que con la carga de la Vista debía cargarse también el archivo Main.js, que consta únicamente de una línea de código:
+
+\begin{lstlisting}[language=JavaScript]
+window.arController = new Controller();
+\end{lstlisting}
+
+        Esta línea lanzará el Constructor del Controlador, que contendrá la construcción del \textit{WebXRPolyfill} y la consulta al parámetro \textit{xr} con la función \textit{isSessionSupported}. De esta manera, el sistema está previamente preparado a cualquier acción del usuario, favoreciendo la carga de objetos más pesados de manera asíncrona mientras el usuario reacciona antes de pulsar el botón de lanzamiento de Sesión de \ra.
+
+        \paragraph{}
+        Ahora, una vez se ha comprobado que el sistema es compatible con \ra, el usuario puede ejecutar su acción consciente para iniciar la Sesión. Es importante tener en cuenta que, cuando se construye el objeto, también puede detectar si la acción es consciente o no, por lo que la construcción de este también debe estar sujeta a un evento de usuario. Debido a esto, la construcción de este objeto no se puede incrustar en el mismo sitio que hemos incrustado la carga de objetos más pesados, junto al lanzamiento de la página, sino que debe ir en la función que se lance al pulsar el botón que se muestra en la Figura \ref{fig:landing_page}.
+
+        \paragraph{}
+        Este botón lanzará la función asíncrona \textit{startLoop} (cuyo significado revelaremos más adelante), que cargará los datos restantes para poder ejecutar el grueso de la aplicación, siendo la Sesión uno de ellos, como ya se ha comentado. En esta aplicación, la sesión se lanza de la siguiente manera:
+
+\begin{lstlisting}[language=JavaScript]
+// Constantes
+#GLOPTIONS = { xrCompatible: true };
+#SESSIONOPTIONS = { requiredFeatures: ['hit-test'] };
+
+// ...
+
+async startLoop() {
+    this.#canvas = document.createElement("canvas");
+    document.body.appendChild(this.#canvas);
+    this.#gl = this.#canvas.getContext("webgl", this.#GLOPTIONS);
+
+    // ...
+    
+    this.#session = await navigator.xr.requestSession("immersive-ar", this.#SESSIONOPTIONS);
+    this.#session.updateRenderState({
+        baseLayer: new XRWebGLLayer(this.#session, this.#gl)
+    });
+
+    // ...
+}
+\end{lstlisting}
+        
+        En el código se puede observar que, en la línea 13, no se está construyendo un objeto utilizando el constructor clásico \textit{new}, sino que se está solicitando un objeto \textit{XRSession} (Sesión de \webxr) al parámetro \textit{xr} previamente mencionado mediante la función \textit{requestSession} \cite{web:requestsession}. Esta es la manera que tiene \webxr de asegurarse de que la sesión se lanza mediante un evento de usuario, debido a que es precisamente esa función la que recoge la información necesaria y hacer las comprobaciones correspondientes al respecto.
+
+        \paragraph{}
+        También se puede observar que la función recibe dos parámetros: \textit{"immersive-ar"} en primer lugar y \textit{this.\#SESSIONOPTIONS} en el segundo. El primero es un parámetro obligatorio que aclara a la función qué tipo de Sesión se pretende lanzar (\ra, \rv o \textit{inline}, una opción que no nos ocupa ahora), siendo el valor presente en el código el necesario para indicar que queremos solicitar una Sesión de \ra. El segundo valor, opcional en este caso, sirve para especificar la configuración que se establecerá en nuestra sesión, en caso de que no queramos utilizar los valores por defecto. En esta aplicación se establece una única opción, definida en la constante de la línea 2, que indica las características que serán requeridas durante la sesión. En este caso, se indica que será necesaria la característica \textit{hit-test} o, como lo llamaremos para esta aplicación, <<cálculo de superficies>>, aunque eso es algo que explicaremos más adelante.
+
+        \paragraph{}
+        Justo después de solicitar la Sesión, se utiliza a esta misma para lanzar la función \textit{updateRenderState} \cite{web:updaterenderstate} en la línea 15. Esta función solicita cambios de configuración a partir del siguiente fotograma que se cargue. Sin embargo, como a estas alturas aún no se ha cargado ningún fotograma, se entiende que estos <<cambios en la configuración>> son para el primero y para los siguientes fotogramas (es decir, para todos, dado que esa configuración no va a cambiar en esta aplicación).
+
+        \paragraph{}
+        La configuración que se solicita cambiar para los fotogramas es la que se prepara en las líneas 8, 9 y 10 junto con la constante de la línea 2: en la línea  8, estamos generando un \textit{canvas}, que es un objeto de HTML generado a partir de \js cuya finalidad es albergar objetos gráficos, como ya se mencionó en la sección \ref{sec:2.1}. Para insertar este objeto en nuestra Vista, se ejecuta la acción de la línea 9, momento a partir del cuál este objeto ocupará la pantalla completa de nuestro dispositivo móvil. Si no añadiésemos más funcionalidad, veríamos que nuestra pantalla no mostraría nada más que una pantalla en negro. Esto se debe a que aún no hemos insertado ningún objeto gráfico en nuestro \textit{canvas}, para lo que aún quedan unos pasos.
+
+        \paragraph{}
+        Por último, en la línea 10 se solicita al objeto \textit{canvas} un <<contexto>> a través de la función \textit{getContext}. El contexto de un \textit{canvas} es una interfaz a través de la cuál se puede interactuar y generar gráficos e imágenes desde el código de \js \cite{web:canvascontext}, por lo que nos resulta imprescindible para trabajar con este <<lienzo>>. Primero, a la función le indicamos qué tipo de imágenes vamos a utilizar para que nos devuelva el objeto de contexto correcto. Eso lo hacemos mediante el primer parámetro (\textit{"webgl"}), mientras que en el segundo, tal y como ocurrió al solicitar la sesión de \webxr, le establecemos una serie de opciones que queremos que sean distintas a las predeterminadas. En este caso, queremos activar la opción <<\textit{xrCompatible}>>, que indica que indica al \textit{canvas} que el contexto que nos devuelva tiene que ser compatible con \webxr \cite{web:getcontext}. Esta configuración es la que se almacena en la constante de la línea 2.
+
+        \paragraph{}
+        Una vez entendido esto, solo queda añadir esta configuración a la función \textit{updateRenderState}. A través del objeto \textit{XRWebGLLayer}, generaremos un enlace entre el contexto del \textit{canvas} (es decir, la interfaz para poder dibujar en este) y la Sesión \webxr que mantendremos para aplicar nuestra \ra \cite{web:xrwebgllayer}. Esto lo asociaremos con la opción <<\textit{baseLayer}>> a la misma Sesión a partir del momento en que comiencen a lanzarse los fotogramas para que sea capaz de acceder en todo momento a las imágenes generadas y captadas y a su vez sea capaz de insertar las imágenes obtenidas a través de la cámara del dispositivo.
+
+        \paragraph{}
+        De esta manera tendríamos iniciada la forma más básica de Sesión, aunque aún no seríamos capaces de ver nada a través de la pantalla de nuestros dispositivos. Para esto, vamos a necesitar lanzar un bucle en el que procesemos y mostremos los fotogramas que captemos con la cámara de nuestro móvil.
         
         \section{Procesado iterativo}
         \label{sec:2.x}
