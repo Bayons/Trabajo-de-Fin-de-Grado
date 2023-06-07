@@ -154,11 +154,45 @@ async startLoop() {
         De esta manera tendríamos iniciada la forma más básica de Sesión, aunque aún no seríamos capaces de ver nada a través de la pantalla de nuestros dispositivos. Para esto, vamos a necesitar lanzar un bucle en el que procesemos y mostremos los fotogramas que captemos con la cámara de nuestro móvil.
         
         \section{Procesado iterativo}
-        \label{sec:2.x}
+        \label{sec:2.3}
 
-        Para poder asignar a cada fotograma, así como hacer los propios cálculos en cada momento de la ubicación y movimientos de las figuras que vamos a insertar llegado el momento, es necesario crear un bucle que dure tanto tiempo como el usuario vaya a permanecer en la aplicación. En cada una de las iteraciones, la aplicación solicitará al hardware del dispositivo móvil la imagen captada a través de su cámara, de disponer de una.
+        Para poder mostrar por pantalla cada fotograma, así como hacer los cálculos relacionados con las figuras que vamos a insertar llegado el momento, es necesario crear un bucle que dure tanto tiempo como el usuario vaya a permanecer en la Sesión. En cada una de las iteraciones, la aplicación solicitará al hardware del dispositivo móvil la imagen captada a través de su cámara.
 
         \paragraph{}
-        Para evitar que el sistema se ralentice, las solicitudes de fotogramas se realizan de una forma un tanto particular. En lugar de utilizar un bucle estándar como pueda ser uno tipo <<for>> o <<while>>
+        Este bucle funcionará de una manera un tanto especial: a diferencia de los bucles \textit{for} o \textit{while}, donde se ejecuta un código de manera secuencial y sin tener nada más en cuenta que lanzar la siguiente iteración cuando la anterior haya terminado, en este bucle se <<solicita>> al navegador que ejecute una función \textit{callback} en cuanto esté preparado, lo que permite que la aplicación se adapte a la capacidad del dispositivo, debido a que no todos serán capaces de procesar igual de rápido la misma información. En esta función \textit{callback}, que definiremos nosotros, será en la que se le indicará al sistema que muestre por pantalla la información que queramos. Esto, a efectos prácticos, es lo que determinará los fotogramas por segundo: si un sistema, desde que se solicita la ejecución de la función hasta que muestra el fotograma en pantalla, tarda 0,025 segundos de media, entonces mostrará en un segundo alrededor de 40 fotogramas (es decir, 40 fotogramas por segundo).
+
+        \paragraph{}
+        Esta capacidad para solicitar la ejecución de una función \textit{callback} cuando el sistema esté disponible la tiene la función \textit{requestAnimationFrame} de la Sesión de \webxr \cite{web:requestanimationframe}. Por esto, es imprescindible que la Sesión se haya iniciado previamente. En esta aplicación, la función se lanza en dos puntos dentro del Controlador.
+
+\begin{lstlisting}[language=JavaScript]
+async startLoop() {
+
+    // ...
+    // Solicitud del primer fotograma
+    this.#session.requestAnimationFrame(this.#loopFunction);
+    
+}
+\end{lstlisting}
+
+        La primera llamada a dicha función se realiza al final de la función \textit{startLoop}, que es la función llamada por el botón de la Vista y que, como su propio nombre indica, es la que inicializa este bucle, haciendo ciertas preparaciones antes como el inicio de la Sesión, como ya sabemos. Al lanzar la función \textit{requestAnimationFrame}, es necesario indicarle cuál va a ser la función \textit{callback} que se va a poner <<en cola>> de ejecución. En nuestro caso, esta función es \textit{loopFunction}, donde ejecutaremos nuestro procesamiento de imágenes:
+
+\begin{lstlisting}[language=JavaScript]
+#loopFunction = (time, frame) => {
+
+    // ...
+    // Solicitud de siguiente fotograma
+    this.#session.requestAnimationFrame(this.#loopFunction);
+    // ...
+    
+};
+\end{lstlisting}
+
+        Para poder generar el bucle que se encargará de procesar y mostrar la imagen, es necesario que en algún punto se solicite de nuevo al navegador que se vuelva a lanzar esta misma función. Para ello, el mejor sitio es la propia función \textit{loopFunction}, que solicitará al navegador que se vuelva a lanzar cuando este esté preparado (línea 5), formándose así un bucle infinito, en el que se realizará el procesado que definamos en la función por cada iteración y que terminará cuando el usuario decida, como se explicará más tarde.
+
+        \paragraph{}
+        En esta función \textit{callback}, podemos ver que se reciben dos parámetros generados desde la Sesión al llamarla: \textit{time} y \textit{frame} \cite{web:requestanimationframe}. El parámetro \textit{time} es una variable de tipo \textit{Double} que representa la diferencia de tiempo en milisegundos desde que se ha iniciado la Sesión hasta que se ha ejecutado la función indicada en \textit{requestAnimationFrame}. Esta es una herramienta útil para calcular la posición idónea en la animación de un modelo en 3D, pero en esta aplicación se utiliza una herramienta que será aún más útil por su simpleza. Por otro lado, el segundo parámetro, \textit{frame}, es el objeto en que \webxr nos almacena información que, más tarde, nos será crucial para poder hacer los procesamientos que queremos, como por ejemplo la posición y orientación del usuario en el momento de la iteración.
+
+        \paragraph{}
+        %% la imagen de la camara se inserta automaticamente para evitar problemas de seguridad
 
 \end{document}
