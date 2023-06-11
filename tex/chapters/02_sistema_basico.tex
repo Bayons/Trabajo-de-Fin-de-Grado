@@ -193,6 +193,9 @@ async startLoop() {
         En esta función \textit{callback}, podemos ver que se reciben dos parámetros generados desde la Sesión al llamarla: \textit{time} y \textit{frame} \cite{web:requestanimationframe}. El parámetro \textit{time} es una variable de tipo \textit{Double} que representa la diferencia de tiempo en milisegundos desde que se ha iniciado la Sesión hasta que se ha ejecutado la función indicada en \textit{requestAnimationFrame}. Esta es una herramienta útil para calcular la posición idónea en la animación de un modelo en 3D, pero en esta aplicación se utiliza una herramienta que será aún más útil por su simpleza. Por otro lado, el segundo parámetro, \textit{frame}, es el objeto en que \webxr nos almacena información que, más tarde, nos será crucial para poder hacer los procesamientos que queremos, como por ejemplo la posición y orientación del usuario en el momento de la iteración.
 
         \paragraph{}
-        %% la imagen de la camara se inserta automaticamente para evitar problemas de seguridad
+        Hasta ahora, no se ha comentado en ningún momento cómo o cuándo se asignará la imagen obtenida a través de la cámara del dispositivo en la aplicación web. Esto es porque \webxr, para evitar problemas de seguridad, impide que a través de su librería se pueda acceder directamente a las imágenes <<crudas>> de la cámara. Por eso se le ha concedido previamente acceso al contexto del \textit{canvas}, para que pueda insertar imágenes y objetos gráficos directamente sin necesidad de la interacción de nuestros desarrollos \cite{web:xrwebgllayer}.
+
+        \paragraph{}
+        Con esto, ya tendríamos una aplicación capaz de captar las imágenes de la cámara del dispositivo móvil y que nos ofrecería información del dispositivo como la posición u orientación del mismo. Ahora, podemos trabajar en insertar los modelos en 3D para generar nuestra \ra básica.
 
 \end{document}
