@@ -13,29 +13,62 @@
         Para la carga, inserción, control y movimientos de los modelos en 3D se ha utilizado en esta aplicación la librería \threejs. \threejs es una librería ligera preparada para su uso en aplicaciones web compatible con \js \cite{web:wikipediathreejs}. Además, este está especializado en el control de modelos en 3D en formato \glb y \gltf, que son dos formatos basados en \textit{JSON} y que están creados para ser óptimos en tiempo de ejecución (el formato \glb es el equivalente en binario a \gltf) \cite{web:threejs_loading3dmodels}.
 
         \paragraph{}
-        La librería \threejs basa su funcionalidad en el uso de Escenas o \textit{Scenes}, el objeto que utiliza esta librería para acoger sus modelos en 3D, la iluminación o focos de luz que los alumbrarán y las cámaras virtuales que observarán a estos mismos \cite{web:threejs_scene}. Este último concepto es muy importante, debido a que afectará continuamente al renderizado de los modelos en 3D.
+        La librería \threejs basa su funcionalidad en el uso de Escenas o \textit{Scenes}, el objeto que utiliza esta librería para almacenar y presentar sus modelos en 3D, la iluminación o focos de luz que los alumbrarán y las cámaras virtuales que observarán a estos mismos \cite{web:threejs_scene}. Aplicando un símil sencillo, la Escena de \threejs podría equivaler a una escena de cine, donde los actores equivaldrían a los modelos en 3D, los focos equivaldrían a la iluminación y las cámaras equivaldrían a las cámaras virtuales. Este último concepto es muy importante, debido a que afectará continuamente al renderizado de los modelos en 3D.
 
         \paragraph{}
-        La cámara virtual es la que simula el punto de vista del espectador tanto en \ra como en \rv como en otras virtualizaciones que utilicen modelos en 3D como en simulaciones, videojuegos o películas de animación. A alto nivel, una cámara virtual, además de la posición del espectador, define también lo que este va a ver de manera que, cuando se va a renderizar una imagen, solo tiene que generarse la parte visible de los modelos que entren en el rango de visión de la cámara virtual.
+        La cámara virtual es la que simula el punto de vista del espectador, ya sea en \ra, en \rv o en otras virtualizaciones que utilicen modelos en 3D como son las simulaciones, los videojuegos o las películas de animación \cite{web:mozilla_virtualcamera}. A alto nivel, una cámara virtual, además de la posición del espectador, definiría también lo que este va a poder observar de manera que, cuando se va a renderizar una imagen, solo tiene que generarse la parte visible de los modelos que entren en el rango de visión de la cámara virtual.
 
         \begin{figure}
         \centering
+        \fbox{
         \includegraphics[width=0.6\textwidth]{img/tortuga_marina.png}
+        }
         \caption{Ejemplo de renderizado de un modelo en 3D extraído de la biblioteca de modelos 3D de la aplicación de Windows \textit{Visor 3D}.}
         \label{fig:tortuga_marina}
         \end{figure}
 
         \paragraph{}
-        Visualizando esto último con un ejemplo, en la figura \ref{fig:tortuga_marina} se ha renderizado un modelo 3D de una tortuga marina. En este renderizado, la cámara virtual se encuentra frente al modelo, pero ligeramente ladeado hacia el lado derecho de la tortuga. Debido a la posición de la cámara, no es necesario que se renderice la pata izquierda trasera de la figura, puesto que lo tapa el resto del cuerpo. Sin embargo, si la cámara se encontrase detrás de la tortuga, sería necesario renderizar ambas patas traseras y la cola, pero no se renderizaría la cara de la figura.
+        Visualizando esto último con un ejemplo, en la figura \ref{fig:tortuga_marina} se ha renderizado un modelo 3D de una tortuga marina. En este renderizado, la cámara virtual se encuentra frente al modelo, pero ligeramente ladeado hacia la parte derecha de la tortuga. Debido a la posición de la cámara, no es necesario que se renderice la pata izquierda trasera de la figura, puesto que lo tapa el resto del cuerpo. Sin embargo, si la cámara se encontrase detrás de la tortuga, sería necesario renderizar ambas patas traseras y la cola, pero no se renderizaría la cara de la figura. De la misma manera, si la cámara no estuviese apuntando hacia la tortuga, no habría ningún modelo 3D que renderizar.
         
         \paragraph{}
         Aunque este parezca un concepto obvio, es necesario explicarlo, debido a que será necesario establecer la posición y orientación de la cámara virtual durante el desarrollo. Esto es porque la cámara virtual coincidirá con la posición de la cámara del dispositivo móvil. Cuando la cámara apunte hacia una figura en 3D en la \ra, se incrustará en la pantalla del móvil la parte de la figura que se vea desde la cámara virtual (es decir, se debe ver por la pantalla lo que se vería a través de la cámara si esta figura existiese en nuestra Realidad).
 
+        Una vez explicado esto, es necesario volver al código. Siguiendo el orden de carga, el primer lugar donde nos detendremos es en la función \textit{callback} \textit{checkSessionSupported}, vista en la sección \ref{sec:2.2}, que es la función que se lanza desde el constructor del Controlador y que inicializaba los elementos más pesados antes de que el usuario pulsase el botón de iniciar la Sesión de \ra. En esta, ya habíamos visto las acciones que se realizaban en caso de que el navegador no fuese compatible con \webxr, pero ahora vamos a ver algunas de las que se ejecutan en el caso positivo. Ampliando el código \ref{lst:2.2} al que hacemos mención:
+
+\newpage
+\begin{lstlisting}[language=JavaScript, caption={Carga de elementos de Three.js si se soporta la sesión.}, label={lst:3.1}]
+// Constantes
+#RETICLELINK = "http://url_donde_se_aloja_el_modelo_3d";
+
+#checkSessionSupported = (isSupported) => {
+    if (isSupported) {
+    
+        // Scene y Loader
+        this.#scene = new THREE.Scene();
+        this.#loader = new THREE.GLTFLoader();
+        // ...
+
+        // Modelo en 3D de Reticula
+        this.#loader.load(this.#RETICLELINK, function(gltf) {
+            // Figura
+            this.#reticle = gltf.scene;
+            this.#reticle.visible = false;
+            this.#scene.add(this.#reticle);
+        }.bind(this));
+        // ...
+    
+    } else {
+    
+        document.getElementById("arButton").disabled = true;
+        alert("Tu navegador no permite una sesi\xF3n de Realidad Aumentada.");
+        
+    }
+};
+\end{lstlisting}
         %% carga de figuras
         %% ubicacion de las figuras
-        %% carga aleatoria de figuras
 
-        \section{Cálculo de superficies, Hit Test Results}
+        \section{Cálculo de superficies, \textit{Hit Test Results}}
         \label{sec:3.x}
 
         \section{Animación de modelos}
@@ -50,6 +83,8 @@
         \section{Funcionamiento final de la Realidad Aumentada}
         \label{sec:3.a}
         %% 
+        %% carga aleatoria de figuras
+        %% sustitucion de reticula por figuras
 
         
 

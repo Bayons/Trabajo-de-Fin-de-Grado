@@ -58,7 +58,7 @@
 
         Además de esto, la Sesión se debe iniciar a través de lo que el sistema debe interpretar que es un evento de usuario. Esto quiere decir que la Sesión no se puede generar automáticamente o nada más cargarse la página, sino que debe ser el usuario pulsando un botón o realizando una acción consciente el que lance la solicitud de inicio de Sesión de \ra. Todo esto se comprueba a través de la función \textit{isSessionSupported}:
 
-\begin{lstlisting}[language=JavaScript]
+\begin{lstlisting}[language=JavaScript, caption={Uso de \textit{isSessionSupported en la aplicación}.}, label={lst:2.1}]
 if (!navigator.xr) window.polyfill = new WebXRPolyfill();
 
 navigator.xr.isSessionSupported("immersive-ar").then(
@@ -71,7 +71,7 @@ navigator.xr.isSessionSupported("immersive-ar").then(
         \paragraph{}
         La línea 3 del código anterior termina en una llamada asíncrona mediante el uso de \textit{.then()} a la función privada \textit{checkSessionSupported}. Esta función es la que se encarga de avisar al usuario en caso de que la Sesión no se pueda levantar. Sin embargo, en el caso afirmativo, se ocupa de preparar el entorno para el momento en que el usuario comience la sesión de \ra, cuyos detalles se explicarán más adelante.
 
-\begin{lstlisting}[language=JavaScript]
+\begin{lstlisting}[language=JavaScript, caption={Control de la Sesión, dependiendo de si es o no soportada.}, label={lst:2.2}]
 #checkSessionSupported = (isSupported) => {
     if (isSupported) {
     
@@ -98,7 +98,7 @@ navigator.xr.isSessionSupported("immersive-ar").then(
         \paragraph{}
         Teniendo en mente estas condiciones, se planteó que la Vista debía ser una interfaz sencilla que contuviese un botón que debiera accionar el usuario para iniciar la Sesión, siendo en las versiones más prematuras un botón simple sin ningún tipo de customización. En las versiones más avanzadas, se generó un fichero \textit{CSS} que personalizara la \textit{landing page} de manera que, además de tener los colores de la empresa, tuviese un aspecto más amigable para el usuario. Antes de que este botón pudiera ser pulsado, el sistema debería haber calculado previamente si el sistema puede soportar la sesión, así que con la carga de la Vista debía cargarse también el archivo Main.js, que consta únicamente de una línea de código:
 
-\begin{lstlisting}[language=JavaScript]
+\begin{lstlisting}[language=JavaScript, caption={Inicialización del Controlador.}, label={lst:2.3}]
 window.arController = new Controller();
 \end{lstlisting}
 
@@ -110,11 +110,10 @@ window.arController = new Controller();
         \paragraph{}
         Este botón lanzará la función asíncrona \textit{startLoop} (cuyo significado revelaremos más adelante), que cargará los datos restantes para poder ejecutar el grueso de la aplicación, siendo la Sesión uno de ellos, como ya se ha comentado. En esta aplicación, la sesión se lanza de la siguiente manera:
 
-\begin{lstlisting}[language=JavaScript]
+\begin{lstlisting}[language=JavaScript, caption={Función de preparación del bucle.}, label={lst:2.4}]
 // Constantes
 #GLOPTIONS = { xrCompatible: true };
 #SESSIONOPTIONS = { requiredFeatures: ['hit-test'] };
-
 // ...
 
 async startLoop() {
@@ -164,7 +163,8 @@ async startLoop() {
         \paragraph{}
         Esta capacidad para solicitar la ejecución de una función \textit{callback} cuando el sistema esté disponible la tiene la función \textit{requestAnimationFrame} de la Sesión de \webxr \cite{web:requestanimationframe}. Por esto, es imprescindible que la Sesión se haya iniciado previamente. En esta aplicación, la función se lanza en dos puntos dentro del Controlador.
 
-\begin{lstlisting}[language=JavaScript]
+\newpage
+\begin{lstlisting}[language=JavaScript, caption={Función que solicita la carga del siguiente fotograma.}, label={lst:2.5}]
 async startLoop() {
 
     // ...
@@ -176,7 +176,7 @@ async startLoop() {
 
         La primera llamada a dicha función se realiza al final de la función \textit{startLoop}, que es la función llamada por el botón de la Vista y que, como su propio nombre indica, es la que inicializa este bucle, haciendo ciertas preparaciones antes como el inicio de la Sesión, como ya sabemos. Al lanzar la función \textit{requestAnimationFrame}, es necesario indicarle cuál va a ser la función \textit{callback} que se va a poner <<en cola>> de ejecución. En nuestro caso, esta función es \textit{loopFunction}, donde ejecutaremos nuestro procesamiento de imágenes:
 
-\begin{lstlisting}[language=JavaScript]
+\begin{lstlisting}[language=JavaScript, caption={Función bucle con el contenido mínimo}, label={lst:2.6}]
 #loopFunction = (time, frame) => {
 
     // ...
