@@ -33,6 +33,7 @@
         \paragraph{}
         Aunque este parezca un concepto obvio, es necesario explicarlo, debido a que será necesario establecer la posición y orientación de la cámara virtual durante el desarrollo. Esto es porque la cámara virtual coincidirá con la posición de la cámara del dispositivo móvil. Cuando la cámara apunte hacia una figura en 3D en la \ra, se incrustará en la pantalla del móvil la parte de la figura que se vea desde la cámara virtual (es decir, se debe ver por la pantalla lo que se vería a través de la cámara si esta figura existiese en nuestra Realidad).
 
+        \paragraph{}
         Una vez explicado esto, es necesario volver al código. Siguiendo el orden de carga, el primer lugar donde nos detendremos es en la función \textit{callback} \textit{checkSessionSupported}, vista en la sección \ref{sec:2.2}, que es la función que se lanza desde el constructor del Controlador y que inicializaba los elementos más pesados antes de que el usuario pulsase el botón de iniciar la Sesión de \ra. En esta, ya habíamos visto las acciones que se realizaban en caso de que el navegador no fuese compatible con \webxr, pero ahora vamos a ver algunas de las que se ejecutan en el caso positivo. Ampliando el código \ref{lst:2.2} al que hacemos mención:
 
 \newpage
@@ -48,7 +49,7 @@
         this.#loader = new THREE.GLTFLoader();
         // ...
 
-        // Modelo en 3D de Reticula
+        // Modelo en 3D: Reticula
         this.#loader.load(this.#RETICLELINK, function(gltf) {
             // Figura
             this.#reticle = gltf.scene;
@@ -65,6 +66,21 @@
     }
 };
 \end{lstlisting}
+
+        Aquí ya podemos ver tres elementos de cierto peso que se están cargando previamente antes de iniciar la Sesión: la Escena, una instancia de \textit{GLTFLoader} y, desde una función de esta última, un modelo 3D al que llamaremos a partir de ahora, <<retícula>>, sencillamente porque es el nombre del modelo original alojado en la librería de modelos de ejemplo de \webxr en GitHub. Este modelo en 3D, que podemos ver en la figura \ref{fig:reticle} será el que utilicemos como base para el funcionamiento de esta aplicación, haciendo las veces de <<puntero>> más adelante, cuando queramos señalar un punto en el suelo para ubicar la figura humana que desarrollemos.
+
+        \begin{figure}
+        \centering
+        \fbox{
+        \includegraphics[width=0.6\textwidth]{img/reticle.png}
+        }
+        \caption{Muestra de la Retícula utilizada en esta aplicación. Modelo obtenido del repositorio \textit{webxr} del perfil de \textit{Immersive Web at W3C}, en GitHub.}
+        \label{fig:reticle}
+        \end{figure}
+
+        \paragraph{}
+        En primer lugar, inicializamos la Escena en la línea 8 para poder introducir la retícula más adelante (volviendo al símil anteriormente utilizado, es como si el actor <<retícula>> entrara en escena). Sin embargo, esto no lo podemos hacer hasta que se haya cargado el modelo. Para esto, utilizamos el objeto \textit{loader}.
+        
         %% carga de figuras
         %% ubicacion de las figuras
 
