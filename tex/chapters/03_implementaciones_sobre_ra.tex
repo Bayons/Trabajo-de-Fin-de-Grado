@@ -79,25 +79,45 @@
         \end{figure}
 
         \paragraph{}
-        En primer lugar, inicializamos la Escena en la línea 8 para poder introducir la retícula más adelante (volviendo al símil anteriormente utilizado, es como si el actor <<retícula>> entrara en escena). Sin embargo, esto no lo podemos hacer hasta que se haya cargado el modelo. Para esto, utilizamos el objeto \textit{loader}.
+        En primer lugar, inicializamos la Escena en la línea 8 para poder introducir la retícula más adelante (volviendo al símil anteriormente utilizado, es como si el actor <<retícula>> entrara en escena). Sin embargo, esto no lo podemos hacer hasta que se haya cargado el modelo. Para esto, utilizamos el objeto \textit{GLTFLoader} de \threejs \cite{web:threejs_gltfloader}, que es inicializado en la línea 9 para poder ser usado a continuación. Este objeto contiene la función \textit{load()}, que permite cargar un modelo 3D (en este caso, en formato \gltf o \glb, dado que este objeto es una especialización del objeto \textit{Loader} y solo permite cargar archivos de dichos formatos) y lanzar una función \textit{callback} una vez obtiene un resultado. Mediante la función de \textit{GLTFLoader}, \threejs hace la traducción del contenido del fichero a objetos de \threejs que sean manejables desde código. Aunque la documentación no sea muy extensa sobre el objeto que ofrece esta función, sí se puede encontrar que, mediante la función \textit{callback} que creemos para esto, recibiremos un objeto (que en la línea 13 hemos llamado \textit{gltf}) que contiene los siguientes atributos \cite{web:discoverthreejs}:
+
+        \begin{itemize}
+            \item \textit{animations}: devuelve un array con las animaciones (\textit{THREE.AnimationClip}) que contenga el archivo con el modelo 3D. Estas animaciones, aunque ya entraremos más en detalle más adelante, no son más que conjuntos de posturas que, agrupados de la manera correcta, dan la sensación de movimiento si se van recorriendo a una velocidad adecuada.
+            \item \textit{scene}: aunque el sistema llame al atributo también <<Escena>>, en verdad el objeto contenido es de tipo \textit{THREE.Group}. Este objeto se puede definir como un conjunto de mallas de triángulos, que son los que formarán las superficies de los objetos tridimensionales. Al recoger todas las mallas del archivo de manera unida como un solo grupo, estaremos recogiendo en verdad el modelo 3D al completo.
+            \item \textit{cameras}: en caso de que el archivo contenga una cámara virtual preestablecida, podremos encontrarlo en este atributo, que nos devolverá un array de objetos \textit{THREE.camera}. Estas cámaras no nos servirán para la \ra, porque nosotros queremos solamente una cámara que se encuentre en todo momento en el punto de vista de la cámara del dispositivo móvil. Este atributo es mucho más útil cuando se pretende utilizar la librería para aplicaciones web de visualización de este tipo de figuras tridimensionales, como pueda ser \textit{Babylon.js Sandbox}.
+        \end{itemize}
+
+        Estos son los atributos más importantes, aunque también contiene otros que son de menor importancia para el desarrollo hasta ahora de este proyecto: 
+
+        \begin{itemize}
+            \item \textit{asset}: objeto de \js sin tipo (\textit{Object}) que contiene metadatos del archivo, comúnmente generados de forma automática por la herramienta de diseño utilizada para la construcción del modelo.
+            \item \textit{parser}: objeto \textit{GLTFParser} que contiene la información del objeto que se ha utilizado internamente para transformar el archivo.
+            \item \textit{scenes} (no confundir con \textit{scene}): de manera similar a \textit{scene}, contiene un array de objetos de tipo \textit{THREE.Group}. Esto se debe a que los archivos \gltf pueden contener varios grupos separados de mallas, aunque no será el caso en este proyecto.
+            \item \textit{userData}: objeto sin tipado que contiene información customizada por parte del creador del archivo. Esta no está estandarizada, por lo que la información podría estar de cualquier manera.
+        \end{itemize}
+
+        Como se puede comprobar, son muchos los elementos que se cargan de un solo archivo, aparte del propio modelo en 3D. Esto se debe a que, como se verá más adelante, al diseñar un modelo en 3D se pueden añadir distintas propiedades preestablecidas. Más adelante, en la sección \ref{sec:3.3}, veremos como, desde el mismo archivo del modelo, podremos acceder también a las animaciones predefinidas que se encuentren contenidas en este. Sin embargo, durante este diseño también se pueden preestablecer otros elementos y guardarlos en el mismo archivo como iluminaciones y cámaras virtuales.
+
+        \paragraph{}
+        Una vez sabemos esto, y volviendo al código \ref{lst:3.1}, podemos ver que, en la línea 15, se está almacenando en el atributo privado \textit{reticle} del Controlador el grupo de mallas que formarán el modelo 3D de la retícula. Después de esto, se establece la propiedad \textit{visible} de este modelo a \textit{false} para hacerlo invisible hasta que nos interese, y se añade (esta vez sí) a la Escena de nuestra \ra. De esta manera, ya tendremos la figura cargada y preparada para ser mostrada cuando sea necesario, teniendo en cuenta que todavía no se ha solicitado iniciar la Sesión de \ra.
         
-        %% carga de figuras
+        En el momento en que el usuario pulse el botón, 
         %% ubicacion de las figuras
 
         \section{Cálculo de superficies, \textit{Hit Test Results}}
-        \label{sec:3.x}
+        \label{sec:3.2}
 
         \section{Animación de modelos}
-        \label{sec:3.y}
+        \label{sec:3.3}
         %% clock
         %% comentar también el evento onTouch
 
         \section{Sonido espacial}
-        \label{sec:3.z}
+        \label{sec:3.4}
         %% comentar tambien el evento onsessionend
 
         \section{Funcionamiento final de la Realidad Aumentada}
-        \label{sec:3.a}
+        \label{sec:3.5}
         %% 
         %% carga aleatoria de figuras
         %% sustitucion de reticula por figuras
