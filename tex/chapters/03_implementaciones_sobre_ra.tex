@@ -100,8 +100,76 @@
 
         \paragraph{}
         Una vez sabemos esto, y volviendo al código \ref{lst:3.1}, podemos ver que, en la línea 15, se está almacenando en el atributo privado \textit{reticle} del Controlador el grupo de mallas que formarán el modelo 3D de la retícula. Después de esto, se establece la propiedad \textit{visible} de este modelo a \textit{false} para hacerlo invisible hasta que nos interese, y se añade (esta vez sí) a la Escena de nuestra \ra. De esta manera, ya tendremos la figura cargada y preparada para ser mostrada cuando sea necesario, teniendo en cuenta que todavía no se ha solicitado iniciar la Sesión de \ra.
+
+        \paragraph{}
+        En el momento en que el usuario pulse el botón, con estos elementos pesados ya cargados o, como mínimo, en proceso de ser totalmente cargados, se comenzará a preparar desde la función \textit{startLoop} el bucle de la función \textit{callback loopFunction}, donde también se cargarán algunos elementos de \threejs a mayores de los que vimos en los códigos \ref{lst:2.4} y \ref{lst:2.5} de la sección \ref{sec:2.3}. Dado que este código puede quedar muy largo si se incluyen todos los elementos previamente vistos, todo lo que se haya explicado con anterioridad quedará resumido mediante un comentario de código:
+
+\begin{lstlisting}[language=JavaScript, caption={Carga de elementos de Three.js antes de lanzar el bucle.}, label={lst:3.2}]
+/** Opciones del renderizador de la RA. */
+#RENDEREROPTIONS = {
+    alpha: true
+};
+
+async startLoop() {
+    // Carga de Canvas y GL
+    // ...
+
+    // Carga de Renderer
+    this.#RENDEREROPTIONS.canvas = this.#canvas;
+    this.#RENDEREROPTIONS.context = this.#gl;
+    this.#renderer = new THREE.WebGLRenderer(this.#RENDEREROPTIONS);
+    this.#renderer.autoClear = false;
+
+    // Carga de Camera
+    this.#camera = new THREE.PerspectiveCamera();
+    this.#camera.matrixAutoUpdate = false;
+
+    // Carga de Session
+    // ...
+
+    // Carga de Reference space
+    this.#referenceSpace = await this.#session.requestReferenceSpace('local');
+
+    // ...
+
+    this.#session.requestAnimationFrame(this.#loopFunction);
+}
+\end{lstlisting}
+
+        Dentro de esta función, podemos ver que se están preparando tres objetos distintos, de los cuales dos de ellos son parte de la librería \threejs. En primer lugar, se prepara el Renderizador, que es el objeto que se encargará de convertir el modelo 3D en imágenes que se insertarán en cada uno de los fotogramas que se muestren por pantalla \cite{web:threejs_webglrenderer}. Es muy importante tener en cuenta que el Renderizador superpondrá las imágenes de los modelos en 3D sobre las imágenes captadas por la cámara sin tener en cuenta el ángulo o la posición. Será trabajo del sistema que desarrollemos hacer que concuerde la posición del modelo con la superficie sobre la que se vaya a colocar. Para entender esto, es mejor ver las imágenes por separado:
+
+        \begin{itemize}
+            \item Primero, mediante \webxr, captaremos las imágenes de la cámara del dispositivo. \webxr nos ofrecerá información que utilizaremos para calcular la pose en la que tendremos que colocar los modelos 3D. En el ejemplo de la figura \ref{fig:sample_ra_schema}, la imagen de la cámara correspondería con la fotografía de la izquierda.
+            \item Después, mediante \threejs, colocaremos el modelo 3D en la posición adecuada usando la información del punto anterior. Además, también tendremos que colocar la cámara virtual de manera que apunte al modelo en el ángulo adecuado. En el ejemplo, la figura estaría colocada de tal forma que coincida la distancia entre la cámara virtual y la tortuga y la distancia entre el suelo y el dispositivo móvil. También coincidirá el ángulo de incidencia de ambas cámaras para que parezca que se observa desde el mismo sitio al mismo punto.
+            \item Por último, se superpondrán las imágenes. \webxr colocará automáticamente la imagen de la cámara sobre la pantalla, y nuestro sistema renderizará al modelo en la posición adecuada usando la librería \threejs para que nosotros superpongamos la imagen renderizada sobre la imagen captada por el dispositivo. De esta manera, dará la impresión de que la figura se encuentra en dicho fotograma. Esta acción se realizará fotograma por fotograma.
+        \end{itemize}
+
+        \begin{figure}
+        \centering
+        \includegraphics[width=0.8\textwidth]{img/sample_ra_schema.png}
+        \caption{Ejemplo de superposición de imágenes en una \ra. La pose de la figura en 3D se calcula en relación con la imagen de la cámara para que su posición resulte fidedigna.}
+        \label{fig:sample_ra_schema}
+        \end{figure}
+
+        Teniendo esto en cuenta, es importante que la renderización de la figura se realice con un fondo transparente o \textit{alfa}: cuando solicitemos al renderizador que nos genere una imagen, tendremos que indicarle el tamaño que tendrá dicha imagen para que concuerde con el tamaño de la pantalla. Este, generalmente, coincidirá con el tamaño de la imagen que capte la cámara, por lo que tendremos dos imágenes con el mismo tamaño solapándose en pantalla. Si queremos que la superposición tenga algún efecto visual, lo ideal es que el fondo de la imagen superior tenga un fondo transparente de forma que, si lo colocamos sobre cualquier otra imagen (como es el caso), se pueda observar sin problema la imagen inferior alrededor de la superior, como en el ejemplo de la figura \ref{fig:tortuga_marina}.
         
-        En el momento en que el usuario pulse el botón, 
+        \paragraph{}
+        Todo esto se establece en el código \ref{lst:3.2}, a través de las opciones que se le indican al renderizador al ser inicializado en la línea 14. Antes de ser inicializado, se genera el objeto \textit{RENDEREROPTIONS} con elementos estáticos (fuera de la función) en la línea 2, donde se le indica que el fondo sea transparente a través de la propiedad de la línea 3. A mayores, dentro de la función se establecen otras propiedades que necesariamente se necesitan en tiempo de ejecución, como son en este caso los objetos \textit{canvas} y \textit{gl}, el contexto del \textit{canvas}, de los que ya tratamos previamente en la sección \ref{sec:2.2}. Esto se hace para que, al renderizar, se apliquen directamente los cambios sobre el \textit{canvas} que creamos para añadir los gráficos.
+
+        \paragraph{}
+        A continuación, se inicializa en la línea 17 la cámara virtual que utilizaremos durante la Sesión. A mayores de la propia inicialización, se le modifica el valor de una de sus propiedades en la línea siguiente: \textit{matrixAutoUpdate}. Esta propiedad heredada del objeto Object3D (objeto del que heredan también los objetos de Mallas anteriormente tratados), cuando se establece como verdadero, establece la posición, rotación y escala del elemento en cuestión en cuanto siente un cambio en estos, a ser posible en el fotograma en el que se realiza el cambio. Sin embargo, nosotros estableceremos el valor como false para poder indicar el fotograma exacto en el que queremos dicho cambio, evitando así que el sistema haga estos cambios en momentos inesperados.
+        
+        \paragraph{}
+        Por último, en la línea 24, se inicializa un objeto muy importante que, aunque no forme parte de la librería \threejs, es necesario explicarla. El espacio de referencia, o Reference Space, es una definición de los sistemas de coordenadas que serán utilizados, en nuestro caso, dentro de la propia Sesión de \ra \cite{web:webxr_referencespace}. Lo que esto quiere decir es que, a través de los sensores de movimiento del dispositivo móvil, el sistema traducirá (o intentará traducir) en todo momento la información recibida en datos de movimiento y posición del mismo, y utilizará esto para calcular en todo momento dónde está el punto en el espacio que ha calculado como referencia, o dicho de otro modo, la coordenada (0,0,0). Dicho de una manera resumida, el espacio de referencia es un sistema de coordenadas que tiene como punto 0 el lugar donde se inicia la Sesión, y el sistema mediante los sensores del dispositivo tratarán de calcular dónde está en todo momento el punto 0 y, a partir de este, tratarán de calcular las coordenadas del mismo dispositivo. Una vez sepa el dispositivo <<dónde está>>, será capaz de calcular también donde están otros objetos a los que se les ha dado también coordenadas en el espacio.
+
+        \paragraph{}
+        Será este espacio de referencia el que utilicemos para colocar objetos a nuestro alrededor y poder mantener la referencia de su ubicación y pose. Para ello, primero se define qué tipo de espacio de referencia se va a utilizar. La documentación de \webxr define varios tipos de espacios de referencia, pero recomienda concretamente \textit{local} para casos en los que el usuario no se vaya a alejar mucho del punto de origen y esté sentado (o cerca del suelo). En nuestro caso, no podemos saber si el usuario va a estar de pie o sentado, lo que podría suponer un debate entre usar \textit{local} o usar \textit{local-floor}, pero la misma documentación también nos indica que no existe una gran diferencia entre los dos tipos, al indicarnos que la diferencia sustancial entre ambos es que en el primero el punto 0 se genera cerca del punto donde estaba el dispositivo cuando se inició la Sesión y en el segundo se genera procurando acercar la coordenada \textit{y} cerca del suelo, lo que para este sistema no va a suponer una variación significativa. Por otro lado, la documentación sí establece las similitudes, al definir a ambos como los tipos de espacio de referencia en los que el usuario se mantendrá cerca del origen o se desplazarán a poca distancia del mismo, por lo que el sistema se optimizará para mantener con la mayor precisión posible el punto 0 y mantenerlo estable en relación a las variaciones de posición del mismo usuario.
+
+        \paragraph{}
+        Por último, y para terminar con los espacios de referencia, cabe mencionar que el espacio de referencia se solicita a través de una función del objeto que contiene nuestra Sesión. De esta manera, la librería facilita la comunicación del sistema con los detectores de posición y movimiento del móvil al devolver una interfaz que contiene toda la información necesaria. Esta llega a través de una promesa para los casos en que sea necesario recibir la interfaz de manera asíncrona. Sin embargo, en el momento en que se solicita, nuestro sistema está preparando el bucle de renderizado, el cual es un momento crítico donde muchos elementos tienen que estar preparados para que nada falle. Por lo tanto, se esperará a que esta promesa finalice y devuelva el espacio de referencia utilizando \textit{await}, de manera que el sistema no pase a la siguiente orden hasta que finalice la función \textit{requestReferenceSpace}. Una vez termine, podremos solicitar el primer fotograma a través de la función de la línea 28 explicada previamente en la sección \ref{sec:2.3}.
+
+        \paragraph{}
+        Una vez solicit
         %% ubicacion de las figuras
 
         \section{Cálculo de superficies, \textit{Hit Test Results}}
