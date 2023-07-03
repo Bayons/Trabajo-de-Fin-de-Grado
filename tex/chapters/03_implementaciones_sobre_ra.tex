@@ -67,7 +67,7 @@
 };
 \end{lstlisting}
 
-        Aquí ya podemos ver tres elementos de cierto peso que se están cargando previamente antes de iniciar la Sesión: la Escena, una instancia de \textit{GLTFLoader} y, desde una función de esta última, un modelo 3D al que llamaremos a partir de ahora, <<retícula>>, sencillamente porque es el nombre del modelo original alojado en la librería de modelos de ejemplo de \webxr en GitHub. Este modelo en 3D, que podemos ver en la figura \ref{fig:reticle} será el que utilicemos como base para el funcionamiento de esta aplicación, haciendo las veces de <<puntero>> más adelante, cuando queramos señalar un punto en el suelo para ubicar la figura humana que desarrollemos.
+        Aquí ya podemos ver tres elementos de cierto peso que se están cargando previamente antes de iniciar la Sesión: la Escena, una instancia de \textit{GLTFLoader} y, desde una función de esta última, un modelo 3D al que llamaremos a partir de ahora, <<retícula>>, sencillamente porque es el nombre del modelo original alojado en la librería de modelos de ejemplo de \webxr en GitHub. Este modelo en 3D, que podemos ver en la figura \ref{fig:reticle} será el que utilicemos como base para el funcionamiento de esta aplicación, haciendo las veces de <<puntero>> más adelante, cuando queramos señalar un punto en el suelo para ubicar el avatar que desarrollemos.
 
         \begin{figure}
         \centering
@@ -99,7 +99,7 @@
         Como se puede comprobar, son muchos los elementos que se cargan de un solo archivo, aparte del propio modelo en 3D. Esto se debe a que, como se verá más adelante, al diseñar un modelo en 3D se pueden añadir distintas propiedades preestablecidas. Más adelante, en la sección \ref{sec:3.3}, veremos como, desde el mismo archivo del modelo, podremos acceder también a las animaciones predefinidas que se encuentren contenidas en este. Sin embargo, durante este diseño también se pueden preestablecer otros elementos y guardarlos en el mismo archivo como iluminaciones y cámaras virtuales.
 
         \paragraph{}
-        Una vez sabemos esto, y volviendo al código \ref{lst:3.1}, podemos ver que, en la línea 15, se está almacenando en el atributo privado \textit{reticle} del Controlador el grupo de mallas que formarán el modelo 3D de la retícula. Después de esto, se establece la propiedad \textit{visible} de este modelo a \textit{false} para hacerlo invisible hasta que nos interese, y se añade (esta vez sí) a la Escena de nuestra \ra. De esta manera, ya tendremos la figura cargada y preparada para ser mostrada cuando sea necesario, teniendo en cuenta que todavía no se ha solicitado iniciar la Sesión de \ra.
+        Una vez sabemos esto, y volviendo al código \ref{lst:3.1}, podemos ver que, en la línea 15, se está almacenando en el atributo privado \textit{reticle} del Controlador el grupo de mallas que formarán el modelo 3D de la retícula. Después de esto, se establece la propiedad \textit{visible} de este modelo a \textit{false} para hacerlo invisible hasta que nos interese, y se añade (esta vez sí) a la Escena de nuestra \ra. De esta manera, la figura se estará cargando desde un inicio para ser mostrada en cuanto esté preparada, teniendo en cuenta que todavía no se ha solicitado iniciar la Sesión de \ra.
 
         \paragraph{}
         En el momento en que el usuario pulse el botón, con estos elementos pesados ya cargados o, como mínimo, en proceso de ser totalmente cargados, se comenzará a preparar desde la función \textit{startLoop} el bucle de la función \textit{callback loopFunction}, donde también se cargarán algunos elementos de \threejs a mayores de los que vimos en los códigos \ref{lst:2.4} y \ref{lst:2.5} de la sección \ref{sec:2.3}. Dado que este código puede quedar muy largo si se incluyen todos los elementos previamente vistos, todo lo que se haya explicado con anterioridad quedará resumido mediante un comentario de código:
@@ -139,9 +139,9 @@ async startLoop() {
         Dentro de esta función, podemos ver que se están preparando tres objetos distintos, de los cuales dos de ellos son parte de la librería \threejs. En primer lugar, se prepara el Renderizador, que es el objeto que se encargará de convertir el modelo 3D en imágenes que se insertarán en cada uno de los fotogramas que se muestren por pantalla \cite{web:threejs_webglrenderer}. Es muy importante tener en cuenta que el Renderizador superpondrá las imágenes de los modelos en 3D sobre las imágenes captadas por la cámara sin tener en cuenta el ángulo o la posición. Será trabajo del sistema que desarrollemos hacer que concuerde la posición del modelo con la superficie sobre la que se vaya a colocar. Para entender esto, es mejor ver las imágenes por separado:
 
         \begin{itemize}
-            \item Primero, mediante \webxr, captaremos las imágenes de la cámara del dispositivo. \webxr nos ofrecerá información que utilizaremos para calcular la pose en la que tendremos que colocar los modelos 3D. En el ejemplo de la figura \ref{fig:sample_ra_schema}, la imagen de la cámara correspondería con la fotografía de la izquierda.
+            \item Primero, mediante \webxr, captaremos las imágenes de la cámara del dispositivo. \webxr también nos ofrecerá información que utilizaremos para calcular la pose en la que tendremos que colocar los modelos 3D. En el ejemplo de la figura \ref{fig:sample_ra_schema}, la imagen de la cámara correspondería con la fotografía de la izquierda.
             \item Después, mediante \threejs, colocaremos el modelo 3D en la posición adecuada usando la información del punto anterior. Además, también tendremos que colocar la cámara virtual de manera que apunte al modelo en el ángulo adecuado. En el ejemplo, la figura estaría colocada de tal forma que coincida la distancia entre la cámara virtual y la tortuga y la distancia entre el suelo y el dispositivo móvil. También coincidirá el ángulo de incidencia de ambas cámaras para que parezca que se observa desde el mismo sitio al mismo punto.
-            \item Por último, se superpondrán las imágenes. \webxr colocará automáticamente la imagen de la cámara sobre la pantalla, y nuestro sistema renderizará al modelo en la posición adecuada usando la librería \threejs para que nosotros superpongamos la imagen renderizada sobre la imagen captada por el dispositivo. De esta manera, dará la impresión de que la figura se encuentra en dicho fotograma. Esta acción se realizará fotograma por fotograma.
+            \item Por último, se superpondrán las imágenes. Primero se colocará la imagen de la cámara sobre la pantalla, y nuestro sistema renderizará al modelo en la posición adecuada usando la librería \threejs para que nosotros superpongamos la imagen renderizada sobre la imagen captada por el dispositivo. De esta manera, dará la impresión de que la figura se encuentra en dicho fotograma. Esta acción se realizará fotograma por fotograma.
         \end{itemize}
 
         \begin{figure}
@@ -154,7 +154,7 @@ async startLoop() {
         Teniendo esto en cuenta, es importante que la renderización de la figura se realice con un fondo transparente o \textit{alfa}: cuando solicitemos al renderizador que nos genere una imagen, tendremos que indicarle el tamaño que tendrá dicha imagen para que concuerde con el tamaño de la pantalla. Este, generalmente, coincidirá con el tamaño de la imagen que capte la cámara, por lo que tendremos dos imágenes con el mismo tamaño solapándose en pantalla. Si queremos que la superposición tenga algún efecto visual, lo ideal es que el fondo de la imagen superior tenga un fondo transparente de forma que, si lo colocamos sobre cualquier otra imagen (como es el caso), se pueda observar sin problema la imagen inferior alrededor de la superior, como en el ejemplo de la figura \ref{fig:tortuga_marina}.
         
         \paragraph{}
-        Todo esto se establece en el código \ref{lst:3.2}, a través de las opciones que se le indican al renderizador al ser inicializado en la línea 14. Antes de ser inicializado, se genera el objeto \textit{RENDEREROPTIONS} con elementos estáticos (fuera de la función) en la línea 2, donde se le indica que el fondo sea transparente a través de la propiedad de la línea 3. A mayores, dentro de la función se establecen otras propiedades que necesariamente se necesitan en tiempo de ejecución, como son en este caso los objetos \textit{canvas} y \textit{gl}, el contexto del \textit{canvas}, de los que ya tratamos previamente en la sección \ref{sec:2.2}. Esto se hace para que, al renderizar, se apliquen directamente los cambios sobre el \textit{canvas} que creamos para añadir los gráficos.
+        Parte de esta información se establece en el código \ref{lst:3.2}, a través de las opciones que se le indican al renderizador al ser inicializado en la línea 14. Antes de ser inicializado, se genera el objeto \textit{RENDEREROPTIONS} con elementos estáticos (fuera de la función) en la línea 2, donde se le indica que el fondo sea transparente a través de la propiedad de la línea 3. A mayores, dentro de la función se establecen otras propiedades que necesariamente se necesitan en tiempo de ejecución, como son en este caso los objetos \textit{canvas} y \textit{gl} (el contexto del \textit{canvas}), de los que ya tratamos previamente en la sección \ref{sec:2.2}. Esto se hace para que, al renderizar, se apliquen directamente los cambios sobre el \textit{canvas} que creamos para añadir los gráficos.
 
         \paragraph{}
         A continuación, se inicializa en la línea 17 la cámara virtual que utilizaremos durante la Sesión. A mayores de la propia inicialización, se le modifica el valor de una de sus propiedades en la línea siguiente: \textit{matrixAutoUpdate}. Esta propiedad heredada del objeto Object3D (objeto del que heredan también los objetos de Mallas anteriormente tratados), cuando se establece como verdadero, establece la posición, rotación y escala del elemento en cuestión en cuanto siente un cambio en estos, a ser posible en el fotograma en el que se realiza el cambio. Sin embargo, nosotros estableceremos el valor como false para poder indicar el fotograma exacto en el que queremos dicho cambio, evitando así que el sistema haga estos cambios en momentos inesperados.
@@ -169,7 +169,41 @@ async startLoop() {
         Por último, y para terminar con los espacios de referencia, cabe mencionar que el espacio de referencia se solicita a través de una función del objeto que contiene nuestra Sesión. De esta manera, la librería facilita la comunicación del sistema con los detectores de posición y movimiento del móvil al devolver una interfaz que contiene toda la información necesaria. Esta llega a través de una promesa para los casos en que sea necesario recibir la interfaz de manera asíncrona. Sin embargo, en el momento en que se solicita, nuestro sistema está preparando el bucle de renderizado, el cual es un momento crítico donde muchos elementos tienen que estar preparados para que nada falle. Por lo tanto, se esperará a que esta promesa finalice y devuelva el espacio de referencia utilizando \textit{await}, de manera que el sistema no pase a la siguiente orden hasta que finalice la función \textit{requestReferenceSpace}. Una vez termine, podremos solicitar el primer fotograma a través de la función de la línea 28 explicada previamente en la sección \ref{sec:2.3}.
 
         \paragraph{}
-        Una vez solicit
+        Una vez solicitado el primer fotograma, se comenzará a ejecutar la función \textit{callback} para procesado de fotogramas en bucle, hasta que el usuario decida pararlo. En esta función, las acciones que realizaremos relacionadas con la librería \threejs estarán orientadas al posicionamiento de los modelos en 3D que mostremos usando \ra y a su renderizado. Como se hizo antes, se dejará comentado el código ya visto para evitar que quede demasiado extenso:
+
+        \begin{lstlisting}[language=JavaScript, caption={Uso de la librería Three.js durante el bucle de renderizado.}, label={lst:3.3}]
+#loopFunction = (time, frame) => {
+    // ...
+    
+    // Solicitud de siguiente fotograma y enlazado de imagen de camara con modelo
+    // ...
+    
+    // Calculo de posicion del usuario
+    const pose = frame.getViewerPose(this.#referenceSpace);
+    if (pose) {
+        const view = pose.views[0];
+        
+        // Establecimiento de las proporciones de las imagenes renderizadas
+        const viewport = this.#session.renderState.baseLayer.getViewport(view);
+        this.#renderer.setSize(viewport.width, viewport.height);
+        // ...
+        
+        // Posicion virtual del usuario para la vista
+        this.#camera.matrix.fromArray(view.transform.matrix);
+        this.#camera.projectionMatrix.fromArray(view.projectionMatrix);
+        this.#camera.updateMatrixWorld(true);
+        // ...
+
+        // Posicion de la reticula
+        this.#reticle.position.set(0.0, 0.0, 0.0); // stub
+        this.#reticle.updateMatrixWorld(true);
+        // ...
+        
+        // Aplica las imagenes
+        this.#renderer.render(this.#scene, this.#camera);
+    }
+};
+\end{lstlisting}
         %% ubicacion de las figuras
 
         \section{Cálculo de superficies, \textit{Hit Test Results}}
