@@ -204,7 +204,30 @@ async startLoop() {
     }
 };
 \end{lstlisting}
-        %% ubicacion de las figuras
+
+        En el bucle, utilizaremos el objeto \textit{frame} descrito por primera vez en la sección \ref{sec:2.3} para obtener datos del dispositivo que nos servirán para calcular cómo se debe renderizar la figura 3D. En primer lugar, debemos conseguir la \textit{pose} del móvil, que es la posición y orientación de este mismo. Para esto, es necesario utilizar el espacio de referencia que creamos en el código \ref{lst:3.2}, y se obtendrá mediante la función \textit{getViewerPose} de la clase \textit{XRFrame} (lo que es nuestro objeto \textit{frame}) utilizada en la línea 8. Esta función nos devolverá un objeto de la clase \textit{XRViewerPose} \cite{web:mozilla_xrviewerpose}, que representa la posición y orientación de la vista del espectador dependiendo del tipo de sesión que esté utilizando. En caso de que el usuario haya iniciado una sesión de \rv, el objeto generará dos posiciones distintas, una por cada ojo, para que por cada vista se pueda realizar la renderización correcta y la sensación de tridimensionalidad sea buena. En cambio, la sesión de \ra solo tiene un <<ojo>>, que es el objetivo de la cámara, por lo que la posición que devuelve tiene que representar la posición de este objetivo.
+
+        \paragraph{}
+        Una vez tenemos esto, procedemos a utilizar su información. En la línea 9 nos aseguramos de que la función \textit{getViewerPose} nos haya devuelto el objeto. Si es así, podremos obtener de él el objeto \textit{XRView} \cite{web:mozilla_xrview}, que contendrá la posición y orientación de nuestro objetivo, lo que nos permitirá calcular su <<punto de vista>>: qué puede ver, desde qué ángulo lo ve, a qué distancia lo ve, etc. Además, en la línea 13, solicitaremos a la sesión que nos dé la información sobre la proporción de imagen que debemos utilizar. La función usada (\textit{getViewport}), recibe la vista porque, en los casos de sesiones de \rv, cada vista devolverá información distinta: el objeto \textit{XRViewport} contiene el ancho y el alto de la imagen que se generará, así como la posición de esta (punto \textit{x} y punto \textit{y} en la pantalla). Esto es porque, en las sesiones de \ra en los dispositivos móviles, a diferencia de la tecnología 3D utilizada en cines, se separa la vista de cada ojo en cada mitad de la pantalla del móvil para utilizar gafas de tipo \textit{Google Cardboard}, que son lentes muy sencillas que aislan a cada ojo de la imagen que debe ver el otro y que, además, aumentan la imagen para que sea natural al ojo humano. Dado que este no será el caso, solo nos interesará el ancho y el alto de la imagen proporcionados por el \textit{viewport} para utilizarlo en el renderizador de \threejs, de manera que todas las imágenes que se generen tengan las mismas proporciones. Esto se lo explicitaremos en la línea 14 utilizando la función \textit{setSize} sobre el objeto \textit{renderer} que se inicializó en el código \ref{lst:3.2}.
+
+\begin{figure}
+\centering
+\includegraphics[width=0.5\textwidth]{img/google_cardboard.jpg}
+\caption{Ejemplo de uso de las \textit{Google Cardboard} para visualizar contenido en \rv. Imagen extraída de A Principal's Reflections (Blogspot).}
+\label{fig:google_cardboard}
+\end{figure}
+
+        \paragraph{}
+        A continuación, se establecen las propiedades de la cámara virtual: mediante la función usada en la línea 18, se establece la posición del objetivo, así como su orientación; en la línea 19 se establecerán las coordenadas de proyección, que serán las que establezcan cuánto y cómo reducirán su tamaño las figuras en relación a la distancia a la que estén, y en la línea 20 se fuerza a la cámara a actualizar estos cambios, de manera que los tengamos en cuando se genere la próxima renderización con el objeto \textit{renderer} al final de la función.
+
+        \paragraph{}
+        Por último, en la línea 24, se establece la posición de la figura. En este caso, como ejemplo, se establece la posición en $(0, 0, 0)$, de manera que, si se iniciara la sesión con esta configuración, la figura estaría estática en el aire, muy cercana al punto donde se encontraba el móvil cuando se inició la sesión. En la siguiente sección, se realizará la configuración para que la retícula se encuentre siempre en el suelo y funcione como <<puntero>> para saber dónde se ubicarán otras figuras. Una vez establecidos los datos de esta figura, también actualizaremos sus datos usando la función \textit{updateMatrixWorld}.
+
+        \paragraph{}
+        Para finalizar el procesado y juntar la parte \textit{real} con la \textit{virtual}, simplemente será necesario pedirle al \textit{renderer} que renderice las figuras para que esta, de manera automática al contener la referencia al canvas y a su contexto desde su inicialización en el código \ref{lst:3.2}, las añada, finalizando así la formación del fotograma con nuestra figura añadida.
+
+        \paragraph{}
+        Ahora, hasta este punto, el comportamiento debería ser el siguiente: el usuario entraría en la página, pulsaría el botón de iniciar sesión de \ra y se mostraría la imagen obtenida por cámara. Cuando el sistema termine de cargar la retícula, esta se mostrará de manera fija en el espacio, muy cercano al punto donde el usuario inició la sesión. Con esto ya montado, es el momento de aumentar la funcionalidad, comenzando por el cálculo de superficies.
 
         \section{Cálculo de superficies, \textit{Hit Test Results}}
         \label{sec:3.2}
