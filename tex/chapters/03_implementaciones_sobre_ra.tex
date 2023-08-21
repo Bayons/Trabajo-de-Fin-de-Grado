@@ -74,7 +74,7 @@
         \fbox{
         \includegraphics[width=0.6\textwidth]{img/reticle.png}
         }
-        \caption{Muestra de la Retícula utilizada en esta aplicación. Modelo obtenido del repositorio \textit{webxr} del perfil de \textit{Immersive Web at W3C}, en GitHub.}
+        \caption{Muestra de la retícula utilizada en esta aplicación. Modelo obtenido del repositorio \textit{webxr} del perfil de \textit{Immersive Web at W3C}, en GitHub.}
         \label{fig:reticle}
         \end{figure}
 
@@ -231,6 +231,26 @@ async startLoop() {
 
         \section{Cálculo de superficies, \textit{Hit Test Results}}
         \label{sec:3.2}
+        La siguiente característica a desarrollar es la capacidad del usuario para ubicar el avatar en el lugar que desee, estando siempre encima de una superficie, de manera que dé la sensación de estar esta reposando sobre el plano que hayamos seleccionado. Para ello se utilizará las herramientas proporcionadas por \webxr en conjunto con \threejs para poder encontrar superficies y apuntar hacia estas.
+
+        \paragraph{}
+        En este punto, será de gran importancia la retícula, la figura que se ha estado usando como ejemplo de modelo 3D para la carga y la inserción en este sistema de \ra. Esta figura se utilizará como puntero para que el usuario sepa en todo momento hacia dónde está apuntando, situándose esta en el punto de la superficie que se muestre exactamente en el centro de la pantalla. Para encontrar las coordenadas de dicho punto en la superficie, se utiliza \hittest.
+
+\begin{figure}
+\centering
+\includegraphics[width=0.25\textwidth]{img/hit-test-example.jpg}
+\caption{\hittest devuelve la posición  de la superficie que se encuentre en el centro de la pantalla.}
+\label{fig:hit-test-example}
+\end{figure}
+
+        \paragraph{}
+        \hittest es una técnica que consiste en encontrar intersecciones entre superficies de objetos 3D y un rayo imaginario que, en el caso de esta aplicación, surgirá desde el dispositivo móvil. En el caso de los sistemas que utilizan \rv, el cálculo se realiza teniendo en cuenta que se conocen previamente los objetos que generarán las intersecciones, pero a la hora de utilizar \ra, este proceso resulta algo más complejo, al ser necesario encontrar la forma que tienen los objetos de nuestro alrededor para poder realizar los cálculos. Afortunadamente, la interfaz \webxr cuenta con las herramientas adecuadas para hacer estos cálculos internamente, de forma que los desarrolladores solo tengan que ocuparse de tratar la información que devuelvan los resultados del \hittest.
+
+        \paragraph{}
+        Es importante tener en cuenta que los resultados del \hittest pueden depender de la calidad de los sensores y cámaras del dispositivo. Además, la experiencia puede variar en diferentes entornos y condiciones de iluminación, por lo que las coordenadas obtenidas a través de esta técnica puede variar ampliamente dependiendo de cada casuística.
+
+        \paragraph{}
+        Conociendo ya esto, vamos a su aplicación en el sistema desarrollado. Para comenzar, es necesario indicar a la Sesión, cuando esta sea creada, que se va a utilizar las opciones de \hittest y que se requerirá cargar los objetos necesarios en dicha Sesión. Para ello, se utiliza el objeto \textit{SESSIONOPTIONS} que contiene información sobre cómo deberá ser la Sesión creada. En este caso, como ya se mostró anteriormente en el código \ref{lst:2.4}, la opción a indicar es \textit{requiredFeature}, y dentro de esta indicaremos mediante String que queremos que la sesión use \textit{hit-test}.
 
         \section{Animación de modelos}
         \label{sec:3.3}
