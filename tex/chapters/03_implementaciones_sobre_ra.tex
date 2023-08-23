@@ -250,8 +250,38 @@ async startLoop() {
         Es importante tener en cuenta que los resultados del \hittest pueden depender de la calidad de los sensores y cámaras del dispositivo. Además, la experiencia puede variar en diferentes entornos y condiciones de iluminación, por lo que las coordenadas obtenidas a través de esta técnica puede variar ampliamente dependiendo de cada casuística.
 
         \paragraph{}
-        Conociendo ya esto, vamos a su aplicación en el sistema desarrollado. Para comenzar, es necesario indicar a la Sesión, cuando esta sea creada, que se va a utilizar las opciones de \hittest y que se requerirá cargar los objetos necesarios en dicha Sesión. Para ello, se utiliza el objeto \textit{SESSIONOPTIONS} que contiene información sobre cómo deberá ser la Sesión creada. En este caso, como ya se mostró anteriormente en el código \ref{lst:2.4}, la opción a indicar es \textit{requiredFeature}, y dentro de esta indicaremos mediante String que queremos que la sesión use \textit{hit-test}.
+        Conociendo ya esto, vamos a su aplicación en el sistema desarrollado. Para comenzar, es necesario indicar a la Sesión, cuando esta esté siendo creada, que se va a utilizar las opciones de \hittest y que se requerirá cargar la configuración necesaria para su utilización. Para ello, se utiliza el objeto \textit{SESSIONOPTIONS} que contiene información sobre cómo deberá ser la Sesión creada. En este caso, como ya se mostró anteriormente en el código \ref{lst:2.4}, la opción a indicar es \textit{requiredFeature}, y dentro de esta indicaremos mediante String que queremos que la sesión use \textit{'hit-test'}.
 
+        \paragraph{}
+        Después de esto, dentro de la función \textit{startLoop}, tendremos que obtener un espacio de referencia que pueda utilizar el sistema para poder calcular las intersecciones. En este caso, se utilizará un espacio de referencia de tipo \textit{viewer} \cite{web:webxr_referencespace}, ya que es un espacio de referencia centrado en ubicar el suelo. Con esto, podemos solicitar a la sesión que nos ofrezca un \hittestsource. El \hittestsource nos permitirá, cuando nos encontremos en el bucle, encontrar en nuestro espacio de referencia las coordenadas del punto de la superficie al que apuntamos con la cámara, tal y como se hace en la imagen \ref{fig:hit-test-example} \cite{web:mozilla_xrhittestsource}. En el código \ref{lst:3.4}, en la línea 18, justo después de la solicitud del espacio de referencia que va a utilizar y junto al otro espacio de referencia utilizado por la aplilcación, se muestra la solicitud de dicho objeto, que se realiza a través de una llamada asíncrona, razón por la cual se utiliza el comando \textit{await}.
+
+\begin{lstlisting}[language=JavaScript, float, caption={Solicitud de Hit Test Source a la Sesión.}, label={lst:3.4}]
+async startLoop() {
+
+    // ...
+
+    // Session
+    this.#session = await navigator.xr.requestSession("immersive-ar", this.#SESSIONOPTIONS);
+    this.#session.updateRenderState({
+        baseLayer: new XRWebGLLayer(this.#session, this.#gl)
+    });
+
+    // Reference space
+    this.#referenceSpace = await this.#session.requestReferenceSpace('local');
+
+    // Viewer space
+    this.#viewerSpace = await this.#session.requestReferenceSpace('viewer');
+
+    // Hit test source
+    this.#hitTestSource = await this.#session.requestHitTestSource({ space: this.#viewerSpace });
+
+    //...
+    
+}
+\end{lstlisting}
+        
+        Antes de terminar con la función \textit{startLoop}, prepararemos un evento que servirá para aplicar la funcionalidad de la aplicación que funciona gracias a \hittest. Como vemos en el código XXXX en la línea XXXX, mediante la función \textit{addEventListener} de la Sesión, %% TODO continuar
+        
         \section{Animación de modelos}
         \label{sec:3.3}
         %% clock
