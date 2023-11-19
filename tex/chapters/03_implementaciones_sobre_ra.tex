@@ -196,7 +196,7 @@ async startLoop() {
 
         // Posicion de la reticula
         this.#reticle.position.set(0.0, 0.0, 0.0); // stub
-        this.#reticle.updateMatrixWorld(true);
+        this.#reticle.updateMatrixWorld(true); // stub
         // ...
         
         // Aplica las imagenes
@@ -285,9 +285,9 @@ async startLoop() {
 }
 \end{lstlisting}
 
-        Antes de terminar con la función \textit{startLoop}, prepararemos un evento que servirá para aplicar la funcionalidad de la aplicación que funciona gracias a \hittest. Como vemos en el código \ref{lst:3.4} en la línea 22, mediante la función \textit{addEventListener} de la Sesión, solicitaremos que se fije un evento de tipo \textit{<<select>>}, lo que significa que cada vez que se pulse la pantalla con la sesión iniciada, se lanzará la función de tipo \textit{callback} especificada en el segundo parámetro llamada \textit{onTouchEvent}. Concretamente, como respuesta a este evento, el sistema lanzará el siguiente código:
+        Antes de terminar con la función \textit{startLoop}, prepararemos un evento que servirá para aplicar la funcionalidad de la aplicación que funciona gracias a \hittest. Como vemos en la línea 22 del código \ref{lst:3.4}, mediante la función \textit{addEventListener} de la Sesión, solicitaremos que se fije un evento de tipo \textit{<<select>>}, lo que significa que cada vez que se pulse la pantalla con la sesión iniciada, se lanzará la función de tipo \textit{callback} especificada en el segundo parámetro llamada \textit{onTouchEvent}. Concretamente, como respuesta a este evento, el sistema lanzará el siguiente código:
 
-\begin{lstlisting}[language=JavaScript, caption={Respueseta al evento de tipo <<select>>.}, label={lst:3.5}]
+\begin{lstlisting}[language=JavaScript, caption={Respuesta al evento de tipo <<select>>.}, label={lst:3.5}]
 #onTouchEvent = (event) => {
     if (this.#model) {
         this.#scene.remove(this.#model)
@@ -300,15 +300,49 @@ async startLoop() {
 \end{lstlisting}
 
         \paragraph{}
-        En el código \ref{lst:3.5}, %% TODO explicar el codigo del evento (se ejecutara mientras el bucle esta ejecutandose)
+        En el código \ref{lst:3.5}, lanzado cada vez que el usuario toca la pantalla, eliminaremos del escenario la retícula mediante la línea 3. A efectos prácticos, esto significa que la retícula desaparecerá por completo de nuestra \ra, siendo imposible volver a encontrarla. Sin embargo, esto solo ocurrirá si se cumple la condición de la línea 2, que comprueba si se ha cargado la variable \textit{model}. Esta variable contiene otra figura 3D, que en este caso es el modelo de nuestro asistente virtual. Esta se comenzará a cargar a la vez que la retícula, pero debido a que este modelo 3D pesa mucho más y su carga se realiza de manera asíncrona, es necesario comprobar que se ha terminado de cargar antes de utilizarlo. Por esta razón, se lanza la comprobación de la línea 2: debido a que \js interpreta las variables vacías como \textit{false} y cualquier contenido (no booleano) como \textit{true} \cite{web:mozilla_booleanevaluation}, al leer esa condición, el sistema solo pasará por el condicional si la variable ha sido cargada. Esta carga asíncrona se realiza en la función \textit{checkSessionSupported()} y se explicará con más detalle en la sección \ref{sec:3.5}.
+        
+        \paragraph{}
+        Una vez se evalúa afirmativamente la condición de la línea 2, como ya se ha dicho, se quitará la retícula del escenario. Pero para continuar con la funcionalidad de la aplicación, se procede también con las otras dos líneas: nuestra aplicación debe mostrar el modelo cargado en la variable \textit{model} en el mismo punto exacto en el que se encontraba la retícula en el momento en que el usuario pulsó sobre la pantalla, por lo que el asistente virtual deberá tener exactamente la misma que la retícula con respecto a la posición. Para eso, se usa la función de la línea 4, que se encarga de copiar completamente dicha información. Por último, como queremos que aparezca el asistente virtual en nuestra pantalla, utilizaremos la función de la línea 5 para que esta sea añadida a la escena y, por tanto, el sistema se encargue de renderizarlo en pantalla. Esta es la manera en que intercambiaremos un modelo por otro.
+        
         %% TODO explicar la parte del hit test del bucle
+        \paragraph{}
+        Una vez obtenido todo lo necesario para iniciar nuestro \hittestsource, comenzaremos con la implementación en el bucle de la función \textit{loopFunction}. En el código \ref{lst:3.3}, se sustituyó contenido del script original por las líneas 24 y 25 para poder explicar mejor su funcionamiento, pero ahora que se ha explicado lo necesario para llegar a esto, mostraremos en el código \ref{lst:3.6} el contenido que originalmente va en esas líneas:
+
+\begin{lstlisting}[language=JavaScript, caption={Obtención de valores captados a través del Hit Test Source.}, label={lst:3.6}]
+// ...
+// Calculo de superficies
+const hitTestResults = frame.getHitTestResults(this.#hitTestSource);
+if (hitTestResults.length > 0 && this.#reticle) {
+
+    const hitPose = hitTestResults[0].getPose(this.#referenceSpace);
+    
+    // muestra la reticula solo si esta cargado el modelo y no esta hablando
+    if (this.#model && !this.#clipAction.isRunning())
+        this.#reticle.visible = true;
+    else
+        this.#reticle.visible = false;
+    
+    this.#reticle.position.set(hitPose.transform.position.x, hitPose.transform.position.y, hitPose.transform.position.z)
+    this.#reticle.updateMatrixWorld(true);
+    
+}
+// ...
+\end{lstlisting}
+
+        \paragraph{}
+        En primer lugar, en la línea 3, se solicita al objeto \textit{frame} que devuelva el resultado de los cálculos usando el \hittestsource mediante la función \textit{getHitTestResults}. Los resultados serán unas coordenadas que indicarán la posición aproximada del punto de la superficie a la que se esté apuntando con la cámara del dispositivo. Una vez realizada esta función, se comprueba si ha devuelto algún valor mediante la condición de la línea 4. Esto se hace porque es posible que comience el bucle pero el sistema todavía no haya captado correctamente el sistema de referencia y, por tanto, todavía no pueda obtener resultados de superficies. Además, al igual que se hizo en el código \ref{lst:3.5}, también se comprueba que se haya terminado de cargar la retícula para poder mostrarla en pantalla. Si ambas condiciones se dan, se pasa a dar a la retícula sus coordenadas: en la línea 6 se obtiene, del objeto <<resultados>>, las coordenadas que queremos asignar a cualquier modelo tridimensional a través de la función \textit{getPose}. En las líneas 9 y 11 se establecen las condiciones que indicarán si la retícula es o no visible durante la sesión del usuario y, finalmente, a través de la función de la línea 14, se establece la posición de la retícula cogiendo las coordenadas recibidas anteriormente del objeto <<resultados>>. Esta acción se realizará en cada iteración para asegurar que la retícula aparece siempre en la posición hacia la que está apuntando el usuario.
+
+        \paragraph{}
+        Con todo esto, el usuario ya podría ubicar objetos en superficies del mundo real a través de la \ra. El siguiente punto será animar dichos objetos.
         
         \section{Animación de modelos}
         \label{sec:3.3}
         %% carga de modelos
+        %% carga aleatoria hombre/mujer
         %% carga de animaciones
         %% clock
-        %% comentar también el evento onTouch
+        %% comentar también el evento onTouch -> lanzar animacion, relanzar animacion, ubicar modelo 
 
         \section{Sonido espacial}
         \label{sec:3.4}
@@ -316,7 +350,7 @@ async startLoop() {
 
         \section{Funcionamiento final de la Realidad Aumentada}
         \label{sec:3.5}
-        %% 
+        %% mencionado en 3.2
         %% carga aleatoria de figuras
         %% sustitucion de reticula por figuras
 
