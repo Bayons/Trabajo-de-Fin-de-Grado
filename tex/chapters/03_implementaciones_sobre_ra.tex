@@ -300,10 +300,10 @@ async startLoop() {
 \end{lstlisting}
 
         \paragraph{}
-        En el código \ref{lst:3.5}, lanzado cada vez que el usuario toca la pantalla, eliminaremos del escenario la retícula mediante la línea 3. A efectos prácticos, esto significa que la retícula desaparecerá por completo de nuestra \ra, siendo imposible volver a encontrarla. Sin embargo, esto solo ocurrirá si se cumple la condición de la línea 2, que comprueba si se ha cargado la variable \textit{model}. Esta variable contiene otra figura 3D, que en este caso es el modelo de nuestro asistente virtual. Esta se comenzará a cargar a la vez que la retícula, pero debido a que este modelo 3D pesa mucho más y su carga se realiza de manera asíncrona, es necesario comprobar que se ha terminado de cargar antes de utilizarlo. Por esta razón, se lanza la comprobación de la línea 2: debido a que \js interpreta las variables vacías como \textit{false} y cualquier contenido (no booleano) como \textit{true} \cite{web:mozilla_booleanevaluation}, al leer esa condición, el sistema solo pasará por el condicional si la variable ha sido cargada. Esta carga asíncrona se realiza en la función \textit{checkSessionSupported()} y se explicará con más detalle en la sección \ref{sec:3.5}.
+        En el código \ref{lst:3.5}, lanzado cada vez que el usuario toca la pantalla, eliminaremos del Escenario la retícula mediante la línea 3. A efectos prácticos, esto significa que la retícula desaparecerá por completo de nuestra \ra, siendo imposible volver a encontrarla. Sin embargo, esto solo ocurrirá si se cumple la condición de la línea 2, que comprueba si se ha cargado la variable \textit{model}. Esta variable contiene otra figura 3D, que en este caso es el modelo de nuestro asistente virtual. Esta se comenzará a cargar a la vez que la retícula, pero debido a que este modelo 3D pesa mucho más y su carga se realiza de manera asíncrona, es necesario comprobar que se ha terminado de cargar antes de utilizarlo. Por esta razón, se lanza la comprobación de la línea 2: debido a que \js interpreta las variables vacías como \textit{false} y cualquier contenido (no booleano) como \textit{true} \cite{web:mozilla_booleanevaluation}, al leer esa condición, el sistema solo pasará por el condicional si la variable ha sido cargada. Esta carga asíncrona se realiza en la función \textit{checkSessionSupported()} y se explicará con más detalle en la sección \ref{sec:3.2}.
         
         \paragraph{}
-        Una vez se evalúa afirmativamente la condición de la línea 2, como ya se ha dicho, se quitará la retícula del escenario. Pero para continuar con la funcionalidad de la aplicación, se procede también con las otras dos líneas: nuestra aplicación debe mostrar el modelo cargado en la variable \textit{model} en el mismo punto exacto en el que se encontraba la retícula en el momento en que el usuario pulsó sobre la pantalla, por lo que el asistente virtual deberá tener exactamente la misma que la retícula con respecto a la posición. Para eso, se usa la función de la línea 4, que se encarga de copiar completamente dicha información. Por último, como queremos que aparezca el asistente virtual en nuestra pantalla, utilizaremos la función de la línea 5 para que esta sea añadida a la escena y, por tanto, el sistema se encargue de renderizarlo en pantalla. Esta es la manera en que intercambiaremos un modelo por otro.
+        Una vez se evalúa afirmativamente la condición de la línea 2, como ya se ha dicho, se quitará la retícula del Escenario. Pero para continuar con la funcionalidad de la aplicación, se procede también con las otras dos líneas: nuestra aplicación debe mostrar el modelo cargado en la variable \textit{model} en el mismo punto exacto en el que se encontraba la retícula en el momento en que el usuario pulsó sobre la pantalla, por lo que el asistente virtual deberá tener exactamente la misma que la retícula con respecto a la posición. Para eso, se usa la función de la línea 4, que se encarga de copiar completamente dicha información. Por último, como queremos que aparezca el asistente virtual en nuestra pantalla, utilizaremos la función de la línea 5 para que esta sea añadida a la Escena y, por tanto, el sistema se encargue de renderizarlo en pantalla. Esta es la manera en que intercambiaremos un modelo por otro.
         
         %% TODO explicar la parte del hit test del bucle
         \paragraph{}
@@ -335,13 +335,69 @@ if (hitTestResults.length > 0 && this.#reticle) {
 
         \paragraph{}
         Con todo esto, el usuario ya podría ubicar objetos en superficies del mundo real a través de la \ra. El siguiente punto será animar dichos objetos.
+
         
         \section{Animación de modelos}
         \label{sec:3.3}
-        %% carga de modelos
-        %% carga aleatoria hombre/mujer
-        %% carga de animaciones
-        %% clock
+        La creación de animaciones de cada modelo, en el caso de este \tfg, se hace durante el propio diseño del modelo, punto que será tratado en el capítulo \ref{chap:4}. Sin embargo, es importante conocer esto, ya que algunos formatos de modelos en 3D como \glb o \gltf permiten almacenar dichas animaciones de manera que, al cargar los modelos, se puede utilizar también estas animaciones. En nuestra situación, son los modelos humanos los que contienen animaciones, debido a que la retícula no necesita ninguna.
+
+        \paragraph{}
+        Para comenzar con la animación de modelos, es necesario volver otra vez a la carga de los modelos, en la función \textit{checkSessionSupported}. En este caso, trataremos concretamente la animación de los modelos humanos que, como se ve en el código \ref{lst:3.7}, es algo distinto a la carga de la retícula.
+
+\newpage
+\begin{lstlisting}[language=JavaScript, caption={Carga de modelo humano.}, label={lst:3.7}, float=ht]
+#MODELLINKARRAY = ["resources/model/stormy-male.glb", "resources/model/stormie-female.glb"];
+#ANIMATIONLOOP = false;
+// ...
+
+#checkSessionSupported = (isSupported) => {
+    if (isSupported) {
+        // Model
+        this.#modelSelected = Math.floor(Math.random() * this.#MODELLINKARRAY.length);
+        this.#modelLink = this.#MODELLINKARRAY[parseInt(this.#modelSelected)];
+
+        // Scene y Loader
+        this.#scene = new THREE.Scene();
+        this.#loader = new THREE.GLTFLoader();
+        this.#clock = new THREE.Clock(this.#CLOCKAUTOSTART);
+
+// ...
+
+        // Modelo
+        this.#loader.load(this.#modelLink, function(gltf) {
+            // Figura
+            this.#model = gltf.scene;
+            this.#model.name = this.#MODELNAME;
+            this.#model.scale.set(this.#MODELSCALE.x, this.#MODELSCALE.y, this.#MODELSCALE.z);
+
+            // Animacion
+            this.#mixer = new THREE.AnimationMixer(this.#model);
+
+            let jsonAnimations = gltf.animations;
+            this.#clipAction = this.#mixer.clipAction(jsonAnimations[this.#MODELANIMATIONNUMBER]);
+            if (!this.#ANIMATIONLOOP) {
+                this.#clipAction.setLoop(THREE.LoopOnce);
+                this.#clipAction.clampWhenFinished = true;
+                this.#clipAction.enable = true;
+            }
+        }.bind(this));
+    } 
+// ...
+};
+\end{lstlisting}
+
+        Una peculiaridad de la carga de los modelos humanos es que, de los dos modelos que tenemos, se cargará uno de ellos de manera aleatoria, sin aplicar ningún tipo de decisión más allá del uso de un número calculado aleatoriamente. Esto se realiza de la siguiente manera: en la línea 1, se almacena la constante con las ubicaciones de los dos modelos en un \textit{array} de cadenas de texto. Más tarde, justo antes de realizar las cargas, se decide qué modelo se va a utilizar, usando para ello en la línea 7 la librería \textit{Math} para calcular un número entero de manera aleatoria y que permita seleccionar, en la línea 8, la posición del \textit{array} (en este caso, la posición será 0 o 1).
+
+        \paragraph{}
+        Una vez calculado qué modelo se va a utilizar, se pasa a la función \textit{load} ya comentada en la sección \ref{sec:3.1} donde, a través de una función \textit{callback}, se obtiene un objeto con el que se podrá manipular el modelo 3D. Ya obtenido este, se comienza a configurar: se almacena la Escena devuelta, se le asigna un nombre reconocible a su atributo \textit{name} y se le da el tamaño deseado en el atributo \textit{scale}.
+
+        \paragraph{}
+        Una vez tenemos el objeto del modelo, %% carga de modelos + carga de animaciones
+
+        \paragraph{}
+        Por último, antes de lanzar la función \textit{load}, %% no olvidar inicialización de clock
+
+        %% reproducción de animación
         %% comentar también el evento onTouch -> lanzar animacion, relanzar animacion, ubicar modelo 
 
         \section{Sonido espacial}
@@ -350,9 +406,7 @@ if (hitTestResults.length > 0 && this.#reticle) {
 
         \section{Funcionamiento final de la Realidad Aumentada}
         \label{sec:3.5}
-        %% mencionado en 3.2
-        %% carga aleatoria de figuras
-        %% sustitucion de reticula por figuras
+        %% resumen de cómo queda finalmente caso de uso
 
         
 
