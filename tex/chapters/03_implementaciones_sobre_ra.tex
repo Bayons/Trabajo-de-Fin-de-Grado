@@ -376,7 +376,7 @@ if (hitTestResults.length > 0 && this.#reticle) {
             let jsonAnimations = gltf.animations;
             this.#clipAction = this.#mixer.clipAction(jsonAnimations[this.#MODELANIMATIONNUMBER]);
             if (!this.#ANIMATIONLOOP) {
-                this.#clipAction.setLoop(THREE.LoopOnce);
+                this.#clipAction.setLoop(THREE.LoopOnce); // playing the clip once
                 this.#clipAction.clampWhenFinished = true;
                 this.#clipAction.enable = true;
             }
@@ -392,13 +392,54 @@ if (hitTestResults.length > 0 && this.#reticle) {
         Una vez calculado qué modelo se va a utilizar, se pasa a la función \textit{load} ya comentada en la sección \ref{sec:3.1} donde, a través de una función \textit{callback}, se obtiene un objeto con el que se podrá manipular el modelo 3D. Ya obtenido este, se comienza a configurar: se almacena la Escena devuelta, se le asigna un nombre reconocible a su atributo \textit{name} y se le da el tamaño deseado en el atributo \textit{scale}.
 
         \paragraph{}
-        Una vez tenemos el objeto del modelo, %% carga de modelos + carga de animaciones
+        Una vez tenemos el objeto del modelo, comenzamos con el trabajo de tratamiento de la animación. Para ello, utilizamos un objeto de la librería \threejs, \textit{AnimationMixer} \cite{web:threejs_animationmixer}, que contiene utilidades básicas de control de la animación, como la velocidad de reproducción de esta misma o, la más importante, la capacidad de buscar el momento exacto de la animación que debe mostrarse en relación al tiempo. De este objeto obtendremos también el objeto \textit{AnimationAction} \cite{web:threejs_animationaction} almacenado en la variable \textit{clipAction} en la línea 29, que permite un control de la animación más parecido a los controles globales de reproducción de vídeo: pausar, reanudar, establecer un bucle, establecer la duración de la animación, etc. Para poder utilizar este último, tendremos que pasarle la animación que se va a usar. Una vez obtenido, podremos configurarlo como se hace a partir de la línea 31, donde en este caso se establece que la animación no se ejecute continuamente en bucle, se indica que la animación se desactive al terminar y, finalmente, se activa dicha animación.
 
         \paragraph{}
-        Por último, antes de lanzar la función \textit{load}, %% no olvidar inicialización de clock
+        Por último, antes de lanzar la función \textit{load} de la línea 19, se prepara un objeto llamado \textit{Clock} \cite{web:threejs_clock}. Este objeto sirve para contar los segundos que lleva la animación reproduciéndose y, en el momento de renderizar la figura, \textit{AnimationMixer} la actualice para que se encuentre en la posición en la que debe estar en el tiempo indicado por el reloj. Este objeto es necesario debido a que, tal y como se comentó anteriormente en la sección \ref{sec:2.3}, cada fotograma se lanza únicamente cuando el sistema está preparado para lanzarlo en lugar de lanzarse todos los fotogramas posibles uno tras otro. Por lo tanto, debe haber un control que tenga en cuenta los segundos de ejecución que se llevan durante cada iteración y que, con esto, sepa qué instante exacto de la animación debe renderizarse.
 
-        %% reproducción de animación
-        %% comentar también el evento onTouch -> lanzar animacion, relanzar animacion, ubicar modelo 
+        \paragraph{}
+        Una vez están estos objetos preparados, se puede comenzar a utilizar en el propio trabajo de renderizado. El primer lugar en el que se utiliza es en \textit{onTouchEvent}:
+
+\paragraph{}
+\begin{lstlisting}[language=JavaScript, caption={Evento onTouchEvent junto con las acciones relacionadas con la animación.}, label={lst:3.8}]
+#onTouchEvent = (event) => {
+    if (this.#model) {
+        this.#scene.remove(this.#model);
+        this.#model.position.copy(this.#reticle.position);
+        this.#scene.add(this.#model);
+// ...
+        if (!this.#clipAction.isRunning()) {
+            this.#clipAction.setDuration(this.#audioElement.duration);
+            this.#clipAction.reset();
+            this.#clipAction.play();
+        }
+    }
+};
+\end{lstlisting}
+
+        \paragraph{}
+        Aquí, cuando el usuario pulsa sobre la pantalla, después de ejecutarse las acciones comentadas anteriormente en el código \ref{lst:3.5}, se comprueba primero que el modelo esté ejecutando su animación (línea 10) y, de no ser así, comienza con esta (línea 13). Antes de reproducirse, se realizan dos acciones: la primera, en la línea 11, establece la duración de la animación en relación con el audio que sonará a su vez. Esto se hace para, por un lado, fijar la velocidad a la que se ejecutará la animación (y asegurarse de que siempre va a ser la misma) y, por otro lado, para que cuadre con el mismo audio, ya que la animación se ha diseñado en relación a esta, como se comentará más adelante. La segunda acción, en la línea 12, se asegura de que, en caso de que la animación se haya detenido porque ya se había ejecutado y terminado por completo, la próxima vez que se inicie la animación se ejecute desde el punto de inicio en lugar de iniciarse desde el final o desde algún punto intermedio. De esta manera, el evento se ocuparía de iniciar la animación tanto si el usuario acaba de entrar en la \ra como si ha terminado la animación y quiere volver a reproducirla.
+        
+        \paragraph{}
+        Por último, durante el bucle de renderizado, para actualizar la posición de la animación a la conveniente en el momento de ser renderizado, sería tan sencillo como ejecutar el siguiente fragmento de código al inicio del método:
+
+\paragraph{}
+\begin{lstlisting}[language=JavaScript, caption={Actualización de la posición del modelo 3D antes de renderizar.}, label={lst:3.9}]
+#loopFunction = (time, frame) => {
+
+    let delta = this.#ANIMATIONSPEED * this.#clock.getDelta();
+    if (this.#mixer)
+        this.#mixer.update(delta);
+
+// ...
+};
+\end{lstlisting}
+
+        \paragraph{}
+        La función de la línea 5 se asegura, sin necesidad de ejecutar más acciones, de actualizar la posición del modelo. Para poder ser ejecutado, se extrae en la línea 3 el valor \textit{delta} del objeto \textit{Clock}, que es el tiempo en segundos que ha pasado desde que se inició el reloj. Además, en la línea 4 se comprueba que este código se ejecute únicamente si de manera previa se ha generado el objeto \textit{mixer} durante las acciones asíncronas en la preparación del bucle, como se vio en el fragmento de código \ref{lst:3.7}.
+        
+        \paragraph{}
+        Con todo esto, ya dispondríamos de una aplicación de \ra que, a partir de las acciones del usuario, será capaz de posicionar modelos 3D con movimiento en superficies reales. Por último, quedaría añadir la última capa de verosimilitud mediante el sonido espacial.
 
         \section{Sonido espacial}
         \label{sec:3.4}
