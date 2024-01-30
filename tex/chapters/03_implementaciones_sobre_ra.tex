@@ -417,7 +417,6 @@ if (hitTestResults.length > 0 && this.#reticle) {
 };
 \end{lstlisting}
 
-        \paragraph{}
         Aquí, cuando el usuario pulsa sobre la pantalla, después de ejecutarse las acciones comentadas anteriormente en el código \ref{lst:3.5}, se comprueba primero que el modelo esté ejecutando su animación (línea 10) y, de no ser así, comienza con esta (línea 13). Antes de reproducirse, se realizan dos acciones: la primera, en la línea 11, establece la duración de la animación en relación con el audio que sonará a su vez. Esto se hace para, por un lado, fijar la velocidad a la que se ejecutará la animación (y asegurarse de que siempre va a ser la misma) y, por otro lado, para que cuadre con el mismo audio, ya que la animación se ha diseñado en relación a esta, como se comentará más adelante. La segunda acción, en la línea 12, se asegura de que, en caso de que la animación se haya detenido porque ya se había ejecutado y terminado por completo, la próxima vez que se inicie la animación se ejecute desde el punto de inicio en lugar de iniciarse desde el final o desde algún punto intermedio. De esta manera, el evento se ocuparía de iniciar la animación tanto si el usuario acaba de entrar en la \ra como si ha terminado la animación y quiere volver a reproducirla.
         
         \paragraph{}
@@ -435,7 +434,6 @@ if (hitTestResults.length > 0 && this.#reticle) {
 };
 \end{lstlisting}
 
-        \paragraph{}
         La función de la línea 5 se asegura, sin necesidad de ejecutar más acciones, de actualizar la posición del modelo. Para poder ser ejecutado, se extrae en la línea 3 el valor \textit{delta} del objeto \textit{Clock}, que es el tiempo en segundos que ha pasado desde que se inició el reloj. Además, en la línea 4 se comprueba que este código se ejecute únicamente si de manera previa se ha generado el objeto \textit{mixer} durante las acciones asíncronas en la preparación del bucle, como se vio en el fragmento de código \ref{lst:3.7}.
         
         \paragraph{}
@@ -443,11 +441,117 @@ if (hitTestResults.length > 0 && this.#reticle) {
 
         \section{Sonido espacial}
         \label{sec:3.4}
-        %% comentar tambien el evento onsessionend
+        Para aplicar el sonido espacial al sistema, como se mencionó en la sección \ref{sec:1.5}, se ha utilizado la librería \resonanceaudio \cite{web:resonance_audio}. Esta librería está especializada en la simulación de sonidos espaciales, de manera que un usuario con auriculares podría reconocer de dónde provienen las voces que escuchará a través de la aplicación. Otra funcionalidad que, además, se percibe sin necesidad de auriculares, es la <<pérdida de volumen>> en relación con la distancia al origen del sonido, con lo que seremos capaces de escuchar mejor a nuestro modelo si este está ubicado en nuestros alrededores, mientras que si se ubica a una gran distancia no seremos capaces apenas de escucharlo.
+
+        \paragraph{}
+        El uso de \resonanceaudio es bastante similar al uso de la librería \threejs en cuanto al uso de modelos y animaciones, debido a que ambos requieren ubicar un elemento en el espacio y, además, reproducirlo. En el caso del audio, el proceso de carga de archivos es mucho más sencillo.
+
+\paragraph{}
+\begin{lstlisting}[language=JavaScript, caption={Preparación del sonido espacial.}, label={lst:3.10}]
+async startLoop() {
+
+    // ...
+
+    this.#audioContext = new AudioContext();
+
+    this.#resonanceAudioScene = new ResonanceAudio(this.#audioContext);
+    this.#resonanceAudioScene.output.connect(this.#audioContext.destination);
+    this.#resonanceAudioScene.setRoomProperties(this.#ROOMDIMENSIONS, this.#ROOMMATERIALS);
+
+    this.#audioElement = document.createElement('audio');
+    this.#audioElement.src = this.#audioLink;
+    this.#audioElement.loop = this.#AUDIOLOOP;
+
+    this.#audioElementSource = this.#audioContext.createMediaElementSource(this.#audioElement);
+
+    this.#audioSource = this.#resonanceAudioScene.createSource();
+    this.#audioElementSource.connect(this.#audioSource.input);
+    this.#audioSource.setPosition(0.0, 0.0, 0.0);
+
+    // ...
+
+    this.#session.requestAnimationFrame(this.#loopFunction);
+}
+\end{lstlisting}
+
+        El proceso de carga y configuración del audio comienza en la función \textit{startLoop}, donde se van preparando los objetos de la librería y especificando las opciones que se van a utilizar. Para empezar, se requiere del objeto \textit{AudioContext} \cite{web:mozilla_audiocontext}, que forma parte de la funcionalidad básica de \js y permite cargar y reproducir elementos de audio. Este será inicializado en la línea 5 del código \ref{lst:3.10} para después poder inicializar en la línea 7 el propio objeto \textit{ResonanceAudio} \cite{web:resonance_audio_resonanceaudio} incluyendo al primero como argumento del constructor. Mediante el uso de este último, la aplicación será capaz de generar el efecto de distancia y movimiento del sonido espacial. Para asignarle una salida de audio, utilizaremos la función de la línea 8.
+
+        \paragraph{}
+        En la línea 9, se establecen las propiedades de la habitación: largo, ancho, altura del techo y materiales de cada una de las superficies \cite{web:resonance_audio_utils} (suponiendo que la habitación está formada por cuatro paredes paralelas, suelo y techo y omitiendo formas que no sean hexaédricas). En este caso, dado que no queremos simular el efecto de eco, se establece como dimensiones 0x0x0, que es la forma de decirle al sistema que la habitación no tiene una forma definida; y como materiales de paredes y techo se asigna el valor <<\textit{transparent}>>, lo que significa que no hay un material solido en dichas estructuras, mientras que para el suelo se establece <<\textit{marble}>>.
+
+        \paragraph{}
+        A continuación, en la línea 11, se crea un \textit{HTMLAudioElement} \cite{web:mozilla_htmlaudioelement} a través de la función \textit{createElement} del propio documento. Este elemento es una interfaz que permite insertar un audio en un documento HTML y que, a su vez, ofrece funciones de manipulación del mismo. Sobre este, estableceremos dos propiedades: la primera, \textit{src} (línea 12), servirá para ubicar el origen del archivo de audio que se reproducirá en la aplicación; la segunda, \textit{loop} (línea 13), indicará a la aplicación si, al terminar el audio, debe volver a reproducirse desde el principio automáticamente.
+
+        \paragraph{}
+        Finalmente, mediante el código de las líneas 15 y 17, terminamos de <<conectar>> el \textit{HTMLAudioElement} con el objeto de \resonanceaudio para que el primero sea el origen del sonido del segundo, y mediante la función de la línea 19, establecemos una posición provisional para el origen del sonido. De esta manera, tenemos preparada la configuración del sonido espacial, con lo que se puede comenzar a desarrollar la funcionalidad aplicada a esta aplicación.
+        
+        \paragraph{}
+        En primer lugar, se definirá lo que ocurre en los casos en los que emisor y receptor del sonido se muevan. Esto se puede ver en el código \ref{lst:3.11}, donde la funcionalidad se divide en dos partes: en la primera, representada por las filas 12, 13 y 14, se calcula la posición del usuario (que se extrae de \textit{view.transform.matrix}) y se inserta en el objeto \textit{THREE.Matrix4} \cite{web:threejs_matrix4}, objeto que almacena una matriz de 4x4 y que representa la posición, orientación y rotación de una figura. Esta posición del usuario nos servirá para establecer la posición del receptor utilizando la función \textit{setListenerFromMatrix}, de manera que \resonanceaudio sepa desde dónde se está escuchando el audio reproducido. En la segunda parte, representada por la fila 17, se establece el origen del sonido utilizando la posición del modelo.
+        
+        \paragraph{}
+        A pesar de que en el bucle se estén estableciendo coordenadas, hay que tener en cuenta que todo esto no afecta en la reproducción o pausa de los sonidos cargados. Por lo tanto, durante varias iteraciones de este, \resonanceaudio tendrá definidas estas coordenadas a modo de <<preparación>> para cuando comience la reproducción.
+
+\paragraph{}
+\begin{lstlisting}[language=JavaScript, caption={Control del sonido espacial en el bucle.}, label={lst:3.11}]
+#loopFunction = (time, frame) => {
+
+// ...
+
+    const pose = frame.getViewerPose(this.#referenceSpace);
+    if (pose) {
+        const view = pose.views[0];
+
+        // ...
+
+        let userPosition = new THREE.Matrix4();
+        userPosition.elements = view.transform.matrix;
+        this.#resonanceAudioScene.setListenerFromMatrix(userPosition);
+
+        // ...
+
+        this.#audioSource.setFromMatrix(this.#model.matrix);
+        this.#renderer.render(this.#scene, this.#camera)
+    }
+};
+\end{lstlisting}
+
+        La parte del código donde sí se comienza con la reproducción del sonido es, al igual que con la animación, en el evento \textit{onTouchEvent}. Estas dos acciones se hacen a la vez para que el audio y la animación estén en todo momento sincronizados.
+
+\paragraph{}
+\begin{lstlisting}[language=JavaScript, caption={Control del sonido espacial en el evento onTouchEvent.}, label={lst:3.12}]
+#onTouchEvent = (event) => {
+    if (this.#model) {
+// Aqui iria parte del control de la animacion de modelo
+    
+        this.#audioElement.play();
+
+// Aqui iria otra parte del control de la animacion de modelo
+    }
+};
+\end{lstlisting}
+
+        En este caso, solo habría una línea que comentar del código \ref{lst:3.12}, que es la línea 5, donde se lanza la función \textit{play} para reproducir el audio. Cabe decir que esta función no hace nada si el audio ya se está reproduciendo, por lo que, al igual que el resto del evento, está planteado para lanzar el audio solo si este ya ha terminado o todavía no se ha reproducido.
+
+        \paragraph{}
+        Por último, en el caso de que el usuario cierre la sesión de \ra, necesitaríamos indicar al sistema que debe finalizar también el audio, en caso de que este siga reproduciéndose. Para esto utilizaremos el evento \textit{onSessionEnd}, asociado a la sesión de \ra a la par que el evento \textit{onTouchEvent}. Tal y como vemos en el código \ref{lst:3.13}, las dos acciones que se realizan al cerrar la sesión serían, primero, pausar la reproducción y, segundo, establecer el tiempo en cero para que, si el usuario vuelve a iniciar la sesión, la reproducción siga por el mismo sitio.
+
+        \paragraph{}
+\begin{lstlisting}[language=JavaScript, caption={Control del sonido en el cierre de la sesión de Realidad Aumentada.}, label={lst:3.13}]
+	#onSessionEnd = (event) => {
+		/* the session has shut down */
+		this.#audioElement.pause();
+		this.#audioElement.currentTime = 0;
+	};
+\end{lstlisting}
+
+        Con esto, ya podríamos simular el sonido espacial, con lo que tendríamos cubierta la última capa de \ra que queremos desarrollar.
 
         \section{Funcionamiento final de la Realidad Aumentada}
         \label{sec:3.5}
         %% resumen de cómo queda finalmente caso de uso
+        %% guiar el flujo del caso de uso mediante imagenes
+        %% empezar directamente desde la landing page
+        %% pulsar boton
 
         
 
