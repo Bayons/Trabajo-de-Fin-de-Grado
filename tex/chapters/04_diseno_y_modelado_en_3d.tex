@@ -5,4 +5,35 @@
   \chapter{Diseño y modelado en 3D}
   \label{chap:4}
 
+    Para diseñar los dos modelos tridimensionales con los que contamos, tuvimos que hacer una pequeña investigación sobre herramientas de diseño y modelado en 3D, ya que nuestra empresa no está especializada en este tipo de trabajos. Además, nuestro equipo de Marketing no podía ocuparse de estos desarrollos debido a que solo trabaja con diseños bidimensionales y a que el tiempo necesario a invertir en formaciones y en el propio modelado era considerablemente alto, por lo que no pudimos contar con su ayuda. La mayor parte de las webs que hacen comparaciones entre distintas herramientas de diseño y modelado 3D mostraban las mismas herramientas, que son las que barajamos en un principio: \blender \cite{web:blender}, \unreal \cite{web:unreal} y \unity \cite{web:unity}.
+
+    \begin{itemize}
+        \item \textbf{\blender} es una de las herramientas más famosas que existen hoy en día para diseño de modelos 3D por su potencial y por ser gratuita. Se trata de una aplicación de código libre muy extendida que dispone también de un manual de uso y tutorial \cite{web:blender_manual} a disposición de todos los usuarios, además de una de las comunidades más grandes para resolución de dudas. Sus funcionalidades cubrían todas nuestras necesidades (modelado, animación, creación...), aunque la interfaz no es considerada de las mejores.
+        
+        \item \textbf{\unreal} era otra de nuestras opciones, debido a que cuenta con una gran trayectoria tanto en series y películas de animación como en videojuegos, aunque también se utiliza en ocasiones para arquitectura y diseño. Esta aplicación es una de las más potentes del mercado y cuenta además con cursos online, documentación y tutoriales \cite{web:unreal_learn}, así como foros para consulta de dudas \cite{web:unreal_forum}. Esta aplicación tiene como gran desventaja que la cantidad de funcionalidades al estar adaptado a esta gran variedad de usos hace de ella que sea más compleja de utilizar. Además, para poder exportar los modelos en el formato que necesitamos (\gltf o \glb), requeríamos de un plugin a mayores \cite{web:unreal_plugin}.
+        
+        \item Por último, habíamos barajado también la posibilidad de utilizar \textbf{\unity}, una herramienta inicialmente creada para diseño de videojuegos, pero que también cubre todas las necesidades de modelado y animación que necesitábamos. Esta aplicación es algo menos potente que la anterior opción, pero también es una de las herramientas más utilizadas del mercado, pudiendo darnos una solución más que aceptable. \unity también requiere de una extensión para poder exportar modelos a \glb o a \gltf \cite{web:unity_plugin}.
+    \end{itemize}
+
+    \paragraph{}
+    Finalmente, de entre las distintas herramientas, nos decantamos por \blender, siendo una de las principales razones la económica: la libertad de uso de \blender está definida por una licencia \textit{GNU General Public License} \cite{web:blender_license,web:gnulicense}, por lo que no tendríamos ningún problema al utilizarlo como empresa. Las otras dos herramientas, al contrario, requieren de licencias si se van a utilizar en entornos profesionales \cite{web:unity_pricing,web:unreal_licensing}, por lo que podría suponernos un gasto a mayores para una diferencia que, por nuestra baja experiencia en esta materia, no sabríamos encontrar. Además, encontramos a un compañero en nuestra empresa que había usado \blender anteriormente para crear pequeños videojuegos a modo de afición y que podía aconsejarnos a la hora de usar dicha herramienta, punto que sería definitivo a la hora de tomar la decisión.
+
+    \paragraph{}
+    Una vez decidimos la herramienta a utilizar, contemplamos también la idea de utilizar una aplicación a mayores que estuviese especializada en generar figuras humanas desde cero, debido a que su creación a través de las herramientas anteriormente expuestas es muy costosa y requiere de personal más experimentado para obtener unos resultados que nos pareciesen aceptables para el proyecto.
+    
+    \paragraph{}
+    Inicialmente, optamos por buscar herramientas que generasen modelos 3D a partir de múltiples fotografías de una misma persona desde distintos ángulos: aplicaciones como \textit{Meshroom} \cite{web:meshroom} están orientadas a generar, no solo figuras humanas, sino también elementos del entorno como árboles, estatuas, edificios, etc. mediante fotogrametría, concepto que ellos mismos definen como la ciencia de tomar medidas a partir de fotografías.
+
+    \paragraph{}
+    También valoramos la posibilidad de utilizar un banco de modelos 3D previamente generados y que pudiéramos modificar a nuestro placer, como lo que ofrece \textit{Renderpeople} \cite{web:renderpeople}. Esto, en combinación con \blender, nos permitiría modificar los aspectos necesarios del modelo y ahorrarnos un costoso trabajo de generación desde cero.
+
+    \paragraph{}
+    Sin embargo, y también bajo recomendación del mismo compañero antes mencionado, finalmente nos decantamos por usar la aplicación \makehuman \cite{web:makehuman}: una herramienta de código abierto y libre uso orientado a la generación de modelos 3D humanoides que permite un amplísimo abanico de características a personalizar en estos: desde aspectos básicos como su altura hasta detalles minúsculos como el tamaño del lóbulo de la oreja. Todo esto, además, lo ofrece mediante una interfaz completamente sencilla de utilizar, a lo que además hay que sumar que permite utilizar, también de manera sencilla, texturas personalizadas para el personaje, por lo que podríamos dotarlo de elementos que pudiéramos hacer completamente nuestros.
+
+    \paragraph{}
+    Uniendo todo esto, podemos comenzar con el trabajo.
+    
+  %% presentar el capitulo contando que herramientas se encontraron y barajaron
+  %% comentar también las herramientas barajadas para diseñar de 0 los modelos 3D
+
 \end{document}
