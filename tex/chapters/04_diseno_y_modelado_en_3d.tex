@@ -31,9 +31,36 @@
     Sin embargo, y también bajo recomendación del mismo compañero antes mencionado, finalmente nos decantamos por usar la aplicación \makehuman \cite{web:makehuman}: una herramienta de código abierto y libre uso orientado a la generación de modelos 3D humanoides que permite un amplísimo abanico de características a personalizar en estos: desde aspectos básicos como su altura hasta detalles minúsculos como el tamaño del lóbulo de la oreja. Todo esto, además, lo ofrece mediante una interfaz completamente sencilla de utilizar, a lo que además hay que sumar que permite utilizar, también de manera sencilla, texturas personalizadas para el personaje, por lo que podríamos dotarlo de elementos que pudiéramos hacer completamente nuestros.
 
     \paragraph{}
-    Uniendo todo esto, podemos comenzar con el trabajo.
+    Uniendo todo esto, podemos comenzar con el trabajo de modelado.
+
+    \section{Creación mediante \makehuman}
+    \label{sec:4.1}
+
+    La herramienta \makehuman nos ofrece, desde un inicio, una serie de pestañas que nos van informando de qué conjuntos de características podemos modificar. Para el desarrollo de este modelo, nos vamos a centrar en solo algunas de estas pestañas. La aplicación ofrece las siguientes opciones:
+
+    \begin{itemize}
+        \item \textbf{Modelado}: para definir las proporciones y características del cuerpo del modelo.
+        \item \textbf{Geometrías}: para modificar la forma de algunas de las estructuras del modelo, como dentadura, ojos, ropa, pelo, etc.
+        \item \textbf{Materiales}: para modificar las texturas de las que estarán formadas las mallas que componen la figura.
+        \item \textbf{Pose/Animación}: para establecer las opciones relacionadas con estas, como el esqueleto o la posición en la que reposa la figura.
+    \end{itemize}
+
+    \begin{figure}
+    \centering
+    \fbox{\includegraphics[width=0.9\textwidth]{img/makehuman_landing.png}}
+    \caption{Pantalla inicial de \makehuman.}
+    \label{fig:makehuman_landing}
+    \end{figure}
+
+    \paragraph{}
+    En el caso de la aplicación desarrollada, interesaba tener dos modelos 3D distintos, siendo una figura una mujer y otra figura un hombre. Para esto, en la primera opción del modelado, \makehuman permite seleccionar conceptos más globales, como el sexo, la edad o la musculatura. A través del resto de categorías dentro de la pestaña principal, la herramienta permite personalizar el resto de secciones del cuerpo, como son la cara, el torso, los brazos y las piernas, cada una de estas con sus propias subcategorías.
+
+    \paragraph{}
+    En la pestaña de geometrías, se establecen algunos detalles alternos a las características corporales. Concretamente, se definen formas, ya sean aquellas que van por encima del cuerpo (camisetas, sombreros, pantalones, etc.) o aquellas estructuras corporales que, por su variabilidad, se diseñan paralelamente a este (ojos, pelo, dientes, etc.). En este caso, a pesar de que \makehuman ofrece muchas opciones, los modelos finalmente utilizados fueron creados con algunos de los recursos generados por la comunidad, concretamente, los dientes y lengua utilizados. Esta decisión se tomó debido a la necesidad de reducir el peso de la figura todo lo posible para su uso en la web, razón por la cual se optó por escoger recursos de baja resolución para partes del cuerpo que, generalmente, no van a ser visibles. Estos, sin embargo, no podían omitirse debido a que la figura, al hablar, iba a mostrar tanto lengua como dientes. Para los ojos, por otro lado, se utilizó también una geometría de baja resolución debido a que la diferencia entre esta opción y la de alta resolución no era distinguible en la aplicación de \ra.
     
-  %% presentar el capitulo contando que herramientas se encontraron y barajaron
-  %% comentar también las herramientas barajadas para diseñar de 0 los modelos 3D
+  %% Comentar cómo se utiliza MakeHuman: funciona a base de "parametros" a los que hay que dar un valor "entre 0 y 1" mediante una barra
+  %% Acompañar de imagenes
+  %% Comentar que incluimos una camiseta
+  %% Comentar cómo se descargan los recursos: tanto web como a traves de la aplicacion
 
 \end{document}
