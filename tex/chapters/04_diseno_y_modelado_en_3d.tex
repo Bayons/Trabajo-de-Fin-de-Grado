@@ -16,7 +16,7 @@
     \end{itemize}
 
     \paragraph{}
-    Finalmente, de entre las distintas herramientas, nos decantamos por \blender, siendo una de las principales razones la económica: la libertad de uso de \blender está definida por una licencia \textit{GNU General Public License} \cite{web:blender_license,web:gnulicense}, por lo que no tendríamos ningún problema al utilizarlo como empresa. Las otras dos herramientas, al contrario, requieren de licencias si se van a utilizar en entornos profesionales \cite{web:unity_pricing,web:unreal_licensing}, por lo que podría suponernos un gasto a mayores para una diferencia que, por nuestra baja experiencia en esta materia, no sabríamos encontrar. Además, encontramos a un compañero en nuestra empresa que había usado \blender anteriormente para crear pequeños videojuegos a modo de afición y que podía aconsejarnos a la hora de usar dicha herramienta, punto que sería definitivo a la hora de tomar la decisión.
+    Finalmente, de entre las distintas herramientas, nos decantamos por \blender, siendo una de las principales razones la económica: la libertad de uso de \blender está definida por una licencia \textit{GNU General Public License} \cite{web:blender_license,web:gnulicense}, por lo que no tendríamos ningún problema al utilizarlo como empresa. Las otras dos herramientas, al contrario, requieren de licencias si se van a utilizar en entornos profesionales \cite{web:unity_pricing,web:unreal_licensing}, por lo que podría suponernos un gasto a mayores para una diferencia que, por nuestra baja experiencia en esta materia, no sabríamos encontrar. Además, encontramos a un compañero en nuestra empresa que había usado \blender anteriormente para crear pequeños videojuegos a modo de afición y que podía aconsejarnos y ayudarnos a la hora de usar dicha herramienta, punto que sería definitivo a la hora de tomar la decisión.
 
     \paragraph{}
     Una vez decidimos la herramienta a utilizar, contemplamos también la idea de utilizar una aplicación a mayores que estuviese especializada en generar figuras humanas desde cero, debido a que su creación a través de las herramientas anteriormente expuestas es muy costosa y requiere de personal más experimentado para obtener unos resultados que nos pareciesen aceptables para el proyecto.
@@ -39,7 +39,7 @@
     La herramienta \makehuman nos ofrece, desde un inicio, una serie de pestañas que nos van informando de qué conjuntos de características podemos modificar. Para el desarrollo de este modelo, nos vamos a centrar en solo algunas de estas pestañas. La aplicación ofrece las siguientes opciones:
 
     \begin{itemize}
-        \item \textbf{Modelado}: para definir las proporciones y características del cuerpo del modelo.
+        \item \textbf{Modelado}: para definir las proporciones y características de la figura humana del modelo.
         \item \textbf{Geometrías}: para modificar la forma de algunas de las estructuras del modelo, como dentadura, ojos, ropa, pelo, etc.
         \item \textbf{Materiales}: para modificar las texturas de las que estarán formadas las mallas que componen la figura.
         \item \textbf{Pose/Animación}: para establecer las opciones relacionadas con estas, como el esqueleto o la posición en la que reposa la figura.
@@ -53,14 +53,28 @@
     \end{figure}
 
     \paragraph{}
-    En el caso de la aplicación desarrollada, interesaba tener dos modelos 3D distintos, siendo una figura una mujer y otra figura un hombre. Para esto, en la primera opción del modelado, \makehuman permite seleccionar conceptos más globales, como el sexo, la edad o la musculatura. A través del resto de categorías dentro de la pestaña principal, la herramienta permite personalizar el resto de secciones del cuerpo, como son la cara, el torso, los brazos y las piernas, cada una de estas con sus propias subcategorías.
+    En el caso de la aplicación desarrollada, interesaba tener dos modelos 3D distintos, siendo una figura una mujer y otra figura un hombre. Para esto, a través de la primera opción del \textbf{modelado}, \makehuman permite seleccionar conceptos más globales, como el sexo, la edad o la musculatura. A través del resto de categorías dentro de la pestaña principal, la herramienta permite personalizar el resto de secciones del cuerpo, como son la cara, el torso, los brazos y las piernas, cada una de estas con sus propias subcategorías.
 
     \paragraph{}
-    En la pestaña de geometrías, se establecen algunos detalles alternos a las características corporales. Concretamente, se definen formas, ya sean aquellas que van por encima del cuerpo (camisetas, sombreros, pantalones, etc.) o aquellas estructuras corporales que, por su variabilidad, se diseñan paralelamente a este (ojos, pelo, dientes, etc.). En este caso, a pesar de que \makehuman ofrece muchas opciones, los modelos finalmente utilizados fueron creados con algunos de los recursos generados por la comunidad, concretamente, los dientes y lengua utilizados. Esta decisión se tomó debido a la necesidad de reducir el peso de la figura todo lo posible para su uso en la web, razón por la cual se optó por escoger recursos de baja resolución para partes del cuerpo que, generalmente, no van a ser visibles. Estos, sin embargo, no podían omitirse debido a que la figura, al hablar, iba a mostrar tanto lengua como dientes. Para los ojos, por otro lado, se utilizó también una geometría de baja resolución debido a que la diferencia entre esta opción y la de alta resolución no era distinguible en la aplicación de \ra.
+    En la pestaña de \textbf{geometrías}, se establecen algunos detalles alternos a las características corporales. Concretamente, se definen formas que van por encima del cuerpo (camisetas, sombreros, pantalones, etc.) o aquellas estructuras corporales que, por su variabilidad, se diseñan paralelamente a este (ojos, pelo, dientes, etc.). En este último caso, a pesar de que \makehuman ofrece muchas opciones, los modelos finalmente utilizados fueron creados con algunos de los recursos generados por la comunidad, concretamente, los ojos, dientes y lengua utilizados. Esta decisión se tomó debido a la necesidad de reducir el peso de la figura todo lo posible para su uso en la web, razón por la cual se optó por escoger recursos de baja resolución para partes del cuerpo que, generalmente, no van a ser visibles o necesitan poco detalle para el uso dado. Estos últimos, sin embargo, no podían omitirse debido a que la figura, al hablar, iba a mostrar tanto lengua como dientes. Para los ojos, por otro lado, se utilizó también una geometría de baja resolución debido a que la diferencia entre esta opción y la de alta resolución no era distinguible en la aplicación de \ra.
+
+    %% TODO: Insertar imagen del detalle de la cara de alguna de las figuras
+    \paragraph{}
+    Para descargar los recursos que publica la comunidad, existen dos opciones: a través de la web de la aplicación o a través de la propia aplicación, en la pestaña <<\textbf{Community}>>, donde el recurso seleccionado se descargará en la carpeta indicada. Sin embargo, este segundo método es muy lento debido a la propia aplicación, por lo que se optó por descargar los recursos directamente de la web.
     
-  %% Comentar cómo se utiliza MakeHuman: funciona a base de "parametros" a los que hay que dar un valor "entre 0 y 1" mediante una barra
-  %% Acompañar de imagenes
-  %% Comentar que incluimos una camiseta
-  %% Comentar cómo se descargan los recursos: tanto web como a traves de la aplicacion
+    \paragraph{}
+    Mediante la pestaña de selección de \textbf{materiales}, previa elección de ropa de los modelos en la anterior pestaña, se retocaron dos elementos: la piel del modelo, donde usamos una de las opciones que venían en la aplicación evitando así la piel seleccionada por defecto ya que resulta poco natural; y la textura de la ropa del modelo, donde utilizamos una opción personalizada por nosotros. Para este último, se modificó la propia textura original de la ropa que se seleccionó en la aplicación, siendo este un archivo en formato .png que se puede modificar fácilmente mediante aplicaciones como \textit{GIMP}. En esta modificación probamos varios colores para la camiseta e introdujimos el logotipo de la empresa para darle un aire más <<corporativo>>.
+
+    %% TODO: Insertar imagen de textura antes vs textura después
+    \paragraph{}
+    Finalmente, a través de \textbf{Pose/Animación}, se establece el elemento principal para la posterior animación a través de \blender: el esqueleto. \makehuman ofrece cuatro opciones distintas de esqueletos, donde cada una de estas opciones tiene más o menos huesos, dependiendo del uso que se le quiera dar. Las opciones más básicas controlan únicamente las extremidades, siendo un esqueleto que podría ser útil para animaciones muy básicas. Sin embargo, en este caso, queremos controlas tanto extremidades como músculos faciales, y para este caso, existen dos opciones de esqueletos: <<\textit{Default}>> y <<\textit{Default no toes}>>. Dado que la última opción descarta una serie de huesos que no se van a utilizar en la animación de nuestra aplicación, será la opción que escogeremos, puesto que es algo más ligera.
+
+    %% TODO: captura de los huesos del modelo
+    \paragraph{}
+    Para finalizar, en esta última pestaña se le establece también al modelo una posición de reposo y una expresión facial que ofrezcan al personaje una cierta naturalidad, terminando así el diseño del modelo y el trabajo con \makehuman.
+    
+    %% TODO: captura de la posición del modelo
+    
+  %% Completar To-Do's
 
 \end{document}
