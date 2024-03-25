@@ -98,6 +98,15 @@
     \label{fig:4.1.model_pose}
     \end{figure}
     
-  %% Completar To-Do's
+    \section{Edición con \blender}
+    \label{sec:4.2}
+
+    Para poder continuar el trabajo en \blender, primero es necesario exportar desde \makehuman el trabajo anterior a un formato que puedan entender ambas aplicaciones. \makehuman permite exportar en los formatos \textit{Collada}, \textit{Filmbox}, \textit{MakeHuman Exchange}, \textit{Wavefront obj}, \textit{Ogre3D} y \textit{Estereolitografía}, de los cuales \blender solo es capaz de utilizar tres para la importación sin usar plugins: \textit{Collada}, \textit{Wavefront obj} y \textit{Estereolitografía}. Después de algunas pruebas, se llegó a la conclusión de que el mejor formato para este intercambio entre aplicaciones sería \textit{Collada}, ya que parecía tener menos errores gráficos y mantener la mayor información posible en huesos y posición de la figura. Una vez se ha exportado la figura, solo es necesario importarlo en \blender usando la opción para importar archivos \textit{Collada} en Blender.
+
+    \paragraph{}
+    Una vez la figura se encuentra preparada para ser modificada en la nueva herramienta, se puede comenzar con las ediciones de errores gráficos. En el momento de importación, se detectaron dos errores en el modelo: por un lado, la textura del pelo, al reducirse la calidad en la exportación, perdía también forma y quedaba "separado" de la cabeza; por otro lado, \makehuman prepara el modelo para que aquellas texturas que queden ocultas por diferentes superficies del mismo modelo se borren para ahorrar espacio, siendo sustituidas por texturas "transparentes" o "alpha".
+
+    \paragraph{}
+    Para el error de forma en el pelo, la solución pasó por un remodelaje manual, utilizando las propias herramientas de modelaje que ofrece \blender.
 
 \end{document}
