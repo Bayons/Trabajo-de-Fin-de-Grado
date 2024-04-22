@@ -103,7 +103,8 @@
 
     Para poder continuar el trabajo en \blender, primero es necesario exportar desde \makehuman el trabajo anterior a un formato que puedan entender ambas aplicaciones. \makehuman permite exportar en los formatos \textit{Collada}, \textit{Filmbox}, \textit{MakeHuman Exchange}, \textit{Wavefront obj}, \textit{Ogre3D} y \textit{Estereolitografía}, de los cuales \blender solo es capaz de utilizar tres para la importación sin usar plugins: \textit{Collada}, \textit{Wavefront obj} y \textit{Estereolitografía}. Después de algunas pruebas, se llegó a la conclusión de que el mejor formato para este intercambio entre aplicaciones sería \textit{Collada}, ya que parecía tener menos errores gráficos y mantener la mayor información posible en huesos y posición de la figura. Una vez se ha exportado la figura, solo es necesario importarlo en \blender usando la opción para importar archivos \textit{Collada} en Blender.
 
-    \paragraph{}
+    \subsection{Errores gráficos}
+    \label{sec:4.2.1}
     Una vez la figura se encuentra preparada para ser modificada en la nueva herramienta, se puede comenzar con las ediciones de errores gráficos. En el momento de importación, se detectaron dos errores en el modelo: por un lado, la textura del pelo, al reducirse la calidad en la exportación, perdía también forma y quedaba <<separado>> de la cabeza; por otro lado, \makehuman prepara el modelo para que aquellas texturas que queden ocultas por diferentes superficies del mismo modelo se borren para ahorrar espacio, siendo sustituidas por texturas transparentes o <<\textit{alpha}>>, pero al modificarse la forma, algunas de estas texturas transparentes quedaban al descubierto, pudiéndose ver lo que había por dentro y por detrás del modelo a través de las transparencias generadas.
 
     \paragraph{}
@@ -112,13 +113,41 @@
     \paragraph{}
     En cuanto al error gráfico de texturas transparentes, la resolución pasó por configurar los canales \textit{alpha} de los materiales, debido a que la configuración utilizada por \makehuman no es la misma que la que utilizan el resto de procesadores de modelos 3D. Para esto, a través del menú \textit{Layout}, se debe seleccionar la opción \textit{Material Properties} para poder modificar las propiedades \textit{Blend Mode} y \textit{Shadow Mode}, a los que se les asignará el valor \textit{Alpha Hashed}. De esta manera, las texturas \textit{alpha} serán interpretadas correctamente y el pelo se verá <<pegado>> a la cabeza
 
-    \paragraph{}
+    \subsection{Animaciones}
+    \label{sec:4.2.2}
     Después de solucionar los errores gráficos, se puede comenzar con las animaciones del modelo. Estas se dividen en la animación facial y la animación corporal.
 
     \paragraph{}
-    Para la animación facial
-    %% contar primero animación facial
-    %% contar lo de las "poses predefinidas"
+    Para esta sección, se utilizará mucho el término <<postura>>, tanto para el modelo como para <<huesos>> del modelo. Es necesario entender dos cosas:
+    \begin{itemize}
+        \item El hueso, en modelado 3D, es el objeto que, al moverse, desplaza consigo un conjunto de aristas de la textura del modelo
+        \item La postura del modelo es la forma en que está dispuesto el conjunto de sus huesos. De la misma manera, la postura de un hueso será cómo estará colocado este en relación a los huesos a los que está unido, teniendo en cuenta principalmente su posición y ángulo.
+    \end{itemize}
+
+    \paragraph{}
+    Para la animación facial, se añadió un plugin a \blender llamado \rhubarb \cite{web:rhubarb} dedicado a la sincronización labial con audios. Esto se hizo a través de la opción \textit{Add-ons} en el menú de preferencias, donde se da la opción de buscar el plugin y las opciones de instalación, aspecto muy importante ya que la configuración predeterminada está planteada para sincronización labial con textos en inglés.
+
+    \paragraph{}
+    Para poder generar la sincronización labial mediante \rhubarb, es necesario hacer uso de las <<librerías de posturas>>: \blender permite almacenar posturas de un modelo para su posterior uso junto con un nombre para estos, de manera que pueden ser utilizados más tarde para diferentes usos. \rhubarb aprovecha esto para que el usuario almacene las formas que adquirirá la boca del modelo al pronunciar algunos de los fonemas más frecuentes, descritos estos en su documentación \cite{web:rhubarb_mouthshapes}. Una vez hecho esto, a través de las herramientas facilitadas por el plugin, se debe asociar cada postura creada con cada conjunto de fonemas mencionado en la documentación.
+
+    \paragraph{}
+    Finalizado el primer paso, lo siguiente consiste en proporcionarle al plugin tanto el audio que <<pronunciará>> el modelo como el texto que contiene el diálogo del mismo audio. Después de esto, el plugin generará la animación completa para todo el diálogo, dando un resultado muy fidedigno. En caso de que las animaciones faciales se encuentren a destiempo o no resulten fidedignas, se pueden hacer ajustes a través de las propias herramientas de \blender.
+
+    \begin{figure}%[H]
+    \centering
+    \fbox{\includegraphics[width=0.9\textwidth]{img/4.2.2_rhubarb.png}}
+    \caption{Animación generada a través de \rhubarb.}
+    \label{fig:4.2.2_rhubarb}
+    \end{figure}
+
+    \paragraph{}
+    Por último, se generaron ciertas animaciones corporales para dotar de cierta expresividad y dinamismo al modelo. Puesto que generar animaciones muy realistas es un trabajo muy costoso, se decidió aplicar el conocimiento adquirido para utilizar la herramienta \rhubarb y aplicar el uso de librerías de posturas en la generación de animaciones corporales.
+
+    \paragraph{}
+    La ventaja de las posturas grabadas en la librería de posturas es que estas posturas se pueden guardar sobre una serie de huesos del modelo y, después, se puede aplicar sobre los mismos huesos o sobre un subconjunto de los huesos del conjunto original. Esto significa que si, por ejemplo, se ha guardado una postura de un brazo completo (desde el hombro hasta los dedos), después esta misma postura se puede volver a aplicar sobre el brazo completo o solo sobre los dedos. Esto permite generar una serie de posturas y explotarlas a la hora de generar animaciones.
+
+    \paragraph{}
+    Una vez se han conseguido una serie de poses válidas, se puede comenzar con la animación. Esto se hace estableciendo la postura que va a tener un hueso en un momento concreto (si no se especifica nada en ningún momento, el hueso va a permanecer en la misma postura hasta el final). %%TODO
     %% contar después animación corporal
 
 \end{document}
