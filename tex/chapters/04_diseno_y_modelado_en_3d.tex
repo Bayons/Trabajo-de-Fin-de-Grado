@@ -135,7 +135,7 @@
 
     \begin{figure}%[H]
     \centering
-    \fbox{\includegraphics[width=0.9\textwidth]{img/4.2.2_rhubarb.png}}
+    \fbox{\includegraphics[width=0.95\textwidth]{img/4.2.2_rhubarb.png}}
     \caption{Animación generada a través de \rhubarb.}
     \label{fig:4.2.2_rhubarb}
     \end{figure}
@@ -147,7 +147,16 @@
     La ventaja de las posturas grabadas en la librería de posturas es que estas posturas se pueden guardar sobre una serie de huesos del modelo y, después, se puede aplicar sobre los mismos huesos o sobre un subconjunto de los huesos del conjunto original. Esto significa que si, por ejemplo, se ha guardado una postura de un brazo completo (desde el hombro hasta los dedos), después esta misma postura se puede volver a aplicar sobre el brazo completo o solo sobre los dedos. Esto permite generar una serie de posturas y explotarlas a la hora de generar animaciones.
 
     \paragraph{}
-    Una vez se han conseguido una serie de poses válidas, se puede comenzar con la animación. Esto se hace estableciendo la postura que va a tener un hueso en un momento concreto (si no se especifica nada en ningún momento, el hueso va a permanecer en la misma postura hasta el final). %%TODO
-    %% contar después animación corporal
+    Una vez se han conseguido una serie de poses válidas, se puede comenzar con la animación. Esto se hace estableciendo la postura que va a tener un hueso en un momento concreto (si no se especifica nada en ningún momento, el hueso va a permanecer en la misma postura hasta el final). Una vez insertado en la animación mediante la opción \textit{Insert keyframe}, el mismo \blender rellena los fotogramas intermedios entre dos posturas distintas con las posturas que adoptará la figura entre una posición y otra para generar la sensación de continuidad y fluidez.
+
+    \begin{figure}%[H]
+    \centering
+    \fbox{\includegraphics[width=0.9\textwidth]{img/4.2.2_pose_transition.png}}
+    \caption{Entre dos posturas grabadas (primera y tercera) se generan posturas intermedias (segunda).}
+    \label{fig:4.2.2_pose_transition}
+    \end{figure}
+
+    \paragraph{}
+    Con las animaciones ya terminadas, finalmente se puede exportar para poder ser utilizado en la aplicación. Para esto, basta con pulsar sobre \textit{File}, \textit{Export} y utilizar la opción \textit{glTF 2.0}. Aquí, nos aseguraremos de que se exporta todo en un solo archivo seleccionando el formato \textit{glTF Binary (.glb)}. Una vez contamos con el archivo, se puede ubicar en el servidor en el destino indicado para los modelos 3D.
 
 \end{document}
