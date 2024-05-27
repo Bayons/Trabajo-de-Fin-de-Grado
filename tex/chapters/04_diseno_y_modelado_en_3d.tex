@@ -34,7 +34,7 @@
     Uniendo todo esto, podemos comenzar con el trabajo de modelado.
 
     \section{Creación mediante \makehuman}
-    \label{sec:4.1}
+    \label{sec:creacion_mediante_makehuman}
 
     La herramienta \makehuman nos ofrece, desde un inicio, una serie de pestañas que nos van informando de qué conjuntos de características podemos modificar. Para el desarrollo de este modelo, nos vamos a centrar en solo algunas de estas pestañas. La aplicación ofrece las siguientes opciones:
 
@@ -99,12 +99,12 @@
     \end{figure}
     
     \section{Edición con \blender}
-    \label{sec:4.2}
+    \label{sec:edicion_con_blender}
 
     Para poder continuar el trabajo en \blender, primero es necesario exportar desde \makehuman el trabajo anterior a un formato que puedan entender ambas aplicaciones. \makehuman permite exportar en los formatos \textit{Collada}, \textit{Filmbox}, \textit{MakeHuman Exchange}, \textit{Wavefront obj}, \textit{Ogre3D} y \textit{Estereolitografía}, de los cuales \blender solo es capaz de utilizar tres para la importación sin usar plugins: \textit{Collada}, \textit{Wavefront obj} y \textit{Estereolitografía}. Después de algunas pruebas, se llegó a la conclusión de que el mejor formato para este intercambio entre aplicaciones sería \textit{Collada}, ya que parecía tener menos errores gráficos y mantener la mayor información posible en huesos y posición de la figura. Una vez se ha exportado la figura, solo es necesario importarlo en \blender usando la opción para importar archivos \textit{Collada} en Blender.
 
     \subsection{Errores gráficos}
-    \label{sec:4.2.1}
+    \label{sec:errores_graficos}
     Una vez la figura se encuentra preparada para ser modificada en la nueva herramienta, se puede comenzar con las ediciones de errores gráficos. En el momento de importación, se detectaron dos errores en el modelo: por un lado, la textura del pelo, al reducirse la calidad en la exportación, perdía también forma y quedaba <<separado>> de la cabeza; por otro lado, \makehuman prepara el modelo para que aquellas texturas que queden ocultas por diferentes superficies del mismo modelo se borren para ahorrar espacio, siendo sustituidas por texturas transparentes o <<\textit{alpha}>>, pero al modificarse la forma, algunas de estas texturas transparentes quedaban al descubierto, pudiéndose ver lo que había por dentro y por detrás del modelo a través de las transparencias generadas.
 
     \paragraph{}
@@ -114,7 +114,7 @@
     En cuanto al error gráfico de texturas transparentes, la resolución pasó por configurar los canales \textit{alpha} de los materiales, debido a que la configuración utilizada por \makehuman no es la misma que la que utilizan el resto de procesadores de modelos 3D. Para esto, a través del menú \textit{Layout}, se debe seleccionar la opción \textit{Material Properties} para poder modificar las propiedades \textit{Blend Mode} y \textit{Shadow Mode}, a los que se les asignará el valor \textit{Alpha Hashed}. De esta manera, las texturas \textit{alpha} serán interpretadas correctamente y el pelo se verá <<pegado>> a la cabeza
 
     \subsection{Animaciones}
-    \label{sec:4.2.2}
+    \label{sec:animaciones}
     Después de solucionar los errores gráficos, se puede comenzar con las animaciones del modelo. Estas se dividen en la animación facial y la animación corporal.
 
     \paragraph{}

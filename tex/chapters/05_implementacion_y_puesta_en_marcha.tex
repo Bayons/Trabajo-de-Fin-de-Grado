@@ -6,7 +6,7 @@
     \label{chap:5}
 
     \section{Alojamiento y ejecución}
-    \label{sec:5.1}
+    \label{sec:alojamiento_y_ejecucion}
     Para poder ejecutar la aplicación web desde cualquier dispositivo, fue necesario alojar el sistema en un servidor. Dado que la empresa \silverstorm era la primera interesada en el proyecto y ofrecía los recursos necesarios, permitió el uso de dos servidores de pequeña capacidad con sistema \linux proporcionado por \aws: uno para desarrollo y demostraciones internas y otro para su posterior uso en producción. Además, para poder cumplir los requisitos de \webxr, que requería del uso de conexiones seguras a través de HTTPS \cite{web:webxrrequirements}, era necesario utilizar certificados SSL. Esto se consiguió utilizando un certificado autofirmado para el entorno de desarrollo, y un certificado para la instancia de producción firmado por \textit{RapidSSL}, entidad utilizada para otras webs de la empresa.
 
     \paragraph{}
@@ -26,10 +26,10 @@
     \end{figure}
 
     \paragraph{}
-    Con el código QR instalado en la web, el procedimiento para iniciar la aplicación de \ra es muy sencillo: El usuario, navegando por la web desde su ordenador, vería el código QR. Este escanearía el código QR con el móvil, lo cual le redirigirá a la página principal de la aplicación, donde podrá pulsar el botón que carga la aplicación, continuando con el proceso que se comentó en el punto \ref{sec:3.5}. Si el usuario utilizara su móvil en lugar del ordenador para navegar por la web de la empresa, el camino sería muy similar: una vez llegue al código QR, pulsaría sobre este, lo cuál le redirigirá en el mismo navegador a la aplicación de \ra, pudiendo así pulsar sobre el botón e iniciar el proceso del punto \ref{sec:3.5}.
+    Con el código QR instalado en la web, el procedimiento para iniciar la aplicación de \ra es muy sencillo: El usuario, navegando por la web desde su ordenador, vería el código QR. Este escanearía el código QR con el móvil, lo cual le redirigirá a la página principal de la aplicación, donde podrá pulsar el botón que carga la aplicación, continuando con el proceso que se comentó en el punto \ref{sec:funcionamiento_final_de_la_realidad_aumentada}. Si el usuario utilizara su móvil en lugar del ordenador para navegar por la web de la empresa, el camino sería muy similar: una vez llegue al código QR, pulsaría sobre este, lo cuál le redirigirá en el mismo navegador a la aplicación de \ra, pudiendo así pulsar sobre el botón e iniciar el proceso del punto \ref{sec:funcionamiento_final_de_la_realidad_aumentada}.
 
     \section{Pruebas de campo}
-    \label{sec:5.2}
+    \label{sec:pruebas_de_campo}
     Tanto durante el desarrollo de la aplicación como después de ser terminado el despliegue de la misma, hubo pruebas continuas para comprobar su la calidad y controlar posibles problemas y mejoras. Uno de los grandes problemas que se dieron desde el inicio fue la calidad de los resultados de \hittest, encontrando una gran variabilidad en relación con el dispositivo utilizado y con el entorno.
 
     \paragraph{}
@@ -46,7 +46,7 @@
     \end{enumerate}
 
     \section{Problemas y errores}
-    \label{sec:5.3}
+    \label{sec:problemas_y_errores}
     A lo largo del desarrollo de la aplicación, han ido surgiendo múltiples errores, algunos más fáciles y otro más difíciles de depurar. La depuración de estos errores resultó generalmente complicada debido a que la aplicación debe ser abierta siempre a través de móvil, lo que obliga a configurar el móvil y conectarlo a través de cable a un ordenador para poder utilizar la consola del navegador. Además, los errores de programación que se encontrasen dentro del bucle principal serían especialmente problemáticos, porque no existe forma perfecta de ver la información necesaria de manera sencilla.
 
     \paragraph{}

@@ -19,8 +19,8 @@
 \usepackage{setspace} %% allows space specifications between lines
 \renewcommand{\baselinestretch}{1.2}
 \setlength{\parindent}{0.5cm}
-\setcounter{tocdepth}{1}
-\setcounter{secnumdepth}{3}
+\setcounter{tocdepth}{2} %% depth in table of contents
+\setcounter{secnumdepth}{3} %% depth in section numbering
 
 \usepackage{fancyhdr} %% provides control over headers and footers
 \fancyhf{}
@@ -37,13 +37,8 @@
   \fancyhf[lef,rof]{\thepage}
 }
 
-% \usepackage[linesnumbered,ruled]{algorithm2e} %% allows to write pseudocode
-% \SetKwRepeat{Do}{do}{while}
-
 \usepackage{graphicx} %% allows image insertion
 \graphicspath{{./img/}}
-
-%\usepackage{wrapfig} %% places the images at the sides
 
 \usepackage[hidelinks]{hyperref} %% handles hypertext links
 
@@ -66,6 +61,7 @@
 \addbibresource{bib/webs.bib}
 
 \usepackage{listings} %% stylizes code scripting
+\renewcommand\lstlistlistingname{Índice de fragmentos de código}
 \usepackage{color} %% allows custom colours (for listings)
 
 \definecolor{lightgray}{rgb}{.9,.9,.9}

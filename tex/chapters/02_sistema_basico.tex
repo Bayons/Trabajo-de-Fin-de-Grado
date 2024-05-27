@@ -6,7 +6,7 @@
   \label{chap:2}
 
         \section{Estructura}
-        \label{sec:2.1}
+        \label{sec:estructura}
         Debido a la clara repartición de tareas en cada sección del código, se ha pretendido aplicar una separación tipo Modelo-Vista-Controlador en la aplicación, de manera que todo esté visiblemente separado y se pueda utilizar un sistema de orientación a objetos en toda la parte escrita en \js.
 
         \paragraph{}
@@ -44,7 +44,7 @@
         Por todo esto, y dado que la lógica de negocio está separada de la interfaz de usuario, la estructura se corresponde con el patrón Modelo-Vista-Presentador. Sin embargo, dado que desde el inicio del proyecto se trató cada parte como el clásico Modelo-Vista-Controlador, y dado que el Modelo-Vista-Presentador proviene de este último, cada parte será nombrada como si lo fuera, aún siendo conscientes de las diferencias.
 
         \section{Sesión WebXR}
-        \label{sec:2.2}
+        \label{sec:sesion_webxr}
 
         La primera herramienta que será necesario inicializar es una instancia de Sesión de \webxr. La Sesión de \webxr, llamada \textit{XRSession} \cite{web:xrsession}, es el objeto de la librería \webxr que provee de las funcionalidades más básicas, así como de utilidades extra que serán implementadas a lo largo del desarrollo de la aplicación. Esta interfaz pretende representar la propia actividad que llevará a cabo el usuario mientras observa la \ra, por lo que tendrá funciones orientadas a iniciar, mantener y terminar esta actividad.
 
@@ -141,7 +141,7 @@ async startLoop() {
         Justo después de solicitar la Sesión, se utiliza a esta misma para lanzar la función \textit{updateRenderState} \cite{web:updaterenderstate} en la línea 15. Esta función solicita cambios de configuración a partir del siguiente fotograma que se cargue. Sin embargo, como a estas alturas aún no se ha cargado ningún fotograma, se entiende que estos <<cambios en la configuración>> son para el primero y para los siguientes fotogramas (es decir, para todos, dado que esa configuración no va a cambiar en esta aplicación).
 
         \paragraph{}
-        La configuración que se solicita cambiar para los fotogramas es la que se prepara en las líneas 7, 8 y 9 junto con la constante de la línea 2: en la línea  8, estamos generando un \textit{canvas}, que es un objeto de HTML generado a partir de \js cuya finalidad es albergar objetos gráficos, como ya se mencionó en la sección \ref{sec:2.1}. Para insertar este objeto en nuestra Vista, se ejecuta la acción de la línea 8, momento a partir del cuál este objeto ocupará la pantalla completa de nuestro dispositivo móvil. Si no añadiésemos más funcionalidad, veríamos que nuestra pantalla no mostraría nada más que una pantalla en negro. Esto se debe a que aún no hemos insertado ningún objeto gráfico en nuestro \textit{canvas}, para lo que aún quedan unos pasos.
+        La configuración que se solicita cambiar para los fotogramas es la que se prepara en las líneas 7, 8 y 9 junto con la constante de la línea 2: en la línea  8, estamos generando un \textit{canvas}, que es un objeto de HTML generado a partir de \js cuya finalidad es albergar objetos gráficos, como ya se mencionó en la sección \ref{sec:estructura}. Para insertar este objeto en nuestra Vista, se ejecuta la acción de la línea 8, momento a partir del cuál este objeto ocupará la pantalla completa de nuestro dispositivo móvil. Si no añadiésemos más funcionalidad, veríamos que nuestra pantalla no mostraría nada más que una pantalla en negro. Esto se debe a que aún no hemos insertado ningún objeto gráfico en nuestro \textit{canvas}, para lo que aún quedan unos pasos.
 
         \paragraph{}
         Por último, en la línea 9 se solicita al objeto \textit{canvas} un <<contexto>> a través de la función \textit{getContext}. El contexto de un \textit{canvas} es una interfaz a través de la cuál se puede interactuar y generar gráficos e imágenes desde el código de \js \cite{web:canvascontext}, por lo que nos resulta imprescindible para trabajar con este <<lienzo>>. Primero, a la función le indicamos qué tipo de imágenes vamos a utilizar para que nos devuelva el objeto de contexto correcto (en nuestro caso, el contexto va a ser la inserción de imágenes en 3D). Eso lo hacemos mediante el primer parámetro (``\textit{webgl}"), mientras que en el segundo, tal y como ocurrió al solicitar la sesión de \webxr, le establecemos una serie de opciones que queremos que sean distintas a las predeterminadas. En este caso, queremos activar la opción <<\textit{xrCompatible}>>, que indica que indica al \textit{canvas} que el contexto que nos devuelva tiene que ser compatible con \webxr \cite{web:getcontext}. Esta configuración es la que se almacena en la constante de la línea 2.
@@ -153,7 +153,7 @@ async startLoop() {
         De esta manera tendríamos iniciada la forma más básica de Sesión, aunque aún no seríamos capaces de ver nada a través de la pantalla de nuestros dispositivos. Para esto, vamos a necesitar lanzar un bucle en el que procesemos y mostremos los fotogramas que captemos con la cámara de nuestro móvil.
         
         \section{Procesado iterativo}
-        \label{sec:2.3}
+        \label{sec:procesado_iterativo}
 
         Para poder mostrar por pantalla cada fotograma, así como hacer los cálculos relacionados con las figuras que vamos a insertar llegado el momento, es necesario crear un bucle que dure tanto tiempo como el usuario vaya a permanecer en la Sesión. En cada una de las iteraciones, la aplicación solicitará al hardware del dispositivo móvil la imagen captada a través de su cámara.
 
