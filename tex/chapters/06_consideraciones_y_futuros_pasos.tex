@@ -2,7 +2,7 @@
 
 \begin{document}
 
-    \chapter{Consideraciones y futuros pasos}
+    \chapter{Conclusiones y futuros pasos}
     \label{chap:6}
 
     \section{Pasos fallidos}
@@ -22,7 +22,7 @@
 
     \section{Futuros pasos}
     \label{sec:futuros_pasos}
-    Durante el desarrollo y después de finalizar el mismo, se encontraron muchos puntos que necesitan una corrección o que pueden mejorarse. Algunos de estos requieren de mejoras en las propias interfaces utilizadas, por lo que su mejora pasaría por esperar a actualizaciones o sustituir completamente la interfaz, pero otras son puntos mejorables que se han ido encontrando durante el proyecto y posponiendo hasta después de obtener un producto mínimo viable. Algunos de los puntos encontrados son los siguientes:
+    Durante el desarrollo y después de finalizar el mismo, se encontraron muchos puntos que necesitan una corrección o que pueden evolucionar. Algunos de estos requieren de mejoras en las propias interfaces utilizadas, por lo que su mejora pasaría por esperar a actualizaciones o sustituir completamente la interfaz, pero otras son puntos mejorables que se han ido encontrando durante el proyecto y posponiendo hasta después de obtener un producto mínimo viable. Algunos de los puntos encontrados son los siguientes:
     \begin{itemize}
         \item En el código original, se utiliza la opción \textit{preserveDrawingBuffer} como una de las opciones a añadir al renderizador. Esto se utilizó debido a que viene así explicado en varios tutoriales, pero en un issue del repositorio de GitHub de \webxr indican que esta opción es totalmente ignorada por la herramienta, por lo que no tiene ningún sentido mantener esa opción en el objeto.\cite{web:webxr_github_preserveDrawingBuffer}. Este hilo es el único lugar donde se indica esta información, hecho por el cuál costó tanto encontrar este dato.
         \item La detección de superficies resulta muy imprecisa y depende, como se comentó en la sección \ref{sec:pruebas_de_campo}, de la iluminación y del tipo de superficie. Según parece, la detección de superficies se puede configurar, por lo que es posible que se pueda mejorar manualmente, aunque esto requiere de mucha investigación.
