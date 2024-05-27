@@ -6,7 +6,7 @@
     \label{chap:6}
 
     \section{Pasos fallidos}
-    \label{sec:6.1}
+    \label{sec:pasos_fallidos}
     
     Es importante remarcar que este trabajo forma parte de una colaboración con la empresa \thirdera, originalmente \silverstorm, y que algunos recursos fueron ofrecidos por esta misma para favorecer el curso del desarrollo y su correcta finalización, así como asegurar el producto mínimo viable.
 
@@ -21,11 +21,11 @@
     \end{itemize}
 
     \section{Futuros pasos}
-    \label{sec:6.2}
+    \label{sec:futuros_pasos}
     Durante el desarrollo y después de finalizar el mismo, se encontraron muchos puntos que necesitan una corrección o que pueden mejorarse. Algunos de estos requieren de mejoras en las propias interfaces utilizadas, por lo que su mejora pasaría por esperar a actualizaciones o sustituir completamente la interfaz, pero otras son puntos mejorables que se han ido encontrando durante el proyecto y posponiendo hasta después de obtener un producto mínimo viable. Algunos de los puntos encontrados son los siguientes:
     \begin{itemize}
         \item En el código original, se utiliza la opción \textit{preserveDrawingBuffer} como una de las opciones a añadir al renderizador. Esto se utilizó debido a que viene así explicado en varios tutoriales, pero en un issue del repositorio de GitHub de \webxr indican que esta opción es totalmente ignorada por la herramienta, por lo que no tiene ningún sentido mantener esa opción en el objeto.\cite{web:webxr_github_preserveDrawingBuffer}. Este hilo es el único lugar donde se indica esta información, hecho por el cuál costó tanto encontrar este dato.
-        \item La detección de superficies resulta muy imprecisa y depende, como se comentó en la sección \ref{sec:5.2}, de la iluminación y del tipo de superficie. Según parece, la detección de superficies se puede configurar, por lo que es posible que se pueda mejorar manualmente, aunque esto requiere de mucha investigación.
+        \item La detección de superficies resulta muy imprecisa y depende, como se comentó en la sección \ref{sec:pruebas_de_campo}, de la iluminación y del tipo de superficie. Según parece, la detección de superficies se puede configurar, por lo que es posible que se pueda mejorar manualmente, aunque esto requiere de mucha investigación.
         \item Como se comentó en la sección anterior, la aplicación no es multiplataformas, sino que funciona solo en determinados navegadores específicos determinados por la propia librería \webxr. En futuros pasos, sería ideal ampliar esta compatibilidad, ya sea configurando el sistema actual de la manera adecuada o cambiando de librería de \ra.
         \item Los pasos para añadir nuevos modelos, animaciones y voces se encuentran muy medidos y son reproducibles. Sin embargo, sería ideal simplificarlos aún más para poder minimizar el esfuerzo de generar nuevo contenido para la aplicación.
         \item A pesar de que el código del sistema está repartido para repartir responsabilidades, hubiera sido posible diferenciarlo más de manera que los diferentes trabajos, especialmente en el bucle de procesado, estuviesen mucho más diferenciados y fuese más legible. Esto requeriría de una refactorización intensa, pero que puede afectar positivamente en el mantenimiento de la propia aplicación.
