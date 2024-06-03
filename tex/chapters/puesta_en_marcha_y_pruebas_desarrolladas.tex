@@ -2,7 +2,7 @@
 
 \begin{document}
 
-    \chapter{Implementación y puesta en marcha}
+    \chapter{Puesta en marcha y pruebas desarrolladas}
     \label{chap:5}
 
     \section{Alojamiento y ejecución}
@@ -16,7 +16,7 @@
     Una vez estuvo configurado el servidor para alojar correctamente la aplicación, se comenzó el proceso para que el usuario pudiese acceder a esta. Este consistía en ubicar un código QR en la página web de \silverstorm que apuntase a la \textit{landing page} de la aplicación. Además, en caso de que el usuario accediese a la web desde un móvil, el QR también debía actuar como un hiperenlace, de manera que el usuario pudiese pulsar sobre este y acceder directamente a la aplicación de \ra. Para la generación del código QR, se utilizó la aplicación web gratuita \textit{QR Code Generator} \cite{web:qrcodegenerator}, sin embargo, debido a que es un proceso simple, actualmente existen múltiples plataformas capaces de hacer la misma tarea con resultados similares o incluso mejores de manera también gratuita.
 
     \paragraph{}
-    La ubicación del código QR en la web fue sencillo, debido a que esta está creada a través de \wordpress. Sin embargo, es necesario mencionar que, debido a que la empresa fue posteriormente adquirida por \thirdera, esta web fue dada de baja, dado que todo el contenido importante sería migrado a sus webs, por lo que actualmente no se puede visitar el dominio.
+    La ubicación del código QR en la web fue sencillo, debido a que esta estaba creada a través de \wordpress. Sin embargo, es necesario mencionar que, debido a que la empresa fue posteriormente adquirida por \thirdera, esta web fue dada de baja, dado que todo el contenido importante sería migrado a sus webs, por lo que actualmente no se puede visitar el dominio.
 
     \begin{figure}%[H]
     \centering
@@ -33,7 +33,7 @@
     Tanto durante el desarrollo de la aplicación como después de ser terminado el despliegue de la misma, hubo pruebas continuas para comprobar su la calidad y controlar posibles problemas y mejoras. Uno de los grandes problemas que se dieron desde el inicio fue la calidad de los resultados de \hittest, encontrando una gran variabilidad en relación con el dispositivo utilizado y con el entorno.
 
     \paragraph{}
-    En primer lugar, haciendo pruebas con distintos dispositivos móviles de compañeros de trabajo y de amigos y familiares, se encontró que los dispositivos móviles con cámaras de mejor calidad eran los que mejores resultados obtenían del \hittest, presumiblemente por obtener mejores imágenes de las superficies, lo que ayudaría al sistema a interpretar y calcular los planos que después tendría que representar. Los dispositivos con cámaras de menor calidad tardaban más en encontrar superficies y\/o no las reconocían bien.
+    En primer lugar, haciendo pruebas con distintos dispositivos móviles de compañeros de trabajo y de amigos y familiares, se encontró que los dispositivos móviles con cámaras de mejor calidad eran los que mejores resultados obtenían del \hittest, presumiblemente por obtener mejores imágenes de las superficies, lo que ayudaría al sistema a interpretar y calcular los planos que después tendría que representar. Los dispositivos con cámaras de menor calidad tardaban más en encontrar superficies o no las reconocían bien.
 
     \paragraph{}
     En segundo lugar, también se detectó que en las pruebas existían problemas inherentes al entorno. Por un lado, el material del que estuviese hecha la superficie podía generar problemas al sistema a la hora de interpretarlo debido a imperfecciones, reflejos o brillos. Esto se comprobó en suelos de baldosa donde, dependiendo del lugar, tenían diferente reflejo debido al desgaste: las zonas más desgastadas permitían al sistema calcular mejor la superficie, mientras que las que conservaban mejor el brillo y reflejaban más la luz hacían que el sistema tardase más en detectarlo. Esta diferencia llegaba a ser de 5 segundos aproximadamente en superficies <<fáciles>> a 2 minutos en los casos más generales en superficies <<difíciles>>. Esto venía a su vez afectado por la cantidad de luz en el ambiente, siendo lo óptimo una cantidad de luz moderada y, a poder ser, natural, debido a que esta iluminación tiende a ser más uniforme, aunque una luz artificial moderada también es favorable para esta aplicación. En los casos de luz escasa, el sistema interpreta mal las superficies o, directamente, no las encuentra, mientras que con una luz demasiado fuerte el sistema puede no ser capaz de encontrar ninguna superficie, dependiendo del material de esta.

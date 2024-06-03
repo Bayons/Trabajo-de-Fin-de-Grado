@@ -3,11 +3,11 @@
 \begin{document}
 
     \chapter{Implementaciones sobre el sistema de Realidad Aumentada}
-    \label{chap:3}
+    \label{chap:implementaciones_sobre_el_sistema_de_realidad_aumentada}
 
         \section{Modelo en 3D y Three.js}
         \label{sec:modelo_en_3d_y_three_js}
-        A partir del sistema básico generado en el capítulo anterior, podemos empezar a añadirle complejidad a nuestro sistema. El primer elemento que añadiremos es un modelo en 3D que utilizaremos como base en esta aplicación.
+        A partir del sistema básico generado en la sección anterior, podemos empezar a añadirle complejidad a nuestro sistema. El primer elemento que añadiremos es un modelo en 3D que utilizaremos como base en esta aplicación.
 
         \paragraph{}
         Para la carga, inserción, control y movimientos de los modelos en 3D se ha utilizado en esta aplicación la librería \threejs. \threejs es una librería ligera preparada para su uso en aplicaciones web compatible con \js \cite{web:wikipediathreejs}. Además, este está especializado en el control de modelos en 3D en formato \glb y \gltf, que son dos formatos basados en \textit{JSON} y que están creados para ser óptimos en tiempo de ejecución (el formato \glb es el equivalente en binario a \gltf) \cite{web:threejs_loading3dmodels}.
@@ -213,7 +213,7 @@ async startLoop() {
 \begin{figure}
 \centering
 \includegraphics[width=0.5\textwidth]{img/google_cardboard.jpg}
-\caption{Ejemplo de uso de las \textit{Google Cardboard} para visualizar contenido en \rv. Imagen extraída de A Principal's Reflections (Blogspot).}
+\caption{Ejemplo de uso de las \textit{Google Cardboard} para visualizar contenido en \rv. Fuente: \citetitle{web:blogspot_potentialofvirtualreality}.}
 \label{fig:google_cardboard}
 \end{figure}
 
@@ -339,7 +339,7 @@ if (hitTestResults.length > 0 && this.#reticle) {
         
         \section{Animación de modelos}
         \label{sec:animacion_de_modelos}
-        La creación de animaciones de cada modelo, en el caso de este \tfg, se hace durante el propio diseño del modelo, punto que será tratado en el capítulo \ref{chap:4}. Sin embargo, es importante conocer esto, ya que algunos formatos de modelos en 3D como \glb o \gltf permiten almacenar dichas animaciones de manera que, al cargar los modelos, se puede utilizar también estas animaciones. En nuestra situación, son los modelos humanos los que contienen animaciones, debido a que la retícula no necesita ninguna.
+        La creación de animaciones de cada modelo, en el caso de este \tfg, se hace durante el propio diseño del modelo, punto que será tratado en el capítulo \ref{chap:diseno_y_modelado_en_3d}. Sin embargo, es importante conocer esto, ya que algunos formatos de modelos en 3D como \glb o \gltf permiten almacenar dichas animaciones de manera que, al cargar los modelos, se puede utilizar también estas animaciones. En nuestra situación, son los modelos humanos los que contienen animaciones, debido a que la retícula no necesita ninguna.
 
         \paragraph{}
         Para comenzar con la animación de modelos, es necesario volver otra vez a la carga de los modelos, en la función \textit{checkSessionSupported}. En este caso, trataremos concretamente la animación de los modelos humanos que, como se ve en el código \ref{lst:3.7}, es algo distinto a la carga de la retícula.
