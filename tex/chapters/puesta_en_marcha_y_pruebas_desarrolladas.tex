@@ -3,7 +3,7 @@
 \begin{document}
 
     \chapter{Puesta en marcha y pruebas desarrolladas}
-    \label{chap:5}
+    \label{chap:puesta_en_marcha_y_pruebas_desarrolladas}
 
     \section{Alojamiento y ejecución}
     \label{sec:alojamiento_y_ejecucion}
@@ -11,12 +11,6 @@
 
     \paragraph{}
     Para alojar la aplicación en los servidores, se hizo uso de los comandos \textit{git} a través de la consola de \linux, de manera que se pudiese acceder siempre a la última versión del repositorio. Además, para asegurar que el contenido adecuado se traspasaba siempre al servidor correcto, se mantuvo la rama principal del repositorio como única rama a utilizar en el servidor de producción, siendo esto distinto en el servidor de desarrollo, donde se utilizaba la rama de desarrollo que estuviese activa en el momento, debido a que se creaban nuevas ramas para cada tarea. Una vez se descargaba el contenido en el servidor, mediante un script de \textit{Bash}, se movía el contenido descargado del repositorio para sobreescribir el antiguo contenido, que quedaba copiado en una carpeta aparte para ser recuperado en caso de problemas.
-
-    \paragraph{}
-    Una vez estuvo configurado el servidor para alojar correctamente la aplicación, se comenzó el proceso para que el usuario pudiese acceder a esta. Este consistía en ubicar un código QR en la página web de \silverstorm que apuntase a la \textit{landing page} de la aplicación. Además, en caso de que el usuario accediese a la web desde un móvil, el QR también debía actuar como un hiperenlace, de manera que el usuario pudiese pulsar sobre este y acceder directamente a la aplicación de \ra. Para la generación del código QR, se utilizó la aplicación web gratuita \textit{QR Code Generator} \cite{web:qrcodegenerator}, sin embargo, debido a que es un proceso simple, actualmente existen múltiples plataformas capaces de hacer la misma tarea con resultados similares o incluso mejores de manera también gratuita.
-
-    \paragraph{}
-    La ubicación del código QR en la web fue sencillo, debido a que esta estaba creada a través de \wordpress. Sin embargo, es necesario mencionar que, debido a que la empresa fue posteriormente adquirida por \thirdera, esta web fue dada de baja, dado que todo el contenido importante sería migrado a sus webs, por lo que actualmente no se puede visitar el dominio.
 
     \begin{figure}%[H]
     \centering
@@ -26,7 +20,20 @@
     \end{figure}
 
     \paragraph{}
+    Una vez estuvo configurado el servidor para alojar correctamente la aplicación, se comenzó el proceso para que el usuario pudiese acceder a esta. Este consistía en ubicar un código QR en la página web de \silverstorm que apuntase a la \textit{landing page} de la aplicación. Además, en caso de que el usuario accediese a la web desde un móvil, el QR también debía actuar como un hiperenlace, de manera que el usuario pudiese pulsar sobre este y acceder directamente a la aplicación de \ra. Para la generación del código QR, se utilizó la aplicación web gratuita \textit{QR Code Generator} \cite{web:qrcodegenerator}, sin embargo, debido a que es un proceso simple, actualmente existen múltiples plataformas capaces de hacer la misma tarea con resultados similares o incluso mejores de manera también gratuita.
+
+    \paragraph{}
+    La ubicación del código QR en la web fue sencillo, debido a que esta estaba creada a través de \wordpress. Sin embargo, es necesario mencionar que, debido a que la empresa fue posteriormente adquirida por \thirdera, esta web fue dada de baja, dado que todo el contenido importante sería migrado a sus webs, por lo que actualmente no se puede visitar el dominio.
+
+    \paragraph{}
     Con el código QR instalado en la web, el procedimiento para iniciar la aplicación de \ra es muy sencillo: El usuario, navegando por la web desde su ordenador, vería el código QR. Este escanearía el código QR con el móvil, lo cual le redirigirá a la página principal de la aplicación, donde podrá pulsar el botón que carga la aplicación, continuando con el proceso que se comentó en el punto \ref{sec:funcionamiento_final_de_la_realidad_aumentada}. Si el usuario utilizara su móvil en lugar del ordenador para navegar por la web de la empresa, el camino sería muy similar: una vez llegue al código QR, pulsaría sobre este, lo cuál le redirigirá en el mismo navegador a la aplicación de \ra, pudiendo así pulsar sobre el botón e iniciar el proceso del punto \ref{sec:funcionamiento_final_de_la_realidad_aumentada}.
+
+    \begin{figure}[H]
+    \centering
+    \fbox{\includegraphics[width=0.25\textwidth]{img/5.1_qr_actualizado.png}}
+    \caption{Código QR con la dirección URL de la aplicación web.}
+    \label{fig:5.1_qr_actualizado}
+    \end{figure}
 
     \section{Pruebas de campo}
     \label{sec:pruebas_de_campo}

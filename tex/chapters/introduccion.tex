@@ -3,7 +3,7 @@
 \begin{document}
 
     \chapter{Introducción}
-    \label{chap:1}
+    \label{chap:introduccion}
 
         \section{Introducción}
         \label{sec:introduccion}
@@ -123,15 +123,52 @@
         \section{Tecnologías utilizadas}
         \label{sec:tecnologias_utilizadas}
 
-        Para elaborar nuestra aplicación de \ra, nos hemos apoyado principalmente en tres herramientas ya existentes, cuyo uso se explicará con detalle más adelante.
+        Para elaborar nuestra aplicación de \ra, nos hemos apoyado principalmente en tres librerías, todas ellas orientadas en su uso para aplicaciones web, que será el caso de esta aplicación. También hemos utilizado algunas herramientas para el desarrollo e implementación de código y modelos tridimensionales generados para la propia aplicación.
+
+        \subsection{Herramientas de \ra}
+        \label{sec:herramientas_de_ra}
 
         \paragraph{}
-        El primero y más importante es \webxr \cite{web:webxr}. Esta es una interfaz para generar entornos tanto de \ra como de \rv y que facilita al desarrollador la interacción con el hardware. Aunque su uso se preparó para generar estos entornos en dispositivos de \rv exclusivamente, más tarde se actualizó para poder ser utilizado en el navegador \googlechrome (versión 79) para móviles \android. Gracias a \webxr, podremos acceder a aspectos básicos para esta tecnología, como el acceso a la cámara del dispositivo, la ubicación y orientación del mismo, la creación de una sesión interactiva...
+        La primera librería a comentar es \webxr \cite{web:webxr}. Esta es una interfaz para generar entornos tanto de \ra como de \rv y tiene una labor crítica ya que facilita al desarrollador la interacción con el hardware para utilizar funcionalidades del mismo. Aunque su uso se preparó para generar estos entornos en dispositivos de \rv exclusivamente, más tarde se actualizó para poder ser utilizado en el navegador \googlechrome (versión 79) para móviles \android. Gracias a \webxr, podremos acceder a aspectos básicos para esta tecnología, como el acceso a la cámara del dispositivo, la ubicación y orientación del mismo, la creación de una sesión interactiva...
 
         \paragraph{}
         Para poder modificar y manipular los modelos en 3D que comentaremos en el desarrollo de esta memoria, hemos recurrido a la librería \threejs \cite{web:threejs}, una librería centrada en la generación de modelos y gráficos 3D para navegadores web para \js. Esta puede utilizar varios formatos de modelos 3D como FBX, Collada o OBJ, pero la documentación recomienda encarecidamente utilizar el formato \gltf por estar más centrado en su uso en tiempo de ejecución: es un formato muy compacto y rápido de cargar. \webxr se apoya en esta librería para mostrar estos modelos en imágenes del mundo real (\ra) o en entornos totalmente generados (\rv).
 
         \paragraph{}
         La última librería utilizada es \resonanceaudio \cite{web:resonance_audio}, la cual permite ampliar las funcionalidades básicas de sonidos que contiene HTML en conjunto con \js. En concreto, \resonanceaudio permite simular sonidos espaciales recreando las características que permiten a nuestro cerebro posicionar un sonido a nuestro alrededor. Además, dispone de personalizaciones para el sonido emitido, como la simulación de eco en interiores dependiendo de los materiales de las paredes, techo y suelo que rodeen al foco del sonido.
+
+        \paragraph{}
+        La idea es combinar el uso de estas tres librerías para generar una aplicación web accesible desde el navegador móvil \googlechrome que aplicará la <<técnica>> de \ra. Para ello, cada una de estas partes se implicará de una manera distinta:
+        
+        \begin{enumerate}
+            \item \webxr se ocupará de interactuar con el hardware para obtener las imágenes de la cámara del dispositivo y las coordenadas de posición y movimiento. También será capaz de controlar si el móvil soporta las funcionalidades ofrecidas por la aplicación.
+
+            \item \threejs permitirá manejar modelos tridimensionales para controlar sus movimientos, posición, orientación, etc. De esta manera, junto con la herramienta anterior, seremos capaces de mostrar objetos virtuales en imágenes reales y compensar el movimiento del dispositivo con la posición y orientación del modelo para generar la ilusión de que los gráficos en 3D insertados en las imágenes captadas por cámara se encuentran en un lugar fijo y cobran vida al animarse o moverse, produciendo así la \ra.
+
+            \item Por último, \resonanceaudio se ocupará de replicar las propiedades del sonido espacial, consiguiendo con esto generar la ilusión de que los sonidos deseados surgen del modelo tridimensional, con la intención de que este parezca que habla. Así, el usuario sentirá una diferencia en el audio si se encuentra más lejos o más cerca o si el modelo se encuentra a su izquierda, a su derecha, frente a él o tras él, coincidiendo el efecto del audio con la forma en que se escucharía este mismo si se produjera en la realidad. Combinado con todo lo anterior, obtendremos el efecto de \ra que buscamos.
+        \end{enumerate}
+
+        \subsection{Herramientas de desarrollo}
+        \label{sec:herramientas_de_desarrollo}
+
+        El desarrollo del código de la aplicación se apoyó principalmente en \eclipse \cite{web:eclipse}, concretamente en su versión \textit{Eclipse IDE for Enterprise Java and Web Developers}. Esta versión del conocido entorno de desarrollo ofrece una gran variedad de facilidades para el desarrollo de aplicaciones web así como ayuda para la escritura en lenguajes \textit{Java}, \textit{Javascript} o \textit{JSP}, entre otros.
+
+        \paragraph{}
+        Además, nos apoyamos en \github \cite{web:github} para aplicar un control de versiones seguro. Con este, podíamos aplicar una rama para cada tarea y combinarla con la rama principal de desarrollo cuando todos los cambios estuviesen listos. Esto favorecía también que, en un momento dado en que entrase una tarea prioritaria, se pudiese dejar otra a medias sin que los cambios en desarrollo de ambas tareas se afectasen entre ellas. Más tarde, al obtener un servidor para pruebas y otro para los cambios definitivos, se aplicaría en el primero la rama de desarrollo y en el segundo la rama maestra con las versiones finales.
+
+        \paragraph{}
+        Para realizar las subidas desde la máquina al repositorio de \github, en lugar del cliente para escritorio ofrecido por la misma empresa, se decidió utilizar \gitkraken \cite{web:gitkraken}. Esta es una herramienta de escritorio que facilita la gestión de repositorios, simplificando las operaciones y comandos \textit{git} y mostrando los cambios y ramas de manera muy visual.
+
+        \paragraph{}
+        Para la prueba y depuración del código se utilizó el ya mencionado navegador \googlechrome para dispositivos móviles \cite{web:googlechromeforandroid}. Es importante mencionar que este no dispone de por sí de herramientas de desarrollo incorporadas como sí lo tiene su homólogo para ordenadores, por lo que para muchas de estas tareas era necesario conectar el móvil al ordenador para ver desde este último los posibles mensajes de error o para poder utilizar la consola de comandos.
+
+        \paragraph{}
+        Para el desarrollo de esta memoria, se ha utilizado en todo momento la aplicación web de \overleaf \cite{web:overleaf}, un editor de composición de textos \LaTeX \xspace que permite la compilación de archivos automática, ayuda a la escritura reconociendo errores en texto y en comandos y una interfaz sencilla donde se muestra el código, los ficheros utilizados y el documento resultante tras la compilación. \overleaf ofrece, además, integración con \github, de manera que esta memoria también ha contado por su lado con su propio control de versiones.
+
+        \paragraph{}
+        Para la generación de diagramas se ha utilizado \drawio \cite{web:drawio}, una aplicación de generación de diagramas gratuita que permite generar diagramas de flujo, de clases, de componentes, etc. \drawio cuenta con una versión online y una de escritorio, tiene una interfaz sencilla y permite la integración con plataformas de almacenamiento en la nube como \textit{Google Drive}, \textit{Dropbox} o \textit{OneDrive}.
+
+        \paragraph{}
+        Por último, para desarrollar los modelos en 3D, se utilizaron, por separado, dos aplicaciones: \makehuman \cite{web:makehuman} y \blender \cite{web:blender}. Sin embargo, de estas dos herramientas se hablará de manera más detallada en el capítulo \ref{chap:diseno_y_modelado_en_3d}.
         
 \end{document}
