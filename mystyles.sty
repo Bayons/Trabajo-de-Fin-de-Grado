@@ -11,7 +11,38 @@
   es-nodecimaldot
 ]{babel}
 
+\hyphenation{Pro-ba-bi-li-dad}
+\hyphenation{im-pac-to}
+\hyphenation{ex-po-si-cion}
+\hyphenation{sig-ni-fi-ca-ti-vo}
+\hyphenation{mo-de-ra-do}
+\hyphenation{al-to}
+\hyphenation{ba-jo}
+
 \usepackage{subfiles} %% allows file separation
+
+\usepackage[table,xcdraw]{xcolor} %% allows table creation with colors
+\usepackage{lscape} %% allows landscape tables
+\usepackage{multirow} %% allows joining cells in multiple rows
+\usepackage{rotating} %% allows the rotation of tables
+\usepackage{tabularray} %% allows the split of tables
+\DefTblrTemplate{firsthead,middlehead,lasthead}{default}{
+}
+\DefTblrTemplate{firstfoot}{default}{
+  \UseTblrTemplate{contfoot}{default}
+  \UseTblrTemplate{caption}{default}
+}
+\DefTblrTemplate{middlefoot}{default}{
+  \UseTblrTemplate{contfoot}{default}
+  \UseTblrTemplate{capcont}{default}
+}
+\DefTblrTemplate{lastfoot}{default}{
+  \UseTblrTemplate{note}{default}
+  \UseTblrTemplate{remark}{default}
+  \UseTblrTemplate{capcont}{default}
+}
+\DefTblrTemplate{contfoot-text}{default}{Continúa en la siguiente página}
+\DefTblrTemplate{conthead-text}{default}{(Continuación)}
 
 \usepackage{geometry} %% allows page measure specifications
 \geometry{top=1.5cm, bottom=1.5cm, inner=2cm, outer=1.5cm}
