@@ -7,6 +7,76 @@
 
         \section{Análisis de requisitos}
         \label{sec:analisis_de_requisitos}
+        A continuación se enumerarán los requisitos del proyecto que se han obtenido a través de diferentes sesiones de estudio de diferentes productos similares en el mercado. A través de estos, se puede obtener una idea básica del producto a obtener.
+
+        \subsection{Requisitos funcionales}
+        \label{sec:requisitos_funcionales}
+
+%%%%%%%%%%%%%%%%%%%%%%%%%
+%% REQUISITOS FUNCIONALES
+%%%%%%%%%%%%%%%%%%%%%%%%%
+\begin{longtblr}[
+  caption = {Requisitos funcionales del sistema},
+  label = {tab:requisitos_funcionales_del_sistema},
+]{
+  width = \linewidth,
+  colspec = {Q[100]Q[842]},
+  column{1} = {c},
+  hlines,
+  vlines,
+}
+\textbf{Código} & \textbf{Descripción}\\
+RF01 & El sistema será capaz de obtener imágenes de la cámara de un dispositivo móvil\\
+RF02 & El sistema será capaz de cargar modelos tridimensionales\\
+RF03 & El sistema será capaz de insertar renderizaciones de modelos tridimensionales sobre otras imágenes\\
+RF04 & El sistema será capaz de detectar el movimiento del dispositivo utilizado\\
+RF05 & El sistema será capaz de iniciar una sesión de \ra \\
+RF06 & El sistema será capaz de reproducir pistas de audio con efecto espacial\\
+RF07 & El sistema será capaz de animar modelos tridimensionales\\
+RF08 & El sistema será capaz de detectar superficies en imágenes captadas por el dispositivo móvil\\
+RF09 & El sistema será capaz de ubicar figuras tridimensionales en superficies encontradas en imágenes\\
+RF10 & El sistema será capaz de modificar la ubicación de una figura tridimensional\\
+RF11 & El sistema será capaz de modificar la ubicación de un sonido espacial\\
+RF12 & El sistema será capaz de modificar la orientación de la figura tridimensional en relación al movimiento del dispositivo\\
+RF13 & El sistema será capaz de obtener modelos tridimensionales de una URL dada\\
+RF14 & El sistema será capaz de cargar un modelo aleatorio de entre varios dados\\
+RF15 & El sistema será capaz de detener la animación al cerrarse la sesión de \ra \\
+RF16 & El sistema será capaz de detener la pista de audio reproducida al cerrarse la sesión de \ra
+\end{longtblr}
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%% FIN REQUISITOS FUNCIONALES
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+        \subsection{Requisitos no funcionales}
+        \label{sec:requisitos_no_funcionales}
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%% REQUISITOS NO FUNCIONALES
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\begin{longtblr}[
+  caption = {Requisitos no funcionales del sistema},
+  label = {tab:requisitos_no_funcionales_del_sistema},
+]{
+  width = \linewidth,
+  colspec = {Q[100]Q[842]},
+  column{1} = {c},
+  hlines,
+  vlines,
+}
+\textbf{Código} & \textbf{Descripción}\\
+RNF01 & El sistema deberá poder utilizarse en dispositivos móviles\\
+RNF02 & El sistema deberá poder utilizarse en el sistema operativo \android \\
+RNF03 & El sistema deberá poder utilizarse en el navegador \googlechrome para \android \\
+RNF04 & El sistema deberá estar alojado en un servidor \linux \\
+RNF05 & El sistema deberá ser accesible a través de un código QR\\
+RNF06 & El sistema deberá cargar la \textit{landing page} en menos de 2 segundos\\
+RNF07 & El sistema deberá cargar el modelo tridimensional en menos de 5 segundos
+\end{longtblr}
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%% FIN REQUISITOS NO FUNCIONALES
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
         \section{Casos de uso}
         \label{sec:casos_de_uso}
