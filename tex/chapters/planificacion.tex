@@ -278,7 +278,7 @@ Product Owner & 21,11 €/hora & 10.555,00 €\\
 %%%%%%%%%%%%%%%%%
 
 \paragraph{}
-Para los gastos medios de un espacio de trabajo se han utilizado los datos ofrecidos por \textit{Alegria Real State} \cite{web:alegriarealstate}, a pesar de que estos datos pueden estar muy alejados de la realidad del consumo en una oficina.
+Para los gastos medios de un espacio de trabajo se han utilizado los datos ofrecidos por \textit{Alegria Real State} \cite{web:alegriarealstate}, a pesar de que estos datos pueden estar muy alejados de la realidad del consumo en una oficina. Además, debido a la forma de pago de los servidores de \aws, se ha incluido aquí su precio. Los precios de estos servidores se calculan en base a su uso y a su memoria, por lo que se ha estimado en relación a las horas de trabajo dedicadas al día. Se contrataron dos servidores, uno de tamaño \textit{nano} y otro \textit{small} para desarrollo y producción, respectivamente.
 
 \begin{longtblr}[
   caption = {Estimación de costes por el espacio de trabajo},
@@ -294,7 +294,9 @@ Agua & 7,60 €/mes & 91,20 €\\
 Luz & 35,00 €/mes & 420,00 €\\
 Gas & 25,00 €/mes & 300,00 €\\
 Internet & 20,00 €/mes & 240,00 €\\
-\textbf{Total} & 87,60 €/mes & \textbf{1.051,20 €}
+Servidor AWS nano & 0,94 €/mes & 11,28 €\\
+Servidor AWS small & 3,77 €/mes & 45,24 €\\
+\textbf{Total} & 92,31 €/mes & \textbf{1.107,72 €}
 \end{longtblr}
 
 %%%%%%%%%%%%%%%
@@ -316,8 +318,8 @@ Con todo lo anterior, podríamos obtener los costes estimados totales.
 \textbf{Categoría} & \textbf{Coste}\\
 Material & 797,59 €\\
 Personal & 28.825,00 €\\
-Espacio de trabajo & 1.051,20 €\\
-\textbf{Total} & \textbf{30.673,79 €}
+Espacio de trabajo & 1.107,72 €\\
+\textbf{Total} & \textbf{30.730,31 €}
 \end{longtblr}
 
 
@@ -348,8 +350,7 @@ Espacio de trabajo & 1.051,20 €\\
 %% COMPARATIVA PLANIFICACION
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
-\begin{landscape}
-\begin{table}%[]
+\begin{table}[ht]
 \centering
 \begin{tabular}{|cc|ccc|ccccccccc|}
 \hline
@@ -365,6 +366,5 @@ Espacio de trabajo & 1.051,20 €\\
 \caption{Comparativa de la planificación estimada y la real}
 \label{tab:comparativa_de_la_planificacion_estimada_y_la_real}
 \end{table}
-\end{landscape}
 
 \end{document}
