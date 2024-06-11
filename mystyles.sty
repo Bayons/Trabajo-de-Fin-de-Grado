@@ -41,8 +41,10 @@
   \UseTblrTemplate{remark}{default}
   \UseTblrTemplate{capcont}{default}
 }
-\DefTblrTemplate{contfoot-text}{default}{Continúa en la siguiente página}
-\DefTblrTemplate{conthead-text}{default}{} %% (Continuación)
+\DefTblrTemplate{contfoot-text}{normal}{Continúa en la siguiente página}
+\SetTblrTemplate{contfoot-text}{normal}
+\DefTblrTemplate{conthead-text}{normal}{}%% (Continuación)
+\SetTblrTemplate{conthead-text}{normal}
 
 \usepackage{geometry} %% allows page measure specifications
 \geometry{top=1.5cm, bottom=1.5cm, inner=2cm, outer=1.5cm}

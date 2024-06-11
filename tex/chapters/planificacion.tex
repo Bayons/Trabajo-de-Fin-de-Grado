@@ -50,7 +50,7 @@
         \subsection{Organización del tiempo}
         \label{sec:organizacion_del_tiempo}
 
-        Este proyecto se planteó para ser desarrollado desde el 4 de octubre de 2021, siendo su fecha de finalización el 30 de septiembre de 2022. Esto hace 250 días laborables, de los cuáles, para compaginar este con otros proyectos, se planteó dedicar al día un 25\% de la jornada total semanal, lo que hace unas 500 horas dedicadas a este proyecto. El proyecto está dividido en 3 grandes actividades, cada una de ellas dividida en subelementos a completar, tal y como se describe en la tabla \ref{tab:cronograma_del_proyecto}.
+        Este proyecto se planteó para ser desarrollado desde el 4 de octubre de 2021, siendo su fecha de finalización el 30 de septiembre de 2022. Esto hace 250 días laborables, de los cuáles, para compaginar este con otros proyectos, se planteó dedicar al día un 25\% de la jornada total semanal, lo que hace unas 500 horas dedicadas a este proyecto. El proyecto está dividido en 3 fases (Prueba de Concepto, Producto Mínimo Viable y Producto Final), cada una de ellas dividida en \textit{subfases} a completar, tal y como se describe en la tabla \ref{tab:cronograma_del_proyecto}.
 
         %%%%%%%%%%%%%%%%%%%%
         %%%%%%%% TABLE START
@@ -193,7 +193,7 @@ RSK9 & Actualizaciones de las librerías utilizadas & Las librerías implementad
 }
 \textbf{Cód.} & \textbf{Nombre} & \textbf{Mitigación} & \textbf{Contingencia}\\
 RSK1 & Cambios en el alcance del proyecto & Revisar semanalmente el alcance y necesidades del proyecto en relación al producto en el momento & Replanificar las tareas del proyecto, analizando cuáles son las nuevas tareas más prioritarias para obtener el producto mínimo viable\\
-RSK2 & Estimación del tiempo inadecuada & Revisar semanalmente las tareas pendientes y analizar su complejidad en relación con la experiencia obtenida sobre el mismo proyecto & Modificar y aumentar la dedicación semanal al proyecto para reducir la fecha de entrega\\
+RSK2 & Estimación del tiempo inadecuada & Revisar semanalmente las tareas pendientes y analizar su complejidad en relación con la experiencia obtenida sobre el mismo proyecto & Modificar y aumentar la dedicación semanal al proyecto para poder alcanzar la fecha de entrega. De ser necesario, aplazar la fecha de entrega\\
 RSK3 & Pérdida del progreso del proyecto & Realizar copias de seguridad tras cada cambio en un sistema de control de versiones & Buscar opciones o software de recuperación de datos. En su defecto, reducir y replanificar los objetivos del proyecto.\\
 RSK4 & La tecnología utIlizada no ofrece la calidad esperada & Revisar durante la planificación casos prácticos en los que se hayan utilizado las librerías a utilizar & Buscar un nuevo software que reemplace el de baja calidad y replanificar objetivos dando prioridad a las tareas necesarias para el producto mínimo viable\\
 RSK5 & Falta de experiencia con las librerías a utilizar & Aumentar la dedicación a formación e investigación de las tecnologías utilizadas & Añadir personal de apoyo en el desarrollo del producto\\
@@ -323,5 +323,48 @@ Espacio de trabajo & 1.051,20 €\\
 
         \section{Planificación final}
         \label{sec:planificacion_final}
+
+        La planificación final ha ido sufriendo varios cambios a lo largo del proyecto. El primero y más impactante es la cantidad de horas semanales dedicadas al mismo, debido a que la dedicación debía repartirse con otros proyectos a lo largo del año, llegando a juntarse hasta 3 proyectos a la vez, por lo cual lo que inicialmente se planteó como un 25\% de la jornada llegó a bajar a un 20\% o hasta a un 10\% en las temporadas más notorias. Esto influyó en algunas de las tareas planteadas para el producto final: algunas tareas de investigación como la mejora de la iluminación dinámica o la capacidad de ocultar los modelos 3D tras objetos de la realidad fueron descartadas debido a la falta de tiempo. Esto, a pesar de no ser estrictamente el caso, estaba estrechamente relacionado con el riesgo RSK1, y las medidas a tomar fueron manejadas tal y como se contempla en la tabla \ref{tab:mitigacion_contingencia_riesgos}
+
+        \paragraph{}
+        Otro de los riesgos localizados que también impactó sobre el proyecto es el RSK6. Tal y como se define en la tabla \ref{tab:presentacion_riesgos}, la documentación de algunas librerías era insuficiente para resolver muchas dudas y fue necesario recurrir a foros dedicados y discusiones en los respectivos repositorios para resolver muchos problemas. Esto complicó el trabajo y resultó en un código de una calidad algo menor de lo esperado.
+
+        \paragraph{}
+        También, el riesgo RSK5 ha sido un punto clave a mitigar durante todo el proyecto debido a que nadie del equipo tenía ningún tipo de experiencia sobre el producto a desarrollar. Durante el diseño de la arquitectura de la Prueba de Concepto (tabla \ref{tab:cronograma_del_proyecto}) este se hizo especialmente notable, y debido a eso se estableció más tiempo para dicha tarea, por lo que el tiempo de formación fue el necesario para poder completar de manera correcta el periodo dedicado a la \textit{PoC}.
+
+        \paragraph{}
+        Finalmente, pese a los problemas encontrados, el proyecto finalizó el 28 de septiembre de 2022, por lo que se cumplió el tiempo estimado para este. Sin embargo, como se mencionó acerca del RSK1, el alcance sufrió reducciones en cuanto a los requisitos menos importantes para poder cumplir con las fechas. Por otro lado, algunas decisiones de mitigación fomentaron considerablemente el progreso del proyecto. Una de ellas es la decisión de realizar copias de seguridad en un sistema de control de versiones, herramienta que finalmente nos sirvió para poder acceder al código fuente desde diferentes sistemas, tanto los ordenadores de los diferentes componentes del equipo como desde el servidor en el que se lanzaría finalmente la aplicación web. Por otro lado, el aumento de dedicación en formación sobre las diferentes tecnologías y herramientas permitió salvar muchos de los problemas técnicos encontrados durante el desarrollo.
+
+        \paragraph{}
+        Durante la Prueba de Concepto, se llevaron a cabo los desarrollos necesarios para obtener una base en la que pudiéramos basarnos para saber si el proyecto era viable. Aquí se desarrollaron las funcionalidades más básicas con modelos 3D de prueba: carga, presentación y animación del objeto en la \ra. Esta era la fase en la que más podía variar la planificación del proyecto debido a que en esta el desconocimiento de las herramientas era absoluto, y de hecho esta se retrasó, aunque no mucho más de lo esperado: a pesar de que se pretendía tener una Prueba de Concepto para mediados de diciembre, finalmente esta se obtuvo el 28 de enero.
+
+        \paragraph{}
+        La fase que más se retrasó fue la fase del Producto Mínimo Viable: esta debía estar terminada en marzo, plazo en el que se debía haber conseguido desarrollar modelos tridimensionales propios con sonido, sin necesidad de que estos fuesen perfectos. Además, todo esto debía cargarse desde el servidor de pre-producción. Sin embargo, todo esto se consiguió en junio, debido también a que la grabación de las voces se aplazó y los modelos propios fueron más difíciles de obtener de lo esperado debido a la complejidad de la herramienta \blender. También, algunos requisitos del Producto Final se movieron al Producto Mínimo Viable debido a una revisión de estos, lo que está estrechamente relacionado con el RSK1 y a su plan de contingencia. Por lo consecuente, el \textit{MVP} se aplazó hasta el 6 de junio de 2022.
+
+        \paragraph{}
+        Ya terminada la fase anterior, el Producto Final tuvo que adaptarse lo máximo posible a las fechas. Debido a los retrasos acumulados, se optó por obtener las características más importantes principales, obviando detalles más finos como los comentados en relación al RSK1 y que podrían abordarse en el trabajo futuro. En esta fase se refinó lo obtenido hasta el momento, se generaron las animaciones en relación a las grabaciones que irían ligadas a los modelos, se implementó el sonido espacial y se corrigieron los errores gráficos y del sistema. Para poder alcanzar las fechas de finalización, también se adaptó el tiempo dedicado al proyecto, aumentando hasta el 50\% en lugar del 25\% planteado inicialmente.
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%% COMPARATIVA PLANIFICACION
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+\begin{landscape}
+\begin{table}%[]
+\centering
+\begin{tabular}{|cc|ccc|ccccccccc|}
+\hline
+\multicolumn{2}{|c|}{} & \multicolumn{3}{c|}{2021} & \multicolumn{9}{c|}{2022} \\ \cline{3-14} 
+\multicolumn{2}{|c|}{\multirow{-2}{*}{}} & \multicolumn{1}{c|}{Oct} & \multicolumn{1}{c|}{Nov} & Dic & \multicolumn{1}{c|}{Ene} & \multicolumn{1}{c|}{Feb} & \multicolumn{1}{c|}{Mar} & \multicolumn{1}{c|}{Abr} & \multicolumn{1}{c|}{May} & \multicolumn{1}{c|}{Jun} & \multicolumn{1}{c|}{Jul} & \multicolumn{1}{c|}{Ago} & Sep \\ \hline
+\multicolumn{1}{|c|}{} & Estimado & \multicolumn{1}{c|}{\cellcolor[HTML]{656565}} & \multicolumn{1}{c|}{\cellcolor[HTML]{656565}} & \cellcolor[HTML]{656565} & \multicolumn{1}{c|}{} & \multicolumn{1}{c|}{} & \multicolumn{1}{c|}{} & \multicolumn{1}{c|}{} & \multicolumn{1}{c|}{} & \multicolumn{1}{c|}{} & \multicolumn{1}{c|}{} & \multicolumn{1}{c|}{} &  \\ \cline{2-14} 
+\multicolumn{1}{|c|}{\multirow{-2}{*}{PoC}} & Real & \multicolumn{1}{c|}{\cellcolor[HTML]{C0C0C0}} & \multicolumn{1}{c|}{\cellcolor[HTML]{C0C0C0}} & \cellcolor[HTML]{C0C0C0} & \multicolumn{1}{c|}{\cellcolor[HTML]{C0C0C0}} & \multicolumn{1}{c|}{} & \multicolumn{1}{c|}{} & \multicolumn{1}{c|}{} & \multicolumn{1}{c|}{} & \multicolumn{1}{c|}{} & \multicolumn{1}{c|}{} & \multicolumn{1}{c|}{} &  \\ \hline
+\multicolumn{1}{|c|}{} & Estimado & \multicolumn{1}{c|}{} & \multicolumn{1}{c|}{} & \cellcolor[HTML]{656565} & \multicolumn{1}{c|}{\cellcolor[HTML]{656565}} & \multicolumn{1}{c|}{\cellcolor[HTML]{656565}} & \multicolumn{1}{c|}{\cellcolor[HTML]{656565}} & \multicolumn{1}{c|}{} & \multicolumn{1}{c|}{} & \multicolumn{1}{c|}{} & \multicolumn{1}{c|}{} & \multicolumn{1}{c|}{} &  \\ \cline{2-14} 
+\multicolumn{1}{|c|}{\multirow{-2}{*}{MVP}} & Real & \multicolumn{1}{c|}{} & \multicolumn{1}{c|}{} &  & \multicolumn{1}{c|}{\cellcolor[HTML]{C0C0C0}} & \multicolumn{1}{c|}{\cellcolor[HTML]{C0C0C0}} & \multicolumn{1}{c|}{\cellcolor[HTML]{C0C0C0}} & \multicolumn{1}{c|}{\cellcolor[HTML]{C0C0C0}} & \multicolumn{1}{c|}{\cellcolor[HTML]{C0C0C0}} & \multicolumn{1}{c|}{\cellcolor[HTML]{C0C0C0}} & \multicolumn{1}{c|}{} & \multicolumn{1}{c|}{} &  \\ \hline
+\multicolumn{1}{|c|}{} & Estimado & \multicolumn{1}{c|}{} & \multicolumn{1}{c|}{} &  & \multicolumn{1}{c|}{} & \multicolumn{1}{c|}{} & \multicolumn{1}{c|}{\cellcolor[HTML]{656565}} & \multicolumn{1}{c|}{\cellcolor[HTML]{656565}} & \multicolumn{1}{c|}{\cellcolor[HTML]{656565}} & \multicolumn{1}{c|}{\cellcolor[HTML]{656565}} & \multicolumn{1}{c|}{\cellcolor[HTML]{656565}} & \multicolumn{1}{c|}{\cellcolor[HTML]{656565}} & \cellcolor[HTML]{656565} \\ \cline{2-14} 
+\multicolumn{1}{|c|}{\multirow{-2}{*}{FP}} & Real & \multicolumn{1}{c|}{} & \multicolumn{1}{c|}{} &  & \multicolumn{1}{c|}{} & \multicolumn{1}{c|}{} & \multicolumn{1}{c|}{} & \multicolumn{1}{c|}{} & \multicolumn{1}{c|}{} & \multicolumn{1}{c|}{\cellcolor[HTML]{C0C0C0}} & \multicolumn{1}{c|}{\cellcolor[HTML]{C0C0C0}} & \multicolumn{1}{c|}{\cellcolor[HTML]{C0C0C0}} & \cellcolor[HTML]{C0C0C0} \\ \hline
+\end{tabular}
+\caption{Comparativa de la planificación estimada y la real}
+\label{tab:comparativa_de_la_planificacion_estimada_y_la_real}
+\end{table}
+\end{landscape}
 
 \end{document}
