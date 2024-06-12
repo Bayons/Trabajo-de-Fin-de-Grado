@@ -12,6 +12,8 @@
         \subsection{Requisitos funcionales}
         \label{sec:requisitos_funcionales}
 
+        Los requisitos funcionales son los casos prácticos que se implementarán en el sistema a través de distintas funcionalidades del mismo: desde respuestas al usuario hasta interacciones específicas con otros sistemas \cite{web:medium_requisitosfuncionalesynofuncionales}. En este proyecto se han identificado los siguientes:
+
 %%%%%%%%%%%%%%%%%%%%%%%%%
 %% REQUISITOS FUNCIONALES
 %%%%%%%%%%%%%%%%%%%%%%%%%
@@ -51,6 +53,8 @@ RF16 & El sistema será capaz de detener la pista de audio reproducida al cerrar
         \subsection{Requisitos no funcionales}
         \label{sec:requisitos_no_funcionales}
 
+        A continuación se redactan los requisitos no funcionales del sistema, que son aquellas que definen propiedades del sistema en base a necesidades del usuario o a las restricciones del sistema \cite{web:medium_requisitosfuncionalesynofuncionales}. En este caso, se han encontrado los siguientes:
+
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%
 %% REQUISITOS NO FUNCIONALES
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%
@@ -80,6 +84,250 @@ RNF07 & El sistema deberá cargar el modelo tridimensional en menos de 5 segundo
 
         \section{Casos de uso}
         \label{sec:casos_de_uso}
+        Los casos de uso son descripciones de las distintas interacciones entre los diferentes actores (en este caso, el usuario) y el propio sistema \cite{web:uml2_5_1}. En este caso, el objetivo del actor será activar el sistema de \ra, <<jugar>> con él y escuchar la información que ofrece este mismo, por lo que podríamos obtener de aquí algunos casos de uso, que quedarán plasmados en la figura \ref{fig:analisis_casos_de_uso}:
+
+        \begin{itemize}
+            \item Iniciar sesión de \ra.
+            \item Iniciar actividad de asistente virtual.
+            \item Iniciar animación del modelo tridimensional.
+            \item Iniciar pista de audio.
+            \item Desplazar asistente virtual.
+            \item Ubicar modelo tridimensional.
+            \item Ubicar fuente de sonido de la pista de audio.
+            \item Cerrar sesión de \ra.
+        \end{itemize}
+
+\begin{figure}[ht]
+\centering
+\includegraphics[width=0.9\textwidth]{img/analisis_casos_de_uso.png}
+\caption{Diagrama de casos de uso.}
+\label{fig:analisis_casos_de_uso}
+\end{figure}
+
+%%%%%%%%%%%%%%%%
+%% CASO DE USO 1
+%%%%%%%%%%%%%%%%
+
+\begin{longtblr}[
+  caption = {UC1: Iniciar sesión de \ra},
+  label = {tab:iniciar_sesion_de_ra}
+]{
+  width = \linewidth,
+  colspec = {Q[156]Q[698]},
+  hlines,
+  vlines,
+}
+\textbf{UC1} & \textbf{Iniciar sesión de \ra}\\
+Descripción & El usuario lanza la sesión de \ra, haciendo que el sistema muestre las imágenes captadas por cámara y cargue los datos utilizados en dicha sesión\\
+Precondición & El usuario ha entrado en la aplicación web\\
+Extend & -\\
+Include & -\\
+Secuencia & {1. El sistema identifica el dispositivo utilizado como compatible y activa el botón <<Iniciar sesión de \textit{Realidad Aumentada}>>
+\\2. El usuario pulsa
+sobre el botón <<Iniciar sesión de \textit{Realidad Aumentada}>>
+\\3. El sistema
+muestra por la interfaz las imágenes captadas por la cámara del dispositivo
+\\4. El sistema carga
+los modelos tridimensionales
+\\5. El sistema
+detecta una superficie en las imágenes captadas por la cámara del dispositivo
+\\6. El sistema
+muestra un puntero sobre la superficie detectada}\\
+Secuencia alternativa & {1A. El sistema identifica el dispositivo utilizado como no compatible y muestra un mensaje avisando al usuario.}
+\end{longtblr}
+
+%%%%%%%%%%%%%%%%
+%% CASO DE USO 2
+%%%%%%%%%%%%%%%%
+
+\begin{longtblr}[
+  caption = {UC2: Iniciar actividad de asistente virtual.},
+  label = {tab:iniciar_actividad_de_asistente_virtual}
+]{
+  width = \linewidth,
+  colspec = {Q[156]Q[698]},
+  hlines,
+  vlines,
+}
+\textbf{UC2} & \textbf{Iniciar actividad de asistente virtual}\\
+Descripción & El usuario interactúa con el sistema y este muestra al asistente virtual moviéndose y hablando\\
+Precondición & {El usuario ha iniciado la sesión de \ra\\
+El sistema ha cargado el modelo tridimensional y la pista de audio\\
+El sistema muestra un puntero sobre las superficies horizontales}\\
+Extend & Iniciar sesión de \ra\\
+Include & {Iniciar animación del modelo tridimensional\\
+Iniciar pista de audio\\
+Desplazar asistente virtual}\\
+Secuencia & {1. El usuario apunta hacia una superficie horizontal\\
+2. El usuario pulsa sobre la pantalla\\
+3. El sistema oculta el puntero\\
+4. El sistema coloca al asistente virtual donde antes estaba el puntero\\
+5. El sistema arranca la animación del asistente virtual a la vez que la pista de audio\\
+6. El sistema detiene la animación y la pista de audio al terminar ambos}
+\end{longtblr}
+\newpage
+
+%%%%%%%%%%%%%%%%
+%% CASO DE USO 3
+%%%%%%%%%%%%%%%%
+
+\begin{longtblr}[
+  caption = {UC3: Iniciar animación del modelo tridimensional.},
+  label = {tab:iniciar_animacion_del_modelo_tridimensional}
+]{
+  width = \linewidth,
+  colspec = {Q[156]Q[698]},
+  hlines,
+  vlines,
+}
+\textbf{UC3} & \textbf{Iniciar animación del modelo tridimensional}\\
+Descripción & El usuario interactúa con el sistema y este inicia la animación del modelo tridimensional\\
+Precondición & {El usuario ha iniciado la sesión de \ra\\
+El sistema ha cargado el modelo tridimensional y la pista de audio\\
+El sistema muestra al modelo tridimensional estático en la \textit{Realidad Aumentada}}\\
+Extend & -\\
+Include & -\\
+Secuencia & {1. El usuario pulsa sobre la pantalla\\
+2. El sistema arranca la animación del asistente virtual\\
+3. El sistema detiene la animación al terminar}
+\end{longtblr}
+
+%%%%%%%%%%%%%%%%
+%% CASO DE USO 4
+%%%%%%%%%%%%%%%%
+
+\begin{longtblr}[
+  caption = {UC4: Iniciar pista de audio.},
+  label = {tab:iniciar_pista_de_audio}
+]{
+  width = \linewidth,
+  colspec = {Q[156]Q[698]},
+  hlines,
+  vlines,
+}
+\textbf{UC4} & \textbf{Iniciar pista de audio.}\\
+Descripción & El usuario interactúa con el sistema y este inicia la animación del modelo tridimensional\\
+Precondición & {El usuario ha iniciado la sesión de \ra\\
+El sistema ha cargado el modelo tridimensional y la pista de audio}\\
+Extend & -\\
+Include & -\\
+Secuencia & {1. El usuario pulsa sobre la pantalla\\
+2. El sistema arranca la animación del asistente virtual\\
+3. El sistema detiene la animación al terminar}
+\end{longtblr}
+
+%%%%%%%%%%%%%%%%
+%% CASO DE USO 5
+%%%%%%%%%%%%%%%%
+
+\begin{longtblr}[
+  caption = {UC5: Desplazar asistente virtual.},
+  label = {tab:desplazar_asistente_virtual}
+]{
+  width = \linewidth,
+  colspec = {Q[156]Q[698]},
+  hlines,
+  vlines,
+}
+\textbf{UC5} & \textbf{Desplazar asistente virtual}\\
+Descripción & El usuario interactúa con el sistema y este muestra al asistente virtual en una nueva localización. El sonido se origina desde el mismo lugar en el que está el asistente\\
+Precondición & {El usuario ha iniciado la sesión de \ra\\
+El sistema ha cargado el modelo tridimensional y la pista de audio\\
+El sistema muestra las imágenes captadas por la cámara}\\
+Extend & -\\
+Include & {Ubicar modelo tridimensional\\
+Ubicar fuente de sonido de la pista de audio}\\
+Secuencia & {1. El sistema muestra al asistente en la \ra\\
+2. El usuario pulsa sobre la pantalla apuntando con la cámara a un lugar donde no está el asistente\\
+3. El sistema emplaza al asistente en la nueva posición, ubicando también en la nueva posición el origen del sonido}\\
+Secuencia alternativa & {1A. El sistema muestra el puntero en la \ra\\
+2A. El usuario pulsa sobre la pantalla apuntando con la cámara y el puntero\\
+3A. El sistema hace aparecer al asistente en la nueva posición, ubicando también en la nueva posición el origen del sonido y ocultando el puntero}
+\end{longtblr}
+
+%%%%%%%%%%%%%%%%
+%% CASO DE USO 6
+%%%%%%%%%%%%%%%%
+
+\begin{longtblr}[
+  caption = {UC6: Ubicar modelo tridimensional.},
+  label={tab:ubicar_modelo_tridimensional}
+]{
+  width = \linewidth,
+  colspec = {Q[156]Q[698]},
+  hlines,
+  vlines,
+}
+\textbf{UC6} & \textbf{Ubicar modelo tridimensional}\\
+Descripción & El usuario interactúa con el sistema y este modifica la ubicación del modelo tridimensional\\
+Precondición & {El usuario ha iniciado la sesión de \ra\\
+El sistema ha cargado el modelo tridimensional y la pista de audio\\
+El sistema muestra un puntero sobre las superficies horizontales}\\
+Extend & -\\
+Include & {-}\\
+Secuencia & {1. El sistema muestra al modelo tridimensional en la \ra\\
+2. El usuario pulsa sobre la pantalla apuntando con la cámara a un lugar donde no está el modelo tridimensional\\
+3. El sistema emplaza al modelo en la nueva posición}\\
+Secuencia alternativa & {1A. El sistema muestra el puntero en la \ra\\
+2A. El usuario pulsa sobre la pantalla apuntando con la cámara y el puntero\\
+3A. El sistema emplaza al modelo en la nueva posición, ocultando el puntero}
+\end{longtblr}
+\newpage
+
+%%%%%%%%%%%%%%%%
+%% CASO DE USO 7
+%%%%%%%%%%%%%%%%
+
+\begin{longtblr}[
+  caption = {UC7: Ubicar fuente de sonido de la pista de audio},
+  label = {tab:ubicar_fuente_de_sonido_de_la_pista_de_audio}
+]{
+  width = \linewidth,
+  colspec = {Q[156]Q[698]},
+  hlines,
+  vlines,
+}
+\textbf{UC7} & \textbf{Ubicar fuente de sonido de la pista de audio}\\
+Descripción & El usuario interactúa con el sistema y este modifica la ubicación de la fuente de sonido\\
+Precondición & {El usuario ha iniciado la sesión de \ra\\
+El sistema ha cargado el modelo tridimensional y la pista de audio\\
+El sistema muestra las imágenes captadas por la cámara}\\
+Extend & -\\
+Include & {-}\\
+Secuencia & {1. El sistema reproduce la pista de audio con el origen del sonido ubicado en un lugar específico\\
+2. El usuario pulsa sobre la pantalla apuntando con la cámara a un lugar distinto\\
+3. El sistema emplaza el origen del sonido en la nueva posición}\\
+Secuencia alternativa & {1A. El sistema mantiene la pista de audio a la espera de ser reproducida\\
+2A. El usuario pulsa sobre la pantalla apuntando con la cámara a un lugar específico\\
+3A. El sistema comienza la reproducción de la pista ubicando el origen del sonido en la posición indicada por el usuario}
+\end{longtblr}
+
+%%%%%%%%%%%%%%%%
+%% CASO DE USO 8
+%%%%%%%%%%%%%%%%
+
+\begin{longtblr}[
+  caption = {UC8: Cerrar sesión de \ra.},
+  label = {tab:cerrar_sesion_de_ra}
+]{
+  width = \linewidth,
+  colspec = {Q[156]Q[698]},
+  hlines,
+  vlines,
+}
+\textbf{UC2} & \textbf{Cerrar sesión de \ra}\\
+Descripción & El usuario pulsa el botón de volver para salir de la sesión de \ra\\
+Precondición & {El usuario ha iniciado la sesión de \ra}\\
+Extend & Iniciar sesión de \ra\\
+Include & {-}\\
+Secuencia & {1. El usuario pulsa dos veces seguidas el botón <<volver>> del dispositivo móvil\\
+2. El sistema detiene la animación del modelo y la reproducción del audio\\
+3. El sistema devuelve al usuario a la \textit{landing page}}
+\end{longtblr}
+
+%%%%%%%%%%%%%%%%%%%
+%% FIN CASOS DE USO
+%%%%%%%%%%%%%%%%%%%
 
         \section{Modelo de dominio}
         \label{sec:modelo_de_dominio}
