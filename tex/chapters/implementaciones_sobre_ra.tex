@@ -125,7 +125,6 @@ async startLoop() {
         \paragraph{}
         Esta capacidad para solicitar la ejecución de una función \textit{callback} cuando el sistema esté disponible la tiene la función \textit{requestAnimationFrame} de la Sesión de \webxr \cite{web:requestanimationframe}. Por esto, es imprescindible que la Sesión se haya iniciado previamente. En esta aplicación, la función se lanza en dos puntos dentro del Controlador.
 
-\newpage
 \begin{lstlisting}[language=JavaScript, caption={Función que solicita la carga del siguiente fotograma.}, label={lst:2.5}]
 async startLoop() {
 
@@ -197,7 +196,6 @@ async startLoop() {
         \paragraph{}
         Una vez explicado esto, es necesario volver al código. Siguiendo el orden de carga, el primer lugar donde nos detendremos es en la función \textit{callback} \textit{checkSessionSupported}, vista en la sección \ref{sec:sesion_webxr}, que es la función que se lanza desde el constructor del Controlador y que inicializaba los elementos más pesados antes de que el usuario pulsase el botón de iniciar la Sesión de \ra. En esta, ya habíamos visto las acciones que se realizaban en caso de que el navegador no fuese compatible con \webxr, pero ahora vamos a ver algunas de las que se ejecutan en el caso positivo. Ampliando el código \ref{lst:2.2} al que hacemos mención:
 
-\newpage
 \begin{lstlisting}[language=JavaScript, caption={Carga de elementos de Three.js si se soporta la sesión.}, label={lst:3.1}]
 // Constantes
 #RETICLELINK = "http://url_donde_se_aloja_el_modelo_3d";
@@ -460,7 +458,6 @@ async startLoop() {
 };
 \end{lstlisting}
 
-        \paragraph{}
         En el código \ref{lst:3.5}, lanzado cada vez que el usuario toca la pantalla, eliminaremos del Escenario la retícula mediante la línea 3. A efectos prácticos, esto significa que la retícula desaparecerá por completo de nuestra \ra, siendo imposible volver a encontrarla. Sin embargo, esto solo ocurrirá si se cumple la condición de la línea 2, que comprueba si se ha cargado la variable \textit{model}. Esta variable contiene otra figura 3D, que en este caso es el modelo de nuestro asistente virtual. Esta se comenzará a cargar a la vez que la retícula, pero debido a que este modelo 3D pesa mucho más y su carga se realiza de manera asíncrona, es necesario comprobar que se ha terminado de cargar antes de utilizarlo. Por esta razón, se lanza la comprobación de la línea 2: debido a que \js interpreta las variables vacías como \textit{false} y cualquier contenido (no booleano) como \textit{true} \cite{web:mozilla_booleanevaluation}, al leer esa condición, el sistema solo pasará por el condicional si la variable ha sido cargada. Esta carga asíncrona se realiza en la función \textit{checkSessionSupported()} y se explicará con más detalle en la sección \ref{sec:calculo_de_superficies_hit_test_results}.
         
         \paragraph{}
@@ -505,8 +502,7 @@ if (hitTestResults.length > 0 && this.#reticle) {
         \paragraph{}
         Para comenzar con la animación de modelos, es necesario volver otra vez a la carga de los modelos, en la función \textit{checkSessionSupported}. En este caso, trataremos concretamente la animación de los modelos humanos que, como se ve en el código \ref{lst:3.7}, es algo distinto a la carga de la retícula.
 
-\newpage
-\begin{lstlisting}[language=JavaScript, caption={Carga de modelo humano.}, label={lst:3.7}, float=ht]
+\begin{lstlisting}[language=JavaScript, caption={Carga de modelo humano.}, label={lst:3.7}]
 #MODELLINKARRAY = ["resources/model/stormy-male.glb", "resources/model/stormie-female.glb"];
 #ANIMATIONLOOP = false;
 // ...
@@ -547,6 +543,7 @@ if (hitTestResults.length > 0 && this.#reticle) {
 };
 \end{lstlisting}
 
+        \paragraph{}
         Una peculiaridad de la carga de los modelos humanos es que, de los dos modelos que tenemos, se cargará uno de ellos de manera aleatoria, sin aplicar ningún tipo de decisión más allá del uso de un número calculado aleatoriamente. Esto se realiza de la siguiente manera: en la línea 1, se almacena la constante con las ubicaciones de los dos modelos en un \textit{array} de cadenas de texto. Más tarde, justo antes de realizar las cargas, se decide qué modelo se va a utilizar, usando para ello en la línea 7 la librería \textit{Math} para calcular un número entero de manera aleatoria y que permita seleccionar, en la línea 8, la posición del \textit{array} (en este caso, la posición será 0 o 1).
 
         \paragraph{}
