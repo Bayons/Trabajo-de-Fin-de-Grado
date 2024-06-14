@@ -315,7 +315,7 @@ Secuencia alternativa & {1A. El sistema mantiene la pista de audio a la espera d
   hlines,
   vlines,
 }
-\textbf{UC2} & \textbf{Cerrar sesión de \ra}\\
+\textbf{UC8} & \textbf{Cerrar sesión de \ra}\\
 Descripción & El usuario pulsa el botón de volver para salir de la sesión de \ra\\
 Precondición & {El usuario ha iniciado la sesión de \ra}\\
 Extend & Iniciar sesión de \ra\\
@@ -328,12 +328,6 @@ Secuencia & {1. El usuario pulsa dos veces seguidas el botón <<volver>> del dis
 %%%%%%%%%%%%%%%%%%%
 %% FIN CASOS DE USO
 %%%%%%%%%%%%%%%%%%%
-
-        \section{Modelo de dominio}
-        \label{sec:modelo_de_dominio}
-
-        \section{Diagramas}
-        \label{sec:diagramas}
 
         \section{Estructura}
         \label{sec:estructura}
@@ -373,10 +367,51 @@ Secuencia & {1. El usuario pulsa dos veces seguidas el botón <<volver>> del dis
         \paragraph{}
         Por todo esto, y dado que la lógica de negocio está separada de la interfaz de usuario, la estructura se corresponde con el patrón Modelo-Vista-Presentador. Sin embargo, dado que desde el inicio del proyecto se trató cada parte como el clásico Modelo-Vista-Controlador, y dado que el Modelo-Vista-Presentador proviene de este último, cada parte será nombrada como si lo fuera, aún siendo conscientes de las diferencias.
 
-        \section{Capas}
-        \label{sec:capas}
+        \section{Modelo de dominio}
+        \label{sec:modelo_de_dominio}
+        El proyecto \titlename, en verdad, consta de un modelo de dominio muy sencillo, al mantener centralizada la funcionalidad en el controlador, tal y como se comentó en la sección anterior. Por ello, el apartado más complejo se encuentra en este, siendo todo lo demás mucho más sencillo. El modelo, por otro lado, está formado por las interfaces de las herramientas externas utilizadas mencionadas en la sección \ref{sec:herramientas_de_ra}. La vista se controla a su vez a través de la interfaz \textit{HTMLCanvasElement} proporcionada por \js.
 
-        \section{Arquitectura y diseño de datos}
-        \label{sec:arquitectura_y_diseno_de_datos}
+%%%%%%%%%%%%%%%%%%%%%
+%% DIAGRAMA DE CLASES
+%%%%%%%%%%%%%%%%%%%%%
+\begin{figure}[ht]
+\centering
+\includegraphics[width=0.9\textwidth]{img/analisis_modelo_de_dominio.png}
+\caption{Modelo de dominio.}
+\label{fig:analisis_modelo_de_dominio}
+\end{figure}
+
+        \section{Otros diagramas creados a partir del análisis}
+        \label{sec:otros_diagramas_creados_a_partir_del_analisis}
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%% DIAGRAMA DE COMPONENTES
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\begin{figure}[ht]
+\centering
+\includegraphics[width=0.50\textwidth]{img/analisis_diagrama_de_componentes.png}
+\caption{Diagrama de componentes.}
+\label{fig:analisis_diagrama_de_componentes}
+\end{figure}
+
+%%%%%%%%%%%%%%%%%%%%%%%%%
+%% DIAGRAMA DE DESPLIEGUE
+%%%%%%%%%%%%%%%%%%%%%%%%%
+\begin{figure}[ht]
+\centering
+\includegraphics[width=0.9\textwidth]{img/analisis_diagrama_de_despliegue.png}
+\caption{Diagrama de despliegue.}
+\label{fig:analisis_diagrama_de_despliegue}
+\end{figure}
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%% DIAGRAMA DE MAQUINAS DE ESTADO
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\begin{figure}[ht]
+\centering
+\includegraphics[width=0.75\textwidth]{img/analisis_diagrama_maquinas_de_estado.png}
+\caption{Diagrama de máquinas de estado.}
+\label{fig:analisis_diagrama_maquinas_de_estado}
+\end{figure}
 
 \end{document}
