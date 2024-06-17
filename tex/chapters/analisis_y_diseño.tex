@@ -367,10 +367,11 @@ Secuencia & {1. El usuario pulsa dos veces seguidas el botón <<volver>> del dis
         \paragraph{}
         Por todo esto, y dado que la lógica de negocio está separada de la interfaz de usuario, la estructura se corresponde con el patrón Modelo-Vista-Presentador. Sin embargo, dado que desde el inicio del proyecto se trató cada parte como el clásico Modelo-Vista-Controlador, y dado que el Modelo-Vista-Presentador proviene de este último, cada parte será nombrada como si lo fuera, aún siendo conscientes de las diferencias.
 
+        \paragraph{}
+        Cabe destacar que el patrón Modelo-Vista-Presentador, al igual que el Modelo-Vista-Controlador, implementa en cierto modo el patrón \textit{Observer} \cite{book:gamma_erich_patronesdediseno}, que define una dependencia de forma que cuando un objeto cambie de estado se notifica y se actualizan automáticamente todos los objetos que dependen de él. En este caso, la vista actuaría a modo de Observador, lanzando las acciones adecuadas para que se actualice el Modelo del sistema.
+
         \section{Modelo de dominio}
         \label{sec:modelo_de_dominio}
-        El proyecto \titlename, en verdad, consta de un modelo de dominio muy sencillo, al mantener centralizada la funcionalidad en el controlador, tal y como se comentó en la sección anterior. Por ello, el apartado más complejo se encuentra en este, siendo todo lo demás mucho más sencillo. El modelo, por otro lado, está formado por las interfaces de las herramientas externas utilizadas mencionadas en la sección \ref{sec:herramientas_de_ra}. La vista se controla a su vez a través de la interfaz \textit{HTMLCanvasElement} proporcionada por \js.
-
 %%%%%%%%%%%%%%%%%%%%%
 %% DIAGRAMA DE CLASES
 %%%%%%%%%%%%%%%%%%%%%
@@ -380,16 +381,21 @@ Secuencia & {1. El usuario pulsa dos veces seguidas el botón <<volver>> del dis
 \caption{Modelo de dominio.}
 \label{fig:analisis_modelo_de_dominio}
 \end{figure}
+        El proyecto \titlename consta, en verdad, de un modelo de dominio muy sencillo, al mantener centralizada la funcionalidad en el controlador, tal y como se comentó en la sección anterior. Por ello, el apartado más complejo se encuentra en este, siendo todo lo demás mucho más sencillo. El modelo, por otro lado, está formado por las interfaces de las herramientas externas utilizadas mencionadas en la sección \ref{sec:herramientas_de_ra}. La vista se controla a su vez a través de la interfaz \textit{HTMLCanvasElement} proporcionada por \js.
 
-        \section{Otros diagramas creados a partir del análisis}
-        \label{sec:otros_diagramas_creados_a_partir_del_analisis}
+
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 %% DIAGRAMA DE COMPONENTES
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+        \section{Diagrama de componentes}
+        \label{sec:diagrama_de_componentes}
+
+Mediante el diagrama de componentes, podemos ver que gran parte del sistema se basa en el uso de herramientas externas, las cuáles han implicado un estudio profundo para implicarlas de la manera correcta en la aplicación.
+
 \begin{figure}[ht]
 \centering
-\includegraphics[width=0.50\textwidth]{img/analisis_diagrama_de_componentes.png}
+\includegraphics[width=0.75\textwidth]{img/analisis_diagrama_de_componentes.png}
 \caption{Diagrama de componentes.}
 \label{fig:analisis_diagrama_de_componentes}
 \end{figure}
@@ -397,9 +403,14 @@ Secuencia & {1. El usuario pulsa dos veces seguidas el botón <<volver>> del dis
 %%%%%%%%%%%%%%%%%%%%%%%%%
 %% DIAGRAMA DE DESPLIEGUE
 %%%%%%%%%%%%%%%%%%%%%%%%%
+        \section{Diagrama de despliegue}
+        \label{sec:diagrama_de_despliegue}
+        
+El diagrama de despliegue muestra la relación entre los diferentes elementos de software y el hardware que los contiene. En este caso, al ser una aplicación web, la comunicación está planteada para que se impliquen en todo momento navegadores (en nuestro caso, específicamente el navegador \googlechrome para dispositivos \android) con el servidor \aws.
+
 \begin{figure}[ht]
 \centering
-\includegraphics[width=0.9\textwidth]{img/analisis_diagrama_de_despliegue.png}
+\includegraphics[width=0.95\textwidth]{img/analisis_diagrama_de_despliegue.png}
 \caption{Diagrama de despliegue.}
 \label{fig:analisis_diagrama_de_despliegue}
 \end{figure}
@@ -407,11 +418,32 @@ Secuencia & {1. El usuario pulsa dos veces seguidas el botón <<volver>> del dis
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 %% DIAGRAMA DE MAQUINAS DE ESTADO
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\newpage
+        \section{Diagrama de máquinas de estado}
+        \label{sec:diagrama_de_maquinas_de_estado}
+        
+El asistente virtual, dentro de la sesión de \ra, tiene un comportamiento básico y reproducible que puede verse reflejado en el diagrama de máquinas de estado, que a su vez deja ver la relación entre estos comportamientos y la interacción del usuario.
+
 \begin{figure}[ht]
 \centering
-\includegraphics[width=0.75\textwidth]{img/analisis_diagrama_maquinas_de_estado.png}
+\includegraphics[width=0.95\textwidth]{img/analisis_diagrama_maquinas_de_estado.png}
 \caption{Diagrama de máquinas de estado.}
 \label{fig:analisis_diagrama_maquinas_de_estado}
+\end{figure}
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%
+%% DIAGRAMA DE ACTIVIDADES
+%%%%%%%%%%%%%%%%%%%%%%%%%%
+        \section{Diagrama de actividades}
+        \label{sec:diagrama_de_actividades}
+        
+Para relatar la manera en que se ejecutaría un flujo básico, se muestra también un diagrama de actividades con la forma más normal en que se ejecutaría la aplicación.
+
+\begin{figure}[ht]
+\centering
+\includegraphics[width=0.95\textwidth]{img/analisis_y_diseno_diagrama_de_actividades.png}
+\caption{Diagrama de actividades.}
+\label{fig:analisis_y_diseno_diagrama_de_actividades}
 \end{figure}
 
 \end{document}
