@@ -20,7 +20,7 @@
 
         Además de esto, la Sesión se debe iniciar a través de lo que el sistema debe interpretar que es un evento de usuario. Esto quiere decir que la Sesión no se puede generar automáticamente o nada más cargarse la página, sino que debe ser el usuario pulsando un botón o realizando una acción consciente el que lance la solicitud de inicio de Sesión de \ra. Los dos primeros requisitos expuestos se comprueban a través de la función \textit{isSessionSupported}:
 
-\begin{lstlisting}[language=JavaScript, caption={Uso de \textit{isSessionSupported en la aplicación}.}, label={lst:2.1}]
+\begin{lstlisting}[language=JavaScript, caption={Uso de \textit{isSessionSupported} en la aplicación}, label={lst:2.1}]
 if (!navigator.xr) window.polyfill = new WebXRPolyfill();
 
 navigator.xr.isSessionSupported("immersive-ar").then(
@@ -33,7 +33,7 @@ navigator.xr.isSessionSupported("immersive-ar").then(
         \paragraph{}
         La línea 3 del código anterior termina en una llamada asíncrona mediante el uso de \textit{.then()} a la función privada \textit{checkSessionSupported}. Esta función es la que se encarga de avisar al usuario en caso de que la Sesión no se pueda levantar. Sin embargo, en el caso afirmativo, se ocupa de preparar el entorno para el momento en que el usuario comience la sesión de \ra, cuyos detalles se explicarán más adelante.
 
-\begin{lstlisting}[language=JavaScript, caption={Control de la Sesión, dependiendo de si es o no soportada.}, label={lst:2.2}]
+\begin{lstlisting}[language=JavaScript, caption={Control de la Sesión, dependiendo de si es o no soportada}, label={lst:2.2}]
 #checkSessionSupported = (isSupported) => {
     if (isSupported) {
     
@@ -53,14 +53,14 @@ navigator.xr.isSessionSupported("immersive-ar").then(
         \begin{figure}
         \centering
         \includegraphics[width=0.25\textwidth]{img/landing_page.jpg}
-        \caption{Imagen de la \textit{landing page} definitiva de la aplicación web.}
+        \caption{Imagen de la \textit{landing page} definitiva de la aplicación web}
         \label{fig:landing_page}
         \end{figure}
 
         \paragraph{}
         Teniendo en mente estas condiciones, se planteó que la Vista debía ser una interfaz sencilla que contuviese un botón que debiera accionar el usuario para iniciar la Sesión, siendo en las versiones más prematuras un botón simple sin ningún tipo de customización. En las versiones más avanzadas, se generó un fichero \textit{CSS} que personalizara la \textit{landing page} de manera que, además de tener los colores de la empresa, tuviese un aspecto más amigable para el usuario. Antes de que este botón pudiera ser pulsado, el sistema debería haber calculado previamente si el sistema puede soportar la sesión, así que con la carga de la Vista debía cargarse también el archivo Main.js, que consta únicamente de una línea de código:
 
-\begin{lstlisting}[language=JavaScript, caption={Inicialización del Controlador.}, label={lst:2.3}]
+\begin{lstlisting}[language=JavaScript, caption={Inicialización del Controlador}, label={lst:2.3}]
 window.arController = new Controller();
 \end{lstlisting}
 
@@ -72,7 +72,7 @@ window.arController = new Controller();
         \paragraph{}
         Este botón lanzará la función asíncrona \textit{startLoop} (cuyo significado revelaremos más adelante), que cargará los datos restantes para poder ejecutar el grueso de la aplicación, siendo la Sesión uno de ellos, como ya se ha comentado. En esta aplicación, la sesión se lanza de la siguiente manera:
 
-\begin{lstlisting}[language=JavaScript, caption={Función de preparación del bucle.}, label={lst:2.4}]
+\begin{lstlisting}[language=JavaScript, caption={Función de preparación del bucle}, label={lst:2.4}]
 // Constantes
 #GLOPTIONS = { xrCompatible: true };
 #SESSIONOPTIONS = { requiredFeatures: ['hit-test'] };
@@ -125,7 +125,7 @@ async startLoop() {
         \paragraph{}
         Esta capacidad para solicitar la ejecución de una función \textit{callback} cuando el sistema esté disponible la tiene la función \textit{requestAnimationFrame} de la Sesión de \webxr \cite{web:requestanimationframe}. Por esto, es imprescindible que la Sesión se haya iniciado previamente. En esta aplicación, la función se lanza en dos puntos dentro del Controlador.
 
-\begin{lstlisting}[language=JavaScript, caption={Función que solicita la carga del siguiente fotograma.}, label={lst:2.5}]
+\begin{lstlisting}[language=JavaScript, caption={Función que solicita la carga del siguiente fotograma}, label={lst:2.5}]
 async startLoop() {
 
     // ...
@@ -183,7 +183,7 @@ async startLoop() {
         \fbox{
         \includegraphics[width=0.6\textwidth]{img/tortuga_marina.png}
         }
-        \caption[Ejemplo de renderizado de un modelo en 3D.]{Ejemplo de renderizado de un modelo en 3D extraído de la biblioteca de modelos 3D de la aplicación de Windows \textit{Visor 3D}.}
+        \caption[Ejemplo de renderizado de un modelo en 3D]{Ejemplo de renderizado de un modelo en 3D extraído de la biblioteca de modelos 3D de la aplicación de Windows \textit{Visor 3D}}
         \label{fig:tortuga_marina}
         \end{figure}
 
@@ -196,7 +196,7 @@ async startLoop() {
         \paragraph{}
         Una vez explicado esto, es necesario volver al código. Siguiendo el orden de carga, el primer lugar donde nos detendremos es en la función \textit{callback} \textit{checkSessionSupported}, vista en la sección \ref{sec:sesion_webxr}, que es la función que se lanza desde el constructor del Controlador y que inicializaba los elementos más pesados antes de que el usuario pulsase el botón de iniciar la Sesión de \ra. En esta, ya habíamos visto las acciones que se realizaban en caso de que el navegador no fuese compatible con \webxr, pero ahora vamos a ver algunas de las que se ejecutan en el caso positivo. Ampliando el código \ref{lst:2.2} al que hacemos mención:
 
-\begin{lstlisting}[language=JavaScript, caption={Carga de elementos de Three.js si se soporta la sesión.}, label={lst:3.1}]
+\begin{lstlisting}[language=JavaScript, caption={Carga de elementos de Three.js si se soporta la sesión}, label={lst:3.1}]
 // Constantes
 #RETICLELINK = "http://url_donde_se_aloja_el_modelo_3d";
 
@@ -233,7 +233,7 @@ async startLoop() {
         \fbox{
         \includegraphics[width=0.6\textwidth]{img/reticle.png}
         }
-        \caption[Muestra de la retícula utilizada en esta aplicación.]{Muestra de la retícula utilizada en esta aplicación. Modelo obtenido del repositorio \textit{webxr} del perfil de \textit{Immersive Web at W3C}, en \github.}
+        \caption[Muestra de la retícula utilizada en esta aplicación]{Muestra de la retícula utilizada en esta aplicación. Modelo obtenido del repositorio \textit{webxr} del perfil de \textit{Immersive Web at W3C}, en \github}
         \label{fig:reticle}
         \end{figure}
 
@@ -263,7 +263,7 @@ async startLoop() {
         \paragraph{}
         En el momento en que el usuario pulse el botón, con estos elementos pesados ya cargados o, como mínimo, en proceso de ser totalmente cargados, se comenzará a preparar desde la función \textit{startLoop} el bucle de la función \textit{callback loopFunction}, donde también se cargarán algunos elementos de \threejs a mayores de los que vimos en los códigos \ref{lst:2.4} y \ref{lst:2.5} de la sección \ref{sec:procesado_iterativo}. Dado que este código puede quedar muy largo si se incluyen todos los elementos previamente vistos, todo lo que se haya explicado con anterioridad quedará resumido mediante un comentario de código:
 
-\begin{lstlisting}[language=JavaScript, caption={Carga de elementos de Three.js antes de lanzar el bucle.}, label={lst:3.2}]
+\begin{lstlisting}[language=JavaScript, caption={Carga de elementos de Three.js antes de lanzar el bucle}, label={lst:3.2}]
 /** Opciones del renderizador de la RA. */
 #RENDEREROPTIONS = {
     alpha: true
@@ -306,7 +306,7 @@ async startLoop() {
         \begin{figure}
         \centering
         \includegraphics[width=0.8\textwidth]{img/sample_ra_schema.png}
-        \caption[Ejemplo de superposición de imágenes en una \ra.]{Ejemplo de superposición de imágenes en una \ra. La pose de la figura en 3D se calcula en relación con la imagen de la cámara para que su posición resulte fidedigna.}
+        \caption[Ejemplo de superposición de imágenes en una \ra]{Ejemplo de superposición de imágenes en una \ra. La pose de la figura en 3D se calcula en relación con la imagen de la cámara para que su posición resulte fidedigna}
         \label{fig:sample_ra_schema}
         \end{figure}
 
@@ -330,7 +330,7 @@ async startLoop() {
         \paragraph{}
         Una vez solicitado el primer fotograma, se comenzará a ejecutar la función \textit{callback} para procesado de fotogramas en bucle, hasta que el usuario decida pararlo. En esta función, las acciones que realizaremos relacionadas con la librería \threejs estarán orientadas al posicionamiento de los modelos en 3D que mostremos usando \ra y a su renderizado. Como se hizo antes, se dejará comentado el código ya visto para evitar que quede demasiado extenso:
 
-        \begin{lstlisting}[language=JavaScript, caption={Uso de la librería Three.js durante el bucle de renderizado.}, label={lst:3.3}]
+        \begin{lstlisting}[language=JavaScript, caption={Uso de la librería Three.js durante el bucle de renderizado}, label={lst:3.3}]
 #loopFunction = (time, frame) => {
     // ...
     
@@ -372,7 +372,7 @@ async startLoop() {
 \begin{figure}
 \centering
 \includegraphics[width=0.5\textwidth]{img/google_cardboard.jpg}
-\caption[Ejemplo de uso de las \textit{Google Cardboard} para visualizar contenido en \rv.]{Ejemplo de uso de las \textit{Google Cardboard} para visualizar contenido en \rv. Fuente: \citetitle{web:blogspot_potentialofvirtualreality}.}
+\caption[Ejemplo de uso de las \textit{Google Cardboard} para visualizar contenido en \rv]{Ejemplo de uso de las \textit{Google Cardboard} para visualizar contenido en \rv. Fuente: \citetitle{web:blogspot_potentialofvirtualreality}}
 \label{fig:google_cardboard}
 \end{figure}
 
@@ -398,7 +398,7 @@ async startLoop() {
 \begin{figure}
 \centering
 \includegraphics[width=0.25\textwidth]{img/hit-test-example.jpg}
-\caption{\hittest devuelve la posición  de la superficie que se encuentre en el centro de la pantalla.}
+\caption{\hittest devuelve la posición  de la superficie que se encuentre en el centro de la pantalla}
 \label{fig:hit-test-example}
 \end{figure}
 
@@ -415,7 +415,7 @@ async startLoop() {
         Después de esto, dentro de la función \textit{startLoop}, tendremos que obtener un espacio de referencia que pueda utilizar el sistema para poder calcular las intersecciones. En este caso, se utilizará un espacio de referencia de tipo \textit{viewer} \cite{web:webxr_referencespace}, ya que es un espacio de referencia centrado en ubicar el suelo. Con esto, podemos solicitar a la sesión que nos ofrezca un \hittestsource. El \hittestsource nos permitirá, cuando nos encontremos en el bucle, encontrar en nuestro espacio de referencia las coordenadas del punto de la superficie al que apuntamos con la cámara, tal y como se hace en la imagen \ref{fig:hit-test-example} \cite{web:mozilla_xrhittestsource}. En el código \ref{lst:3.4}, en la línea 18, justo después de la solicitud del espacio de referencia que va a utilizar y junto al otro espacio de referencia utilizado por la aplilcación, se muestra la solicitud de dicho objeto, que se realiza a través de una llamada asíncrona, razón por la cual se utiliza el comando \textit{await}.
 
 \paragraph{}
-\begin{lstlisting}[language=JavaScript, caption={Solicitud de Hit Test Source a la Sesión y creación de evento.}, label={lst:3.4}]
+\begin{lstlisting}[language=JavaScript, caption={Solicitud de Hit Test Source a la Sesión y creación de evento}, label={lst:3.4}]
 async startLoop() {
 
     // ...
@@ -446,7 +446,7 @@ async startLoop() {
 
         Antes de terminar con la función \textit{startLoop}, prepararemos un evento que servirá para aplicar la funcionalidad de la aplicación que funciona gracias a \hittest. Como vemos en la línea 22 del código \ref{lst:3.4}, mediante la función \textit{addEventListener} de la Sesión, solicitaremos que se fije un evento de tipo \textit{<<select>>}, lo que significa que cada vez que se pulse la pantalla con la sesión iniciada, se lanzará la función de tipo \textit{callback} especificada en el segundo parámetro llamada \textit{onTouchEvent}. Concretamente, como respuesta a este evento, el sistema lanzará el siguiente código:
 
-\begin{lstlisting}[language=JavaScript, caption={Respuesta al evento de tipo <<select>>.}, label={lst:3.5}]
+\begin{lstlisting}[language=JavaScript, caption={Respuesta al evento de tipo <<select>>}, label={lst:3.5}]
 #onTouchEvent = (event) => {
     if (this.#model) {
         this.#scene.remove(this.#model)
@@ -467,7 +467,7 @@ async startLoop() {
         \paragraph{}
         Una vez obtenido todo lo necesario para iniciar nuestro \hittestsource, comenzaremos con la implementación en el bucle de la función \textit{loopFunction}. En el código \ref{lst:3.3}, se sustituyó contenido del script original por las líneas 24 y 25 para poder explicar mejor su funcionamiento, pero ahora que se ha explicado lo necesario para llegar a esto, mostraremos en el código \ref{lst:3.6} el contenido que originalmente va en esas líneas:
 
-\begin{lstlisting}[language=JavaScript, caption={Obtención de valores captados a través del Hit Test Source.}, label={lst:3.6}]
+\begin{lstlisting}[language=JavaScript, caption={Obtención de valores captados a través del Hit Test Source}, label={lst:3.6}]
 // ...
 // Calculo de superficies
 const hitTestResults = frame.getHitTestResults(this.#hitTestSource);
@@ -502,7 +502,7 @@ if (hitTestResults.length > 0 && this.#reticle) {
         \paragraph{}
         Para comenzar con la animación de modelos, es necesario volver otra vez a la carga de los modelos, en la función \textit{checkSessionSupported}. En este caso, trataremos concretamente la animación de los modelos humanos que, como se ve en el código \ref{lst:3.7}, es algo distinto a la carga de la retícula.
 
-\begin{lstlisting}[language=JavaScript, caption={Carga de modelo humano.}, label={lst:3.7}]
+\begin{lstlisting}[language=JavaScript, caption={Carga de modelo humano}, label={lst:3.7}]
 #MODELLINKARRAY = ["resources/model/stormy-male.glb", "resources/model/stormie-female.glb"];
 #ANIMATIONLOOP = false;
 // ...
@@ -559,7 +559,7 @@ if (hitTestResults.length > 0 && this.#reticle) {
         Una vez están estos objetos preparados, se puede comenzar a utilizar en el propio trabajo de renderizado. El primer lugar en el que se utiliza es en \textit{onTouchEvent}:
 
 \paragraph{}
-\begin{lstlisting}[language=JavaScript, caption={Evento onTouchEvent junto con las acciones relacionadas con la animación.}, label={lst:3.8}]
+\begin{lstlisting}[language=JavaScript, caption={Evento onTouchEvent junto con las acciones relacionadas con la animación}, label={lst:3.8}]
 #onTouchEvent = (event) => {
     if (this.#model) {
         this.#scene.remove(this.#model);
@@ -581,7 +581,7 @@ if (hitTestResults.length > 0 && this.#reticle) {
         Por último, durante el bucle de renderizado, para actualizar la posición de la animación a la conveniente en el momento de ser renderizado, sería tan sencillo como ejecutar el siguiente fragmento de código al inicio del método:
 
 \paragraph{}
-\begin{lstlisting}[language=JavaScript, caption={Actualización de la posición del modelo 3D antes de renderizar.}, label={lst:3.9}]
+\begin{lstlisting}[language=JavaScript, caption={Actualización de la posición del modelo 3D antes de renderizar}, label={lst:3.9}]
 #loopFunction = (time, frame) => {
 
     let delta = this.#ANIMATIONSPEED * this.#clock.getDelta();
@@ -605,7 +605,7 @@ if (hitTestResults.length > 0 && this.#reticle) {
         El uso de \resonanceaudio es bastante similar al uso de la librería \threejs en cuanto al uso de modelos y animaciones, debido a que ambos requieren ubicar un elemento en el espacio y, además, reproducirlo. En el caso del audio, el proceso de carga de archivos es mucho más sencillo.
 
 \paragraph{}
-\begin{lstlisting}[language=JavaScript, caption={Preparación del sonido espacial.}, label={lst:3.10}]
+\begin{lstlisting}[language=JavaScript, caption={Preparación del sonido espacial}, label={lst:3.10}]
 async startLoop() {
 
     // ...
@@ -650,7 +650,7 @@ async startLoop() {
         A pesar de que en el bucle se estén estableciendo coordenadas, hay que tener en cuenta que todo esto no afecta en la reproducción o pausa de los sonidos cargados. Por lo tanto, durante varias iteraciones de este, \resonanceaudio tendrá definidas estas coordenadas a modo de <<preparación>> para cuando comience la reproducción.
 
 \paragraph{}
-\begin{lstlisting}[language=JavaScript, caption={Control del sonido espacial en el bucle.}, label={lst:3.11}]
+\begin{lstlisting}[language=JavaScript, caption={Control del sonido espacial en el bucle}, label={lst:3.11}]
 #loopFunction = (time, frame) => {
 
 // ...
@@ -676,7 +676,7 @@ async startLoop() {
         La parte del código donde sí se comienza con la reproducción del sonido es, al igual que con la animación, en el evento \textit{onTouchEvent}. Estas dos acciones se hacen a la vez para que el audio y la animación estén en todo momento sincronizados.
 
 \paragraph{}
-\begin{lstlisting}[language=JavaScript, caption={Control del sonido espacial en el evento onTouchEvent.}, label={lst:3.12}]
+\begin{lstlisting}[language=JavaScript, caption={Control del sonido espacial en el evento onTouchEvent}, label={lst:3.12}]
 #onTouchEvent = (event) => {
     if (this.#model) {
 // Aqui iria parte del control de la animacion de modelo
@@ -694,7 +694,7 @@ async startLoop() {
         Por último, en el caso de que el usuario cierre la sesión de \ra, necesitaríamos indicar al sistema que debe finalizar también el audio, en caso de que este siga reproduciéndose. Para esto utilizaremos el evento \textit{onSessionEnd}, asociado a la sesión de \ra a la par que el evento \textit{onTouchEvent}. Tal y como vemos en el código \ref{lst:3.13}, las dos acciones que se realizan al cerrar la sesión serían, primero, pausar la reproducción y, segundo, establecer el tiempo en cero para que, si el usuario vuelve a iniciar la sesión, la reproducción siga por el mismo sitio.
 
         \paragraph{}
-\begin{lstlisting}[language=JavaScript, caption={Control del sonido en el cierre de la sesión de Realidad Aumentada.}, label={lst:3.13}]
+\begin{lstlisting}[language=JavaScript, caption={Control del sonido en el cierre de la sesión de Realidad Aumentada}, label={lst:3.13}]
 	#onSessionEnd = (event) => {
 		/* the session has shut down */
 		this.#audioElement.pause();
